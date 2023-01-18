@@ -33,6 +33,8 @@ Teafdshfkhsdf [@Courvoisier2011]
 *bmcemerg.csl is a citation style language file that governs how
 citations and the reference list will be formatted. Leave as it is.*
 
+Trauma is afdsf
+
 # Methods
 
 *Refer to the appropriate reporting guideline for details. If you are
