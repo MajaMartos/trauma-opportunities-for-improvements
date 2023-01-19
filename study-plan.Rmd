@@ -1,7 +1,7 @@
 ---
-title: "The Title of Your Study Here"
-author: "Your name here"
-subtitle: Add a Subtitle if Needed
+title: "Specific opportunities for improvements - truama-1"
+author: "Maja Martos"
+subtitle: "Add a Subtitle if Needed"
 output: pdf_document
 csl: bmcemerg.csl
 editor_options:
@@ -10,37 +10,44 @@ editor_options:
 bibliography: bibliography.bib
 ---
 
-*The study plan should be 3-4 pages long and written in
-[markdown](https://rmarkdown.rstudio.com/) (like this document). Remove
-all comments in italic when you use this document as a template for your
-own study plan.*
+*Trauma is the most common cause of death among Swedes during the first four decades of life.* [@riddez2013] *Yet a systematic review covering trauma-related studies in Nordic countries the years 1995--2018, show that Nordic countries fall behind when it comes to number of publications on the subject compared with other economically similar countries.* [@jeppesen2020]
 
-# Introduction
+*At the same time, Nordic countries stick out with respect to climate, few cases of serious trauma annually and long distances to traumacentres. Few hospitals qualify to treat serious trauma and patients are thereby transferred to better equipped trauma centres for accurate care.* [@jeppesen2020] *In Sweden, the Karolinska University hospital covers the regions of Stockholm, Gotland, Södermanland and Västmanland, equated to 3 million residents. This is just on pair with the minimum number to be recognized as a quality trauma centre internationally. The hospital is also the only facility in Sweden to qualify as a trauma-1 hospital according to American standards.* [@KarolinskaTraumaCentrum2018]
 
-*The background/introduction should summarise the scope of the problem,
-what is known about the problem, what is not known, what specific
-knowledge gap the study is supposed to fill and why this is important.
-It should end be stating the aim of the study. The background should be
-4-5 paragraphs long and each paragraph should be between 3-5 sentences.
-Strive to make the paragraphs about the same length.*
+*From 2010, The Swedish Trauma society holds a national registry over patients suffering serious trauma in Sweden, where serious trauma is defined as traumatic events leading to either a trauma alarm or a new injury severity score (NISS) over 15. In 2021, a total of 10,528 patients (an increase of 17% from 2020) were registered. Of these, 90% were assigned to blunt traumas such as falls, traffic accidents and blunt force traumas with objects and the rest to penetrating trauma such as gun shots and stabbing. [@SweTrau_årsrapport_2021]*
 
-*bibliography.bib includes an example reference. Add additional
-references in that file as bibtex entries and cite as
-[@Courvoisier2011].*
+*Trauma cases with fatal outcomes should be evaluated by a multidisciplinary review board appointed by the hospital. The group should consist of a surgeon, an anaesthetist, a trauma nurse and a specialist from the relevant specialty, dependent on specific injury e.g., intracranial, orthopedic or thoracic/vascular. Competences involved in the direct care of the patient are free to attend the conference but should not take part in the review. The aim of the review is to determine cause of death, whether the outcome was anticipated. The review should further be used as the basis for identifying opportunities for improvement (OFI) and following interventions to prevent avoidable deaths.* [@fortydligadeDodsanalys2019]
 
-Teafdshfkhsdf [@Courvoisier2011]
+***Opportunities for improvement OFI***
 
-*bmcemerg.csl is a citation style language file that governs how
-citations and the reference list will be formatted. Leave as it is.*
+*Both anticipated (preventable) and unanticipated (non-preventable) mortality can be presented with-or without opportunities for improvement (OFI). OFI include all aspects of the medical chain e.g. prehospital care, under triage, delays, etc where there are opportunities for optimisation*
 
-Trauma is afdsf
+***Clinical prediction models***
+
+*Several prediction models are applied in the clinic to help health care workers distinguish between seriously injured trauma patients and stabile ones.  For the models to be clinically useful, they should be user-friendly and guide important decisions in stressful and time scarce situations, why they often include few parameters and have binary outcomes. While user-friendly, these generic models lack precision and are static throughout different settings, making them difficult to evaluate with respect to patient outcome.* [@baker2017] *To improve survival for trauma-1 patients, we therefore want to identify specific OFIs by studying patient outcomes assessed by the multidisciplinary review board.*
+
+*Need for local studies with respect to Nordic conditions as well as specific opportunities for improvement that are clinically relevant.*
+
+***Aim** Identify specific opportunities for improvement related to blunt multisystem trauma with traumatic brain injury, blunt multisystem trauma without traumatic brain injury, penetrating trauma, and isolated severe traumatic brain injury, through assessment of clinical patient cohorts.*
 
 # Methods
 
-*Refer to the appropriate reporting guideline for details. If you are
-developing, updating or validating a clinical prediction model then use
-[TRIPOD](https://www.equator-network.org/reporting-guidelines/tripod-statement/).
-If you are conducting an observational study, for example a cohort or
-case control study in which you assess associations between some
-exposure and an outcome then use
-[STROBE](https://www.equator-network.org/reporting-guidelines/strobe/).*
+***Study design***
+
+*A registry-based cohort study linking data from the Swedish trauma registry SweTrau and trauma care quality data base at the Karolinska University Hospital in Solna. The combined data will further be assessed through multinominal logistic regression to identify specific opportunities for improvements, identified by the multidisciplinary review board at the Karolinska University Hospital. All data will be managed and analysed in R software using ....*
+
+***Obejctives***
+
+***Participants***
+
+***Variables***
+
+*The primary outcome will be specific opportunity for improvements, as defined by the Haven't seen the data.*
+
+***Data soures/measurement***
+
+***Bias Study size***
+
+***Quantitative variables***
+
+***Statistical methods***
