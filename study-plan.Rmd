@@ -10,13 +10,13 @@ editor_options:
 bibliography: bibliography.bib
 ---
 
-*Trauma is the most common cause of death among Swedes during the first four decades of life.* [@riddez2013] *Yet a systematic review covering trauma-related studies in Nordic countries the years 1995--2018, show that Nordic countries fall behind when it comes to number of publications on the subject compared with other economically similar countries.* [@jeppesen2020]
+*Trauma is the most common cause of death among Swedes during the first four decades of life* [@riddez2013] *Yet a systematic review covering trauma-related studies in Nordic countries the years 1995–2018, show that they fall behind when it comes to number of publications on the subject compared with other economically similar countries. * [@jeppesen2020]
 
-*At the same time, Nordic countries stick out with respect to climate, few cases of serious trauma annually and long distances to traumacentres. Few hospitals qualify to treat serious trauma and patients are thereby transferred to better equipped trauma centres for accurate care.* [@jeppesen2020] *In Sweden, the Karolinska University hospital covers the regions of Stockholm, Gotland, Södermanland and Västmanland, equated to 3 million residents. This is just on pair with the minimum number to be recognized as a quality trauma centre internationally. The hospital is also the only facility in Sweden to qualify as a trauma-1 hospital according to American standards.* [@KarolinskaTraumaCentrum2018]
+*In the same time, Nordic countries differ from other countries with colder climate, few cases of serious trauma annually and long distances to trauma centres as few hospitals are equipped to treat trauma-1 patients. * [@jeppesen2020] *In Sweden, the Karolinska University hospital covers the regions of Stockholm, Gotland, Södermanland and Västmanland, equivalent to 3 million residents. This is just on pair with the minimum number of patients needed to be recognized as a quality trauma centre internationally. The hospital is also the only facility in Sweden to qualify as a trauma-1 hospital according to American standards* [@KarolinskaTraumaCentrum2018]
 
 *From 2010, The Swedish Trauma society holds a national registry over patients suffering serious trauma in Sweden, where serious trauma is defined as traumatic events leading to either a trauma alarm or a new injury severity score (NISS) over 15. In 2021, a total of 10,528 patients (an increase of 17% from 2020) were registered. Of these, 90% were assigned to blunt traumas such as falls, traffic accidents and blunt force traumas with objects and the rest to penetrating trauma such as gun shots and stabbing. [@SweTrau_årsrapport_2021]*
 
-*Trauma cases with fatal outcomes should be evaluated by a multidisciplinary review board appointed by the hospital. The group should consist of a surgeon, an anaesthetist, a trauma nurse and a specialist from the relevant specialty, dependent on specific injury e.g., intracranial, orthopedic or thoracic/vascular. Competences involved in the direct care of the patient are free to attend the conference but should not take part in the review. The aim of the review is to determine cause of death, whether the outcome was anticipated. The review should further be used as the basis for identifying opportunities for improvement (OFI) and following interventions to prevent avoidable deaths.* [@fortydligadeDodsanalys2019]
+*To detect non-optimal treatment, trauma patients with fatal outcome are evaluated by a multidisciplinary review board appointed by the hospital. The group consists of a surgeon, an anaesthetist, a trauma nurse and a specialist from the relevant specialty, dependent on specific injury e.g., intracranial, orthopaedical or thoracic/vascular. Competences involved in the direct care of the patient are free to attend the conference but should not take part in the review. The aim of the review is to determine cause of death and whether the outcome was anticipated. The review should further be used as the basis for identifying opportunities for improvement (OFI) and following interventions to prevent avoidable deaths*[@fortydligadeDodsanalys2019] *The Karolinska University Hospital holds a register of trauma patients treated at the hospital, were OFI is registered as a binary variable (yes/no) for each patients registered.*
 
 ***Opportunities for improvement OFI***
 
@@ -24,17 +24,17 @@ bibliography: bibliography.bib
 
 ***Clinical prediction models***
 
-*Several prediction models are applied in the clinic to help health care workers distinguish between seriously injured trauma patients and stabile ones.  For the models to be clinically useful, they should be user-friendly and guide important decisions in stressful and time scarce situations, why they often include few parameters and have binary outcomes. While user-friendly, these generic models lack precision and are static throughout different settings, making them difficult to evaluate with respect to patient outcome.* [@baker2017] *To improve survival for trauma-1 patients, we therefore want to identify specific OFIs by studying patient outcomes assessed by the multidisciplinary review board.*
+*Several prediction models (e.g., NEWS) are applied in the clinic to help health care workers distinguish between seriously injured trauma patients and stabile ones. For the models to be clinically useful, they should be user-friendly and guide important decisions in stressful and time scarce situations, why they often include few parameters and have binary outcomes. While user-friendly, these generic models lack precision and are static throughout different settings, making them difficult to evaluate with respect to patient outcome.* [@baker2017] *To improve survival for trauma-1 patients, we therefore want to identify specific opportunities for improvement by studying patient outcomes and specific opportunities for improvement assessed by the multidisciplinary review board at the Karolinska University Hospital. *
 
-*Need for local studies with respect to Nordic conditions as well as specific opportunities for improvement that are clinically relevant.*
 
-***Aim** Identify specific opportunities for improvement related to blunt multisystem trauma with traumatic brain injury, blunt multisystem trauma without traumatic brain injury, penetrating trauma, and isolated severe traumatic brain injury, through assessment of clinical patient cohorts.*
+
+***Aim* *Identify specific opportunities for improvement related to blunt multisystem trauma with traumatic brain injury, blunt multisystem trauma without traumatic brain injury, penetrating trauma, and isolated severe traumatic brain injury, through assessment of clinical patient cohorts.*
 
 # Methods
 
 ***Study design***
 
-*A registry-based cohort study linking data from the Swedish trauma registry SweTrau and trauma care quality data base at the Karolinska University Hospital in Solna. The combined data will further be assessed through multinominal logistic regression to identify specific opportunities for improvements, identified by the multidisciplinary review board at the Karolinska University Hospital. All data will be managed and analysed in R software using ....*
+*A registry-based cohort study linking data from the Swedish trauma registry SweTrau and trauma care quality data base at the Karolinska University Hospital in Solna. The combined data will further be assessed through multinominal logistic regression to identify specific opportunities for improvements (OFI), identified by the multidisciplinary review board at the Karolinska University Hospital. All data will be managed and analysed in R software using …*
 
 ***Obejctives***
 
@@ -42,7 +42,7 @@ bibliography: bibliography.bib
 
 ***Variables***
 
-*The primary outcome will be specific opportunity for improvements, as defined by the Haven't seen the data.*
+*The primary outcome will be specific opportunities for improvements …   *
 
 ***Data soures/measurement***
 
