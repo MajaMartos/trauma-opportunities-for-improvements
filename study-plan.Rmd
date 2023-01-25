@@ -9,101 +9,57 @@ editor_options:
     wrap: 72
 bibliography: bibliography.bib
 ---
+**Introduction**
 
-Trauma is the most common cause of death among Swedes during the first
-four decades of life [@riddez2013] Yet a systematic review covering
-trauma-related studies in Nordic countries the years 1995--2018, show
-that they fall behind when it comes to number of publications on the
-subject compared with other economically similar countries.
-[@jeppesen2020] jag vet inte vad jag ska göra
+*Trauma is the most common cause of death among Swedes during the first four decades of life.[@riddez2013]Yet a systematic review covering trauma-related studies in Nordic countries the years 1995–2018, show that they fall behind when it comes to number of publications on the subject compared with other economically similar countries. In the same time, Nordic countries differ from other countries with colder climate, fewer cases of serious trauma annually and long distances to trauma centres as few hospitals are equipped to treat trauma-1 patients* [@jeppesen2020]
 
-In the same time, Nordic countries differ from other countries with
-colder climate, few cases of serious trauma annually and long distances
-to trauma centres as few hospitals are equipped to treat trauma-1
-patients. [@jeppesen2020] In Sweden, the Karolinska University hospital
-covers the regions of Stockholm, Gotland, Södermanland and Västmanland,
-equivalent to 3 million residents. This is just on pair with the minimum
-number of patients needed to be recognized as a quality trauma centre
-internationally. The hospital is also the only facility in Sweden to
-qualify as a trauma-1 hospital according to American standards
-[@KarolinskaTraumaCentrum2018]
+*From 2010, The Swedish Trauma society holds a national registry over patients suffering serious trauma in Sweden, where serious trauma is defined as traumatic events leading to either a trauma alarm or a new injury severity score (NISS) over 15. In 2021, a total of 10,528 patients were registered (an increase of 17% from 2020). Of these, 90% were assigned to blunt traumas such as falls, traffic accidents and blunt force traumas with objects and the rest to penetrating trauma such as gun shots and stabbing* [@SweTrau2021]
 
-From 2010, The Swedish Trauma society holds a national registry over
-patients suffering serious trauma in Sweden, where serious trauma is
-defined as traumatic events leading to either a trauma alarm or a new
-injury severity score (NISS) over 15. In 2021, a total of 10,528
-patients (an increase of 17% from 2020) were registered. Of these, 90%
-were assigned to blunt traumas such as falls, traffic accidents and
-blunt force traumas with objects and the rest to penetrating trauma such
-as gun shots and stabbing. [@SweTrau_årsrapport_2021]
 
-To detect non-optimal treatment, trauma patients with fatal outcome are
-evaluated by a multidisciplinary review board appointed by the hospital.
-The group consists of a surgeon, an anaesthetist, a trauma nurse and a
-specialist from the relevant specialty, dependent on specific injury
-e.g., intracranial, orthopaedical or thoracic/vascular. Competences
-involved in the direct care of the patient are free to attend the
-conference but should not take part in the review. The aim of the review
-is to determine cause of death and whether the outcome was anticipated.
-The review should further be used as the basis for identifying
-opportunities for improvement (OFI) and following interventions to
-prevent avoidable deaths[@fortydligadeDodsanalys2019] The Karolinska
-University Hospital holds a register of trauma patients treated at the
-hospital, were OFI is registered as a binary variable (yes/no) for each
-patients registered.
+*In Sweden, the Karolinska University hospital (KUH) covers the regions of Stockholm, Gotland, Södermanland and Västmanland, equivalent to 3 million residents. This is just on pair with the minimum number of patients needed to be recognized as a quality trauma centre internationally. The hospital is also the only facility in Sweden to qualify as a trauma-1 hospital by American standards.*[@TraumaKarolinska2023]
 
-**Opportunities for improvement OFI**
+*To detect non-optimal treatment, treating hospitals evaluate trauma patients at a mortality/morbidity conference held by a multidisciplinary board appointed by the hospital. The board consists of a surgeon, an anaesthetist, a trauma nurse and in presence of specific injuries (e.g., intracranial, orthopaedical or thoracic/vascular), specialists from appropriate specialties. Competences involved in the direct care of the patient are free to attend the conference but should not take part in the review.*[@DASweTrau2021]
 
-Both anticipated (preventable) and unanticipated (non-preventable)
-mortality can be presented with-or without opportunities for improvement
-(OFI). OFI include all aspects of the medical chain e.g. prehospital
-care, under triage, delays, etc where there are opportunities for
-optimisation
+*Patient selection is based on audit filters such as blood pressure <90 mmHg, splenic injuries etc.*[@evans2009][@DASweTrau2021] *Selected patients are then manually assessed by a nurse who goes through the patient journal and decides whether the patient should be brought to conference. At conference, the multidisciplinary team determines the cause of death and whether the outcome was anticipated or could have been prevented if the patients would have been treated differently. In cases with non-fatal outcome, the team reviews the case for suboptimal handling and treatment. Thus, in both cases, the aim of the conference is to address deviations and potential areas of improvement.* [@SewTrau2021]
 
-**Clinical prediction models**
+ 
+*At the Karolinska University Hospital, results from the conferences are stored in a local trauma care quality database where all areas of improvement are registered and collectively stored in a binary variable (yes/no) named opportunities for improvement (OFI), with outcome = yes if any suboptimal treatment applies for the patient in question.*
 
-Several prediction models (e.g., NEWS) are applied in the clinic to help
-health care workers distinguish between seriously injured trauma
-patients and stabile ones. For the models to be clinically useful, they
-should be user-friendly and guide important decisions in stressful and
-time scarce situations, why they often include few parameters and have
-binary outcomes. While user-friendly, these generic models lack
-precision and are static throughout different settings, making them
-difficult to evaluate with respect to patient outcome. [@baker2017] To
-improve survival for trauma-1 patients, we therefore want to identify
-specific opportunities for improvement by studying patient outcomes and
-specific opportunities for improvement assessed by the multidisciplinary
-review board at the Karolinska University Hospital.
+*The term opportunities for improvement (OFI), include all aspects of the healthcare chain where there is room for improvement.*[@bixbytrauma2016] *Both unanticipated (preventable) and anticipated (non-preventable) mortality can be presented with-or without OFI. Unanticipated deaths can further be categorised as preventable or potentially preventable.* [@matsumoto2018] *In the trauma registry held by the KUH, OFI is only assessed for patients with unanticipated mortality and preventable deaths.*
 
-\*\*Aim Identify specific opportunities for improvement related to blunt
-multisystem trauma with traumatic brain injury, blunt multisystem trauma
-without traumatic brain injury, penetrating trauma, and isolated severe
-traumatic brain injury, through assessment of clinical patient cohorts.
+*Hitherto, student studies of the trauma registry held by the KUH have used the OFI as a composite measure for all potential deviations leading to unanticipated death. Although this approach offers insight to whether opportunities for improvement exist, it is insufficient in providing health care workers with guidance to actions that improve care of trauma patients. Hence, in this study, all specific parameters included in OFI will be analysed individually to analyse their explanatory value to OFI for each category of trauma, with the aim to identify which areas of improvement that are most relevant to improve care and outcomes for trauma-1 patients. *
 
-# Methods
 
-**Study design**
+**Methods**
+"new line"
+***Study design*** 
+"new line"
+*A registry-based cohort study linking data from the Swedish trauma registry SweTrau and trauma care quality database at the KUH. The combined data will further be assessed through multinominal logistic regression to identify specific opportunities for improvements (OFI), identified by the multidisciplinary review board at the KUH All data will be managed and analysed in R software using ….*
 
-A registry-based cohort study linking data from the Swedish trauma
-registry SweTrau and trauma care quality data base at the Karolinska
-University Hospital in Solna. The combined data will further be assessed
-through multinominal logistic regression to identify specific
-opportunities for improvements (OFI), identified by the
-multidisciplinary review board at the Karolinska University Hospital.
-All data will be managed and analysed in R software using ...
+***Objectives***
+"new line"
 
-**Obejctives**
+***Participants*** 
+"new line"
+*The Swedish trauma registry SweTrau includes all trauma patients with a NISS >15 or who have triggered an alarm with trauma team activation in Sweden from 2010 to date. The trauma care quality database includes all patients with trauma team activation at the KUH from 2017 to date. In our merged dataset all patients within the quality database will be included and the* 
 
-**Participants**
+***Variables*** 
+"new line"
+*The primary outcome will be opportunities for improvements (OFI). detected by the mortality/morbidity team at KUH. The explanatory variables will be all factors going into OFI such as lack of relevant competence at site or more than 30 minutes to CT etc.*
 
-**Variables**
+***Data soures/measurement***
+"new line"
 
-The primary outcome will be specific opportunities for improvements ...
+***Bias*** 
+"new line"
+*To prevent bias, the multivariable regression model will be developed using a simulated dataset with random data. The algorithm for the model will be developed step-by-step and then evaluated by a trained programmer and statistician before being applied on the real data*
 
-**Data soures/measurement**
+***Study size*** 
+"new line"
 
-**Bias Study size**
+***Quantitative variable***
+"new line"
 
-**Quantitative variables**
 
-**Statistical methods**
+
+
