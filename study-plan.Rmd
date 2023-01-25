@@ -12,12 +12,13 @@ bibliography: bibliography.bib
 # Introduction
 
 
-*Kan i princip skita i att läsa bakgrund, allt blev muppigt när jag insåg att hela bakgrunden hör hemma under setting. Läsa mycket gärna metod och kom med feedback! tänkte skriva lite om audit filters osv i bakgrunden*
+*Kan i princip skita i att läsa bakgrund, allt blev muppigt när jag insåg att hela bakgrunden hör hemma under setting. Läs mycket gärna metod och kom med feedback! tänkte skriva lite om audit filters osv i bakgrunden*
 
 
 Trauma is the most common cause of death among Swedes during the first four decades of life.[@riddez2013]Yet a systematic review covering trauma-related studies in Nordic countries the years 1995–2018, show that they fall behind when it comes to number of publications on the subject compared with other economically similar countries. In the same time, Nordic countries differ from other countries with colder climate, fewer cases of serious trauma annually and long distances to trauma centres as few hospitals are equipped to treat trauma-1 patients [@jeppesen2020]
 
 **OFI**
+
 The term opportunities for improvement (OFI), include all aspects of the healthcare chain where there is room for improvement.[@bixbytrauma2016] *Both unanticipated (preventable) and anticipated (non-preventable) mortality can be presented with-or without OFI. Unanticipated deaths can further be categorised as preventable or potentially preventable. [@matsumoto2018] 
 
 **Prediction models** 
@@ -84,6 +85,8 @@ To prevent bias, the multivariable regression model will be developed using a si
 
 
 **Quantitative variable**
+
+
 
 
 
