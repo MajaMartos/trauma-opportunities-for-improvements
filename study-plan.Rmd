@@ -13,6 +13,18 @@ bibliography: bibliography.bib
 
 *Trauma is the most common cause of death among Swedes during the first four decades of life.[@riddez2013]Yet a systematic review covering trauma-related studies in Nordic countries the years 1995–2018, show that they fall behind when it comes to number of publications on the subject compared with other economically similar countries. In the same time, Nordic countries differ from other countries with colder climate, fewer cases of serious trauma annually and long distances to trauma centres as few hospitals are equipped to treat trauma-1 patients* [@jeppesen2020]
 
+
+*Hitherto, student studies of the trauma registry held by the KUH have used the OFI as a composite measure for all potential deviations leading to unanticipated death. Although this approach offers insight to whether opportunities for improvement exist, it is insufficient in providing health care workers with guidance to actions that improve care of trauma patients. Hence, in this study, all specific parameters included in OFI will be analysed individually to analyse their explanatory value to OFI for each category of trauma, with the aim to identify which areas of improvement that are most relevant to improve care and outcomes for trauma-1 patients. *
+
+
+**Methods**
+
+
+***Study design*** 
+
+*A registry-based cohort study linking data from the Swedish trauma registry SweTrau and trauma care quality database at the KUH. The combined data will further be assessed through multinominal logistic regression to identify specific opportunities for improvements (OFI), identified by the multidisciplinary review board at the KUH All data will be managed and analysed in R software using ….*
+
+***Settings***
 *From 2010, The Swedish Trauma society holds a national registry over patients suffering serious trauma in Sweden, where serious trauma is defined as traumatic events leading to either a trauma alarm or a new injury severity score (NISS) over 15. In 2021, a total of 10,528 patients were registered (an increase of 17% from 2020). Of these, 90% were assigned to blunt traumas such as falls, traffic accidents and blunt force traumas with objects and the rest to penetrating trauma such as gun shots and stabbing* [@SweTrau2021]
 
 
@@ -26,16 +38,6 @@ bibliography: bibliography.bib
 *At the Karolinska University Hospital, results from the conferences are stored in a local trauma care quality database where all areas of improvement are registered and collectively stored in a binary variable (yes/no) named opportunities for improvement (OFI), with outcome = yes if any suboptimal treatment applies for the patient in question.*
 
 *The term opportunities for improvement (OFI), include all aspects of the healthcare chain where there is room for improvement.*[@bixbytrauma2016] *Both unanticipated (preventable) and anticipated (non-preventable) mortality can be presented with-or without OFI. Unanticipated deaths can further be categorised as preventable or potentially preventable.* [@matsumoto2018] *In the trauma registry held by the KUH, OFI is only assessed for patients with unanticipated mortality and preventable deaths.*
-
-*Hitherto, student studies of the trauma registry held by the KUH have used the OFI as a composite measure for all potential deviations leading to unanticipated death. Although this approach offers insight to whether opportunities for improvement exist, it is insufficient in providing health care workers with guidance to actions that improve care of trauma patients. Hence, in this study, all specific parameters included in OFI will be analysed individually to analyse their explanatory value to OFI for each category of trauma, with the aim to identify which areas of improvement that are most relevant to improve care and outcomes for trauma-1 patients. *
-
-
-**Methods**
-
-
-***Study design*** 
-
-*A registry-based cohort study linking data from the Swedish trauma registry SweTrau and trauma care quality database at the KUH. The combined data will further be assessed through multinominal logistic regression to identify specific opportunities for improvements (OFI), identified by the multidisciplinary review board at the KUH All data will be managed and analysed in R software using ….*
 
 
 ***Participants*** 
