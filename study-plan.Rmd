@@ -31,17 +31,16 @@ bibliography: bibliography.bib
 
 
 **Methods**
-"new line"
+
+
 ***Study design*** 
-"new line"
+
 *A registry-based cohort study linking data from the Swedish trauma registry SweTrau and trauma care quality database at the KUH. The combined data will further be assessed through multinominal logistic regression to identify specific opportunities for improvements (OFI), identified by the multidisciplinary review board at the KUH All data will be managed and analysed in R software using ….*
 
-***Objectives***
-"new line"
 
 ***Participants*** 
-"new line"
-*The Swedish trauma registry SweTrau includes all trauma patients with a NISS >15 or who have triggered an alarm with trauma team activation in Sweden from 2010 to date. The trauma care quality database includes all patients with trauma team activation at the KUH from 2017 to date. In our merged dataset all patients within the quality database will be included and the* 
+
+*The Swedish trauma registry SweTrau includes all trauma patients with a NISS >15 or who have triggered an alarm with trauma team activation in Sweden from 2010, adding up to … to date. The trauma care quality database is a subset of the Swedish trauma registry and includes those patients treated at the KUH and reviewed by the multidisciplinary team. In our study, data from these two registries will be merged. Those patients from the Swedish trauma registry who have not been treated and reviewed at the KUH and thus have missing covariate data for OFI, will be excluded from the merged dataset. * 
 
 ***Variables*** 
 
@@ -52,14 +51,18 @@ bibliography: bibliography.bib
 *
 
 ***Data soures/measurement***
-*Explain how the two datasets can be merged, overlapping
-The data will be divided into four categories of trauma: (1)blunt multisystem trauma with traumatic brain injury, (2) blunt multisystem trauma without traumatic brain injury, (3) penetrating trauma, and (4) isolated severe traumatic brain injury.
+
+*Explain how the two datasets can be merged, overlapping´*
+
+*The data will be divided into four categories of trauma: (1)blunt multisystem trauma with traumatic brain injury, (2) blunt multisystem trauma without traumatic brain injury, (3) penetrating trauma, and (4) isolated severe traumatic brain injury.
 A regression model will be calculated for each category.*
 
 ***Bias*** 
+
 *To prevent bias, the multivariable regression model will be developed using a simulated dataset with random data. The algorithm for the model will be developed step-by-step and then evaluated by a trained programmer and statistician before being applied on the real data*
 
 ***Study size*** 
+
 
 ***Quantitative variable***
 
