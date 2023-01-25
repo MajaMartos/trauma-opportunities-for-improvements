@@ -1,5 +1,5 @@
 ---
-title: "Specific opportunities for improvements - truama-1"
+title: "Specific opportunities for improvements"
 author: "Maja Martos"
 subtitle: "Add a Subtitle if Needed"
 output: pdf_document
