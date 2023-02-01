@@ -9,6 +9,15 @@ editor_options:
     wrap: 72
 bibliography: bibliography.bib
 ---
+
+
+```{r setup, include=FALSE }
+setwd("~/trauma-opportunities-for-improvements")
+
+source("main.R")
+```
+
+
 # Introduction
 
 
@@ -24,7 +33,7 @@ To date a variety of studies based on OFIs have been conducted for different coh
 
 Nordic countries differ from other countries with colder climate, fewer cases of serious trauma annually and long distances to trauma centres as few hospitals are equipped to treat trauma-1 patients. (11) (12). Yet a systematic review covering trauma-related studies in Nordic countries the years 1995–2018, show that they fall behind when it comes to number of publications on the subject compared with other economically similar countries. (11)
 
-
+the patients mean age was `r mean.age`
 
 # Methods
 
