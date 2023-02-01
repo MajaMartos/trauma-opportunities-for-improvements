@@ -12,26 +12,25 @@ bibliography: bibliography.bib
 # Introduction
 
 
-Traumatic injuries cause 5 million deaths every year worldwide. However, mortality and morbidity related to trauma have been significantly reduced in modern countries since the introduction of trauma systems. (1) Trauma systems have a long tradition within the military but were not implemented in civil health care until the 1960s-1970s when the report “Accidental Death and Disability: The Neglected Disease of Modern Society” was published in the US in 1966. (2) Since then, trauma systems have been put into practice in most modern countries with the aim to coordinate and improve management of critically injured patients, from onset of injury to high-level care in designated trauma centres. (3) 
+Traumatic injuries<!-- Just call it trauma, consider using the definition "The clinical entity composed of physical injury and the body's associated response"--> cause 5 million deaths<!-- I think the most recent estimate is closer to 4.5 millions, see the latest Global Burden of Disease study --> every year worldwide. However, mortality and morbidity related to trauma have been significantly reduced in modern countries since the introduction of trauma systems. (1)<!-- Is this a citation? I prefer to have it before the ., Also, to cite an entry in your bibliography, use for example [@riddez2013]--> Trauma systems have a long tradition within the military but were not implemented in civil health care until the 1960s-1970s when the report “Accidental Death and Disability: The Neglected Disease of Modern Society” was published in the US in 1966. (2) Since then, trauma systems have been put into practice in most modern countries with the aim to coordinate and improve management of critically injured patients, from onset of injury to high-level care in designated trauma centres. (3) 
 
 The American College of surgeons committee on trauma provide guidelines for the ideal trauma system covering all components of the system: (I) trauma centres, (II) referral hospitals, (III) rehabilitation as well as a (IV) data collection and quality improvement. Quality improvement through continuous evaluation and identification of opportunities for improvement with subsequent corrective action plans constitute a cornerstone in the trauma system and should be systematically proceeded by all trauma centres. (4,5) 
 
-Opportunities for improvement (OFI), include all aspects of the trauma system and can be defined as deficiencies at any stage of care that could be corrected  if replaced with more optimized actions. (6) Both unanticipated (preventable) and anticipated (non-preventable) mortality can be presented with-or without OFIs. Unanticipated deaths can further be categorised as preventable or potentially preventable. (7) Two widespread systems to study unanticipated deaths prevail; autopsy and multidisciplinary reviews through mortality and morbidity (M&M) conferences. (8) 
+Opportunities for improvement (OFI), include all aspects of the trauma system and can be defined as deficiencies at any stage of care that could be corrected if replaced with more optimized actions. (6) Both unanticipated (preventable) and anticipated (non-preventable) mortality can be presented<!-- Not quite sure what you mean by "can be presented", can you try to rephrase or clarify?--> with-or without OFIs. Unanticipated deaths can further be categorised as preventable or potentially preventable. (7) Two widespread systems to study unanticipated deaths prevail; autopsy and multidisciplinary reviews through mortality and morbidity (M&M) conferences. (8) <!-- I would argue that M&M are used to decide whether a death was anticipated or not, and here you seem to say that unanticipated is the same as preventable or potentially preventable, which is a bit unnecessary. Why not just call these death preventable and non-preventable, which is more standard terminology?--> 
 
-While autopsy provides information on cause and mechanism of death, it is costly and not always feasible due to ethical, legal and religious considerations. (9) Neither does it provide information regarding the process of care. In this respect, (M&M) reviews offer a more comprehensive assessment of the patient case. (5) However, when discussing preventability of death, a mined landscape is entered where reviewers are reluctant to point fingers at fellow colleagues. In addition, it is not always clear whether death is correlated to inappropriate care or not. To simply assess opportunities for improvements unrelated to death, therefore constitute a more robust and feasible method to improve care of trauma patients. (8)
+While autopsy provides information on cause and mechanism of death, it is costly and not always feasible due to ethical, legal and religious considerations. (9) Neither does it provide information regarding the process of care. In this respect, (M&M) reviews offer a more comprehensive assessment of the patient case. (5) However, when discussing preventability of death, a mined landscape is entered where reviewers are reluctant to point fingers at fellow colleagues. In addition, it is not always clear whether death is correlated to inappropriate care or not. To assess opportunities for improvements<!-- Note that you have already abbreviated OFI--> unrelated to death, therefore constitute a more robust and feasible method to improve care of trauma patients. (8)
 
 To date a variety of studies based on OFIs have been conducted for different cohorts, with or without respect to preventability of unanticipated deaths. The aim is to identify recurrent errors for a specific patient group or trauma facility. Dependent on socioeconomic, cultural and geographic issues, trauma characteristics and healthcare vary between countries and rural/city areas. In 2020, a study in northern Alberta was conducted with challenging geography and limited health care resources in mind. 
 
 Nordic countries differ from other countries with colder climate, fewer cases of serious trauma annually and long distances to trauma centres as few hospitals are equipped to treat trauma-1 patients. (11) (12). Yet a systematic review covering trauma-related studies in Nordic countries the years 1995–2018, show that they fall behind when it comes to number of publications on the subject compared with other economically similar countries. (11)
 
-
+<!-- Add aim somewhere here-->
 
 # Methods
 
-
 **Study design** 
 
-A registry-based cohort study linking data from the Swedish trauma registry SweTrau and trauma care quality database at the KUH. The combined data will further be assessed through multinominal logistic regression to identify specific opportunities for improvements (OFI), identified by the multidisciplinary review board at the KUH All data will be managed and analysed in R software.
+<!-- I suggest that you use first person direct voice, i.e. "We conducted a registry based cohort study..."-->A registry-based cohort study linking data from the Swedish trauma registry SweTrau and trauma care quality database at the KUH<!-- I suggest that you don't abbreviate the Karolinska University Hospital, it's quite short already --> . The combined data will further be assessed through multinominal logistic regression to identify specific opportunities for improvements (OFI), identified by the multidisciplinary review board at the KUH All data will be managed and analysed in R software.
 
 **Settings**
 
@@ -44,88 +43,66 @@ To detect non-optimal treatment, treating hospitals evaluate trauma patients at 
 Patients are selected to M&M-conference based on the audit filters listed below and are thereby selected for review algorithmically and independent of mortality to study OFIs. If one or more of the audit filters apply, the patient is manually assessed by a nurse who goes through the patient journal and makes a final judgement of whether the patient should be brought to conference. At conference, the multidisciplinary board determines the cause of death and reviews the case for suboptimal handling and treatment to identify opportunities for improvement. (14)
 
 Audit filters: 
-•Systolic blood pressure less than 90
 
-•	Glasgow coma scale less than 9 and not intubated
+- Systolic blood pressure less than 90
+- Glasgow coma scale less than 9 and not intubated
+- Injury severity score greater than 15 but not admitted to the intensive care unit
+- Time to acute intervention more than 60 minutes from arrival to hospital
+- Time to computed tomography more than 30 minutes from arrival to hospital
+- No anticoagulant therapy within 72 hours after traumatic brain injury
+- The presence of cardio-pulmonary resuscitation with thoracotomy
+- The presence of a liver or spleen injury
+- Massive transfusion, defined as 10 or more units of packed red blood cells within 24 hours.
 
-•	Injury severity score greater than 15 but not admitted to the intensive care unit
-
-•	Time to acute intervention more than 60 minutes from arrival to hospital
-
-•	Time to computed tomography more than 30 minutes from arrival to hospital
-
-•	No anticoagulant therapy within 72 hours after traumatic brain injury
-
-•	The presence of cardio-pulmonary resuscitation with thoracotomy
-
-•	The presence of a liver or spleen injury
-
-•	Massive transfusion, defined as 10 or more units of packed red blood cells within 24 hours.
-
-At the Karolinska University Hospital, results from the conferences are stored in a local trauma care quality database where all areas of improvement are registered and collectively stored in a binary variable (yes/no) named opportunities for improvement (OFI), with outcome = yes if any suboptimal treatment applies for the patient in question. (14) 
+At the Karolinska University Hospital, results from the conferences are stored in a local trauma care quality database where all areas of improvement are registered and collectively stored in a binary variable (yes/no) named opportunities for improvement (OFI), with outcome = yes if any suboptimal treatment applies for the patient in question.<!-- Note that the OFI is not registred as yes/no in the database, instead it is registered as speficic areas of improvement, like "resources", "documentation" and so on-->  (14) 
 
 
 **Objectives**
 
-Hitherto, student studies of the trauma registry held by the KUH have used the OFI as a composite measure for all potential deviations leading to unanticipated death. Although this approach offers insight to whether opportunities for improvement exist, it is insufficient in providing health care workers with guidance to actions that improve care of trauma patients. Hence, in this study, all specific parameters included in OFI will be analysed individually to analyse their explanatory value to OFI for each category of trauma, with the aim to identify which areas of improvement that are most relevant to improve care and outcomes for trauma-1 patients.
-
+Hitherto, studies of the Karolinska University Hospital's trauma registry have used the OFI as a composite measure for all potential deviations leading to unanticipated death. Although this approach offers insight to whether opportunities for improvement exist, it is insufficient in providing health care workers with guidance to actions that improve care of trauma patients. Hence, in this study,  specific OFI will be analysed in relation to each category of trauma<!-- Do you mean trauma cohorts here?-->, with the aim to identify which areas of improvement that are most relevant to improve care and outcomes for trauma patients.
 
 **Objectives**
+
 Hitherto, studies of the trauma registry held by the KUH have used the OFI as a composite measure for all potential lapses leading to un-optimal care. Although this approach offers insight to whether opportunities for improvement exist, it is insufficient in providing health care workers with guidance to actions that may improve care of trauma patients. Hence, in this study, all specific parameters included in OFI will be analysed individually to analyse their explanatory value of OFI for four categories of trauma, with the aim to identify the main areas of improvement. 
 
+<!-- I suspect that you only intended to keep one of these sections-->
 
 **Participants** 
 
 We will study data of patients registered in both the Swedish trauma registry from SweTrau and the trauma quality data base at the KUH meeting the following criteria:
 
-• Older than 15 year
+- Older than 15 year
+- A NISS > over 15 or a ISS >9 
+- Being reviewed at an M&M conference 
+- Belonging to one of the following cohorts:
+  1. Blunt multisystem trauma with traumatic brain injury
+  2. Blunt multisystem trauma without traumatic brain injury
+  3. Penetrating trauma
+  4. Isolated severe traumatic brain injury
 
-•	A NISS > over 15 or a ISS >9 
-
-•	Being reviewed at an M&M conference 
-
-•	Belonging to one of the following cohorts:
-
-1.	blunt multisystem trauma with traumatic brain injury
-
-2.	blunt multisystem trauma without traumatic brain injury
-
-3.	penetrating trauma
-
-4.	isolated severe traumatic brain injury
-
+<!-- You should introduce these cohorts earlier, preferably already in the introduction. Make sure you cite "Lovisa Strömmer, Fredrik Lundgren, Poya Ghorbani, Thomas Troëng, Risk-adjusted mortality in severely injured adult trauma patients in Sweden, BJS Open, Volume 6, Issue 2, April 2022, zrac017, https://doi.org/10.1093/bjsopen/zrac017"-->
 
 **Variables** 
 
 The primary outcome (dependent variable) will be opportunities for improvements (OFI) detected by the M&M teams at the KUH. The explanatory (independent) variables will be all factors leading to a binary outcome of OFI. If the M&M team have deemed all handling of the patient as exemplary, the outcome of OFI is no.
 
-•	Inadequate procedure
+- Inadequate procedure
+- Missed injury
+- Problem with communication
+- Inadeqaude competence at site
+- Problem at triage
+- Problem with management/ trauma criteria 
+- No neurosurgeon at site 
+- Problem with tertiary survey after stabilisation/resuscitation 
+- Problem with management/logistics 
+- Wrong level of care 
+- Inadequate resources 
+- Problem with logistic and technique 
+- Exemplary treatment 
 
-•	Missed injury
+<!-- We'll need to reduce the number of categories here, they are too many to allow any meaningful analyses later on. I would say that maybe four levels would be okay, so pleas think about ways in which you can combine some of the above -->
 
-•	Problem with communication
-
-•	Inadeqaude competence at site
-
-•	Problem at triage
-
-•	Problem with management/ trauma criteria 
-
-•	No neurosurgeon at site 
-
-•	Problem with Tertriry survey after stabilisation/resuscitation 
-
-•	Problem with management/logistics 
-
-•	Wrong level of care 
-
-•	Inadequate resources 
-
-•	Problem with logistic and technique 
-
-•	Exemplary treatment 
-
-Apart from the main outcome, descriptive variables; gender, age and mortality will be used. All variables with exception for age are categorical. 
+Apart from the main outcome, descriptive variables; gender, age and mortality will be used. All variables with exception for age are categorical. <!-- Your outcome is OFI. You exposure is trauma cohort. You will adjust your model for age and sex and maybe something more-->
 
 **Data soures/measurement**
 
