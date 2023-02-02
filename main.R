@@ -6,3 +6,4 @@ combined.dataset <- rofi::merge_data(data)
 combined.dataset$ofi <- rofi::create_ofi(combined.dataset)
 
 mean.age<- round(mean(combined.dataset[,"pt_age_yrs"]), digits = 2)
+
