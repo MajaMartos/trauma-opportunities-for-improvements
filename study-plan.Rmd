@@ -11,15 +11,7 @@ bibliography: bibliography.bib
 ---
 
 
-```{r setup, include=FALSE }
-setwd("~/trauma-opportunities-for-improvements")
-
-source("main.R")
-
-source("clean_all_predictors.R")
-```
-
-
+ 
 
 # Introduction
 
@@ -137,7 +129,6 @@ To prevent bias, the multivariable regression model will be developed using a si
 
 
 **Study size** 
-
 
 
 
