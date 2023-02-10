@@ -1,6 +1,7 @@
 #######################
 ### Clean predictors ##
 #######################
+library(tidyverse)
 clean_all_predictors <- function(data) {
   data <- as.data.frame(data)
   data$intub <- with(data, ifelse(`pre_intubated` == 1 & is.na(data$pre_intubated) == FALSE, 3, `ed_intubated`))
