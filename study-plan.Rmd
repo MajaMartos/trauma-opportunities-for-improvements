@@ -8,7 +8,7 @@ editor_options:
   markdown:
     wrap: 72
 bibliography: bibliography.bib
----
+
 
 
 ```{r setup, include=FALSE}
@@ -97,7 +97,7 @@ We will study data of patients registered in both the Swedish trauma registry fr
 **Variables** 
 
 The primary outcome was opportunities for improvements (OFI) detected by the M&M teams at the Karolinska University hospital. The variable is categorical with the OFIs listed below as possible outcomes.  The exposure were different patient cohorts grouped by mechanism of injury, (1) blunt multisystem trauma with traumatic brain injury, (2) blunt multisystem trauma without traumatic brain injury, (3) penetrating trauma, (4) isolated severe traumatic brain injury. Each cohort studied was distinguished according to definitions provided by the ACS. 
-<!--Det är nedan lista som ger latex-error, troligen något tecken/sätt att referera lista som strular. Hittar inte direkt via min snabba sökning. -->
+
 
 <!-- 
 * Blunt multisystem trauma: Blunt trauma with injuries of Abbreviated Injury Score (AIS) ≥ 3 in at least two of the following AIS body regions: head, face, neck, thorax, abdomen, spine, or upper and lower extremities.
@@ -124,7 +124,7 @@ OFIs Identified at M&M conference:
 * Wrong level of care 
 * Inadequate resources 
 * Exemplary treatment
-
+ta
 The model was adjusted for gender, age and mortalit. All variables with exception for age were categorical.
 
 
@@ -147,9 +147,10 @@ To prevent bias, the multivariable regression model was developed using a simula
 ## Results
 
 <!--I just wanted to show how to get the flowchart, see the create_flowchart.R file for details and if you might want to change anything. Note that the numbers are off because of scrambled data -->
+
 ```{r ofi-flowchart, out.width="100%",fig.cap=" Flowchart describing the exclusions made and the process of trauma cases from arrival until OFI decision.", echo=FALSE, fig.align='center'}
 # Flowchart figure
- knitr::include_graphics("ofi-flowchart.pdf")
+ knitr::include_graphics(ofi-flowchart.pdf)
 ```
 
 ## References
