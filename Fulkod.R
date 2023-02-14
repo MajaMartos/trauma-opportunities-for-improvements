@@ -93,4 +93,48 @@ neck_chest_abdomen_region <- function(code) {
   }
  
 #penetrating <- TRUE/FALSE
+  
+  
+  #SEVERE TBI
+  head_region <- function(code) {
+    region <- substr(as.character(code), 1, 1)
+    is.element(region, 1)
+  }
+  #returns true if body region == 1
+  has_a_serious_head_injury <- function(code) {
+    code <- code[!is.na(code)]
+    serious_injury <- is_serious(code)
+    head_region(code[serious_injury]) 
+  }
+  #acts on vectors in "serious_injury", chooses those which have region == 1
+  only_one_region <- function(code){
+    number_of_regions(code) == 1
+  }
+  #generates TRUE/FALSE
+  only_one_serious_injury_region <- function(code) {
+    code <- code[!is.na(code)]
+    serious_injury <- is_serious(code)
+    only_one_region(code[serious_injury])
+  }
+  #generates TRUE/FALSE
+  gcs_and_intub_is_na <- with(Combined_dataset1, is.na(ed_gcs_sum) & is.na(pre_intub_type))    
+  known_gcs_or_intub_type <- Combined_dataset1[!gcs_and_intub_is_na,]  
+  
+  #remove row if na in both prehospital intub type and gcs
+  
+  known_gcs_or_intub_type$gcs_below_9 <- NA
+  known_gcs_or_intub_type$gcs_below_9 <- with(known_gcs_or_intub_type, ifelse(ed_gcs_sum<=8 | pre_intub_type==1, TRUE, FALSE))
+  known_gcs_or_intub_type$gcs_below_9 <- with(known_gcs_or_intub_type, ifelse(is.na(gcs_below_9) | isFALSE(gcs_below_9), FALSE, TRUE))
+  
+  #makes new variable containing those with a GCS <9 and those intubated in a prehospital setting. Converts na to false
+  known_gcs_or_intub_type$severe_tbi <- NA
+  for (i in 1:nrow(known_gcs_or_intub_type)) {
+    v = 0+i
+    if (has_a_serious_head_injury(known_gcs_or_intub_type[v, grepl("AISCode", names(known_gcs_or_intub_type))]) == TRUE && only_one_serious_injury_region(known_gcs_or_intub_type[v, grepl("AISCode", names(known_gcs_or_intub_type))]) == TRUE && known_gcs_or_intub_type[v, "gcs_below_9"] == TRUE) {
+      known_gcs_or_intub_type[v,"severe_tbi"] <- TRUE
+    } else {
+      known_gcs_or_intub_type[v,"severe_tbi"] <- FALSE
+    }
+  }
+  
 
