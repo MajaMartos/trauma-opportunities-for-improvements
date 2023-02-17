@@ -44,11 +44,6 @@ Combined_dataset1<- combined.dataset[(combined.dataset$"NISS" >= 15 | combined.d
 
 # Skapa kohorter
 
-#Blunt multisystem trauma: 1.	Blunt multisystem trauma: Blunt trauma with injuries of Abbreviated Injury Score (AIS) ≥ 3 in at least two of the following AIS body regions: head, face, neck, thorax, abdomen, spine, or upper and lower extremities
-#AIS >3, mer än 2 regioner 
-Blunt_multisystem <- subset(Combined_dataset_inclusion, AIS > 30 & sex == "male")
-
-df$age_gt_30_label <- ifelse(df$age_gt_30, "yes", "no")
 
 
 #Penetrating trauma: At least one AIS ≥ 3 injury in any of the following AIS body regions: neck, thorax, and abdomen.
@@ -137,4 +132,57 @@ neck_chest_abdomen_region <- function(code) {
     }
   }
   
+  
+  
+  # Blunt multisystem trauma without brain injury
+  
+  is_serious <- function(code) {
+    severity <- substr(as.character(code), 8, 8)
+    as.numeric(severity) >= 3  
+  }
+  
+  number_of_regions <- function(code) {
+    region <- substr(as.character(code), 1, 1)
+    length(unique(region))
+  }
+  #identifying number of regions
+  has_more_than_one_serious_injury <- function(code) {
+    code <- code[!is.na(code)]
+    serious_injury <- is_serious(code)
+    number_of_regions(code[serious_injury]) >= 2
+  }
+  ## combining them
+  blunt.multisystem <- apply( has_more_than_one_serious_injury, 1, function(row) {
+    code <- row[grep("AISCode", names(row))]
+    row
+  })
+  fewer_variables$blunt_multisystem <- NA
+  
+  #creating column blunt_multisystem
+  known_dominant_injury <-fewer_variables[!is.na(fewer_variables$inj_dominant), ] 
+  
+  
+  
+  # Define function to check if a row contains blunt multisystem trauma
+  has_blunt_multisystem <- function(row) {
+    code <- row[grep("AISCode", names(row))] 
+    has_more_than_one_serious_injury(code) && row["inj_dominant"] == "1"
+  }
+  
+  # Define function to check if a row contains brain injury
+  has_brain_injury <- function(code) {
+    region <- substr(as.character(code), 1, 1)
+    is.element(region, 1)
+  }
+  
+  # Create logical vectors to identify rows with blunt multisystem trauma and without brain injury
+  blunt_multisystem <- apply(known_dominant_injury, 1, has_blunt_multisystem)
+  no_brain_injury <- apply(known_dominant_injury, 1, function(row) {
+    code <- row[grep("AISCode", names(row))]
+    !has_brain_injury(code)
+  })
+  
+  # Combine the two logical vectors using the & (and) operator
+  blunt_multisystem_no_brain <- known_dominant_injury[blunt_multisystem & no_brain_injury, ]
 
+  
