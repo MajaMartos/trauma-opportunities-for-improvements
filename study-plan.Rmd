@@ -1,4 +1,9 @@
 ---
+output:
+  pdf_document: default
+  html_document: default
+---
+---
 title: "Specific opportunities for improvements"
 author: "Maja Martos"
 subtitle: "Add a Subtitle if Needed"
@@ -152,7 +157,7 @@ To prevent bias, the multivariable regression model was developed using a simula
 
 ```{r ofi-flowchart, out.width="100%",fig.cap=" Flowchart describing the exclusions made and the process of trauma cases from arrival until OFI decision.", echo=FALSE, fig.align='center'}
 # Flowchart figure
- knitr::include_graphics(ofi-flowchart.pdf)
+ knitr::include_graphics("ofi-flowchart.pdf")
 ```
 
 ## References

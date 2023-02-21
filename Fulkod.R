@@ -29,6 +29,14 @@ combined.dataset <- combined.dataset[combined.dataset$pt_age_yrs > 14,]
 source("clean_all_predictors.R")
 combined.dataset <- clean_all_predictors(combined.dataset)
 
+
+## clean Audit filters
+combined.dataset <- clean_audit_filters(combined.dataset)
+
+# Clean data 
+source("clean_all_predictors.R")
+
+
 ## clean Audit filters
 combined.dataset <- clean_audit_filters(combined.dataset)
 
@@ -39,25 +47,23 @@ source("clean_all_predictors.R")
 # Sorterar bort alla som inte har NISS över 15 eller ISS över 
 Combined_dataset1<- combined.dataset[(combined.dataset$"NISS" >= 15 | combined.dataset$"ISS" >= 9), ]
 
-#Gör om alla 999 till NA med apply 
-
 
 # Skapa kohorter
+# AIS code, first number in row is region, last severity 
 
+pat <- c("123457.8","223457.2","523457.7", "323457.8")
 
 
 #Penetrating trauma: At least one AIS ≥ 3 injury in any of the following AIS body regions: neck, thorax, and abdomen.
 
+## A function for severity, that holds true if the patient has an AIS severity score of >=3
 is_serious <- function(code) {
   severity <- substr(as.character(code), 8, 8)
   as.numeric(severity) >= 3  
 }
-#if severity level is 3 or higher, the injury is considered serious
-number_of_regions <- function(code) {
-  region <- substr(as.character(code), 1, 1)
-  length(unique(region))
-}
 
+
+# A function specifying the relevant regions (neck, chest, abdomen) for penetrating trauma 
 neck_chest_abdomen_region <- function(code) {
   code <- code[!is.na(code)]
   region <- substr(as.character(code), 1, 1)  
@@ -65,29 +71,40 @@ neck_chest_abdomen_region <- function(code) {
  
   }
   
-#generates TRUE/FALSE
+# A function that combines the function for specific region of penetrating trauma and the function for serious injury and then sums the the patients for which both holds true  
   serious_neck_chest_abdomen_injury <- function(code) {
     code <- code[!is.na(code)]
     serious_injury <- is_serious(code)
     sum(neck_chest_abdomen_region(code[serious_injury]) == TRUE )
-  
   }
  
-#generates numerical value
-  known_dominant_injury_pen <-Combined_dataset1[!is.na(Combined_dataset1$inj_dominant), ] 
-  known_dominant_injury_pen$penetrating <- NA
+# Removing all data from combined_dataset1 that lack information regarding dominating injury and storig it in a new dataset, penetrating_injury
+  penetrating_injury <-Combined_dataset1[!is.na(Combined_dataset1$inj_dominant), ] 
   
-#removing na in dominant injury, new df
-  for (i in 1:nrow(known_dominant_injury_pen)) {
+
+
+# Creating a column with NA in the penetrating_injury dataset 
+  penetrating_injury$penetrating <- NA
+  
+  
+# Returns output from the "serious_neck_chest_abdomen_injury" function to the known_dominant_injury_pen dataset for all columns containing "AIScode" AND patients who have penetrating trauma as their dominant injury. A Column that holds TRUE if the patient has a severe penetrating injury is created 
+  
+  for (i in 1:nrow(penetrating_injury)) {
     v = 0+i
-    if(serious_neck_chest_abdomen_injury(known_dominant_injury_pen[v,grepl( "AISCode" , names(known_dominant_injury_pen))]) >= 1 && known_dominant_injury_pen[v, "inj_dominant"] == 2) {
-      known_dominant_injury_pen[v,"penetrating"] <- TRUE
+    if(serious_neck_chest_abdomen_injury(penetrating_injury[v,grepl( "AISCode" , names(penetrating_injury))]) >= 1 && penetrating_injury[v, "inj_dominant"] == 2) {
+      penetrating_injury[v,"penetrating"] <- TRUE
     } else {
-      known_dominant_injury_pen[v,"penetrating"] <- FALSE
+      penetrating_injury[v,"penetrating"] <- FALSE
     }
   }
- 
+    
 #penetrating <- TRUE/FALSE
+  
+# Counts the number of injured regions by assesing the number of unique AIS code for each row (patient)
+  number_of_regions <- function(code) {
+  region <- substr(as.character(code), 1, 1)
+  length(unique(region))
+}
   
   
   #SEVERE TBI
@@ -184,5 +201,7 @@ neck_chest_abdomen_region <- function(code) {
   
   # Combine the two logical vectors using the & (and) operator
   blunt_multisystem_no_brain <- known_dominant_injury[blunt_multisystem & no_brain_injury, ]
+=======
+>>>>>>> fea5ed9768f012228561f96b2649867d87ebed77
 
   
