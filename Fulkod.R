@@ -71,15 +71,14 @@ neck_chest_abdomen_region <- function(code) {
  
   }
   
-# A function that combines the function for specific region of penetrating trauma and the function for serious injury and then sums the the patients for which both holds true  
-  serious_neck_chest_abdomen_injury <- function(code) {
+# A function that combines the function for specific region of penetrating trauma and the function for serious injury 
     code <- code[!is.na(code)]
     serious_injury <- is_serious(code)
     sum(neck_chest_abdomen_region(code[serious_injury]) == TRUE )
   }
  
 
-# Removing all data from combined_dataset1 that lack information regarding dominating injury and storig it in a new dataset, penetrating_injury
+# Creatig cohort dataset where all rows lacking information regarding dominating injury, intubation and GCS are removed ( necessary at this stage?)
 
   cohorts <-Combined_dataset1[!is.na(Combined_dataset1$inj_dominant), ] 
   
@@ -87,11 +86,11 @@ neck_chest_abdomen_region <- function(code) {
   cohorts <- cohorts[!gcs_and_intub_is_na,] 
   
 
-# Creating a column with NA in the penetrating_injury dataset 
+# Creating a column "penetrating" in cohorts 
   cohorts$penetrating <- NA
   
   
-# Returns output from the "serious_neck_chest_abdomen_injury" function to the known_dominant_injury_pen dataset for all columns containing "AIScode" AND patients who have penetrating trauma as their dominant injury. A Column that holds TRUE if the patient has a severe penetrating injury is created 
+# fills "penetrating" using the serious_neck_chest_injury function   
 # penetrating <- TRUE/FALSE 
   for (i in 1:nrow(cohorts)) {
     v = 0+i
@@ -119,7 +118,7 @@ neck_chest_abdomen_region <- function(code) {
     head_region(code[serious_injury]) 
   }
   
-# Function that specifies the number of injured regions   
+# Function that specifies the number of injured regions  
   number_of_regions <- function(code) {
     region <- substr(as.character(code), 1, 1)
     length(unique(region))
@@ -138,14 +137,14 @@ neck_chest_abdomen_region <- function(code) {
   }
 
   
- # Create an empty column (NA) in cohorts 
+ # Creates column "gcs_below_9"
   cohorts&gcs_below_9<- NA
   
 #  Creates a new variable gcs_below_9, which is true if  the patient had an ed_gcs_sum <9 or if the patient was intubated prehosp. Converts NA to false
   cohorts$gcs_below_9 <- with(cohorts, ifelse(ed_gcs_sum<=8 | pre_intub_type==1, TRUE, FALSE))
   cohorts$gcs_below_9 <- with(cohorts, ifelse(is.na(gcs_below_9) | isFALSE(gcs_below_9), FALSE, TRUE))
   
-
+# creates column "isolated_severe_tbi" using the has_a_serious_head_injury function and only_one_serious_injury_region
 cohorts$isolated_severe_tbi <- NA
   for (i in 1:nrow(cohorts)) {
     v = 0+i
@@ -176,7 +175,7 @@ cohorts$isolated_severe_tbi <- NA
   cohorts$blunt_multisystem <- NA
   
   
-# Fills the column with Yes for patients who have more than one serious injury based on AIScod and false otherwise 
+# Fills the column with Yes for patients who have more than one serious injury based on AIScode and false otherwise 
   
   for (i in 1:nrow(cohorts)) {
     v = 0+i
@@ -188,7 +187,7 @@ cohorts$isolated_severe_tbi <- NA
   }
   
 
-# create empty colum, severe_tbi  
+# create empty colum, severe_tbi (not isolated)  
 cohorts$severe_tbi<- NA
 
 for (i in 1:nrow(cohorts)) {
@@ -208,6 +207,16 @@ cohorts$multisystem_with_tbi <- ifelse(cohorts$severe_tbi == TRUE & cohorts$blun
 #Create colum with cohort multisystem_without_tbi
 cohorts$multisystem_without_tbi <- ifelse(cohorts$severe_tbi == FALSE & cohorts$blunt_multisystem == TRUE, TRUE, 
                                           ifelse(cohorts$severe_tbi == FALSE & cohorts$blunt_multisystem == FALSE, FALSE, TRUE))
+
+
+# creating common variable cohort
+cohorts$cohort  <- ifelse(cohorts$penetrating == "TRUE", "penetrating",
+                                           ifelse(cohorts$isolated_severe_tbi == "TRUE", "Isolated_TBI",
+                                                  ifelse(cohorts$multisystem_with_tbi == "TRUE", "multisystem_with_tbi",
+                                                         ifelse(cohorts$multisystem_without_tbi == "TRUE","multisystem_without_tbi", NA))))
+                          
+                         
+                          
 
 
 
