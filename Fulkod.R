@@ -88,7 +88,7 @@ neck_chest_abdomen_region <- function(code) {
   
   
 # Returns output from the "serious_neck_chest_abdomen_injury" function to the known_dominant_injury_pen dataset for all columns containing "AIScode" AND patients who have penetrating trauma as their dominant injury. A Column that holds TRUE if the patient has a severe penetrating injury is created 
-  
+# penetrating <- TRUE/FALSE 
   for (i in 1:nrow(penetrating_injury)) {
     v = 0+i
     if(serious_neck_chest_abdomen_injury(penetrating_injury[v,grepl( "AISCode" , names(penetrating_injury))]) >= 1 && penetrating_injury[v, "inj_dominant"] == 2) {
@@ -98,110 +98,151 @@ neck_chest_abdomen_region <- function(code) {
     }
   }
     
-#penetrating <- TRUE/FALSE
+# Create penetrating cohort 
+  penetrating_cohort <- filter(penetrating_injury, penetrating == "TRUE")
   
-# Counts the number of injured regions by assesing the number of unique AIS code for each row (patient)
-  number_of_regions <- function(code) {
-  region <- substr(as.character(code), 1, 1)
-  length(unique(region))
-}
+
   
   
-  #SEVERE TBI
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+# SEVERE TBI
+# Function that includes rows where patients have an AIS code with first number = 1
   head_region <- function(code) {
     region <- substr(as.character(code), 1, 1)
     is.element(region, 1)
   }
-  #returns true if body region == 1
+# Function that combines serious injury score with head injury 
   has_a_serious_head_injury <- function(code) {
     code <- code[!is.na(code)]
     serious_injury <- is_serious(code)
     head_region(code[serious_injury]) 
   }
-  #acts on vectors in "serious_injury", chooses those which have region == 1
+  
+# Function that specifies the number of injured regions   
+  number_of_regions <- function(code) {
+    region <- substr(as.character(code), 1, 1)
+    length(unique(region))
+  }
+
+# Uses the function above to select only those who are injured in a single region
   only_one_region <- function(code){
     number_of_regions(code) == 1
   }
-  #generates TRUE/FALSE
+
+# Combines function for only one injured region and serious injury
   only_one_serious_injury_region <- function(code) {
     code <- code[!is.na(code)]
     serious_injury <- is_serious(code)
     only_one_region(code[serious_injury])
   }
-  #generates TRUE/FALSE
+#1. removes row if na in both on ed_gcs_sum and pre_intub. 2. create a dataset without rows with missing data in both columns 
   gcs_and_intub_is_na <- with(Combined_dataset1, is.na(ed_gcs_sum) & is.na(pre_intub_type))    
-  known_gcs_or_intub_type <- Combined_dataset1[!gcs_and_intub_is_na,]  
+  Isolated_TBI <- Combined_dataset1[!gcs_and_intub_is_na,]  
   
-  #remove row if na in both prehospital intub type and gcs
+ # Create an empty column (NA) in isolated_TBI dataset
+  Isolated_TBI&gcs_below_9<- NA
   
-  known_gcs_or_intub_type$gcs_below_9 <- NA
-  known_gcs_or_intub_type$gcs_below_9 <- with(known_gcs_or_intub_type, ifelse(ed_gcs_sum<=8 | pre_intub_type==1, TRUE, FALSE))
-  known_gcs_or_intub_type$gcs_below_9 <- with(known_gcs_or_intub_type, ifelse(is.na(gcs_below_9) | isFALSE(gcs_below_9), FALSE, TRUE))
+#  Creates a new variable gcs_below_9, which is true if  the patient had an ed_gcs_sum <9 or if the patient was intubated prehosp. Converts NA to false
+  Isolated_TBI$gcs_below_9 <- with(Isolated_TBI, ifelse(ed_gcs_sum<=8 | pre_intub_type==1, TRUE, FALSE))
+  Isolated_TBI$gcs_below_9 <- with(Isolated_TBI, ifelse(is.na(gcs_below_9) | isFALSE(gcs_below_9), FALSE, TRUE))
   
-  #makes new variable containing those with a GCS <9 and those intubated in a prehospital setting. Converts na to false
-  known_gcs_or_intub_type$severe_tbi <- NA
-  for (i in 1:nrow(known_gcs_or_intub_type)) {
+
+    Isolated_TBI$severe_tbi <- NA
+  for (i in 1:nrow(Isolated_TBI)) {
     v = 0+i
-    if (has_a_serious_head_injury(known_gcs_or_intub_type[v, grepl("AISCode", names(known_gcs_or_intub_type))]) == TRUE && only_one_serious_injury_region(known_gcs_or_intub_type[v, grepl("AISCode", names(known_gcs_or_intub_type))]) == TRUE && known_gcs_or_intub_type[v, "gcs_below_9"] == TRUE) {
-      known_gcs_or_intub_type[v,"severe_tbi"] <- TRUE
+    if (has_a_serious_head_injury(Isolated_TBI[v, grepl("AISCode", names( Isolated_TBI))]) == TRUE && only_one_serious_injury_region(Isolated_TBI[v, grepl("AISCode", names(Isolated_TBI))]) == TRUE &&   Isolated_TBI[v, "gcs_below_9"] == TRUE) {
+      Isolated_TBI [v,"severe_tbi"] <- TRUE
     } else {
-      known_gcs_or_intub_type[v,"severe_tbi"] <- FALSE
+      Isolated_TBI[v,"severe_tbi"] <- FALSE
     }
   }
   
+# create severe TBI cohort 
+    severe_tbi_cohort$Cohort <- "Severe TBI"
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
   
   
-  # Blunt multisystem trauma without brain injury
+# Blunt multisystem trauma with and without brain injury
   
-  is_serious <- function(code) {
-    severity <- substr(as.character(code), 8, 8)
-    as.numeric(severity) >= 3  
-  }
-  
-  number_of_regions <- function(code) {
-    region <- substr(as.character(code), 1, 1)
-    length(unique(region))
-  }
-  #identifying number of regions
+  # Function selecting rows with more than one serious injury
   has_more_than_one_serious_injury <- function(code) {
     code <- code[!is.na(code)]
     serious_injury <- is_serious(code)
     number_of_regions(code[serious_injury]) >= 2
-  }
-  ## combining them
-  blunt.multisystem <- apply( has_more_than_one_serious_injury, 1, function(row) {
-    code <- row[grep("AISCode", names(row))]
-    row
-  })
-  fewer_variables$blunt_multisystem <- NA
-  
-  #creating column blunt_multisystem
-  known_dominant_injury <-fewer_variables[!is.na(fewer_variables$inj_dominant), ] 
-  
-  
-  
-  # Define function to check if a row contains blunt multisystem trauma
-  has_blunt_multisystem <- function(row) {
-    code <- row[grep("AISCode", names(row))] 
-    has_more_than_one_serious_injury(code) && row["inj_dominant"] == "1"
+    
   }
   
-  # Define function to check if a row contains brain injury
-  has_brain_injury <- function(code) {
-    region <- substr(as.character(code), 1, 1)
-    is.element(region, 1)
+# Removes all rows where data for inj_dominant is missing in dataet known_dominant_injury
+  known_dominant_injury <-Combined_dataset1[!is.na(Combined_dataset1$inj_dominant), ] 
+  
+# create an empty column with NA in known_dominant injury 
+  known_dominant_injury$blunt_multisystem <- NA
+  
+  
+# Fills the column with Yes for patients who have more than one serious injury based on AIScod and false otherwise 
+  
+  for (i in 1:nrow(known_dominant_injury)) {
+    v = 0+i
+    if (has_more_than_one_serious_injury(known_dominant_injury[v,grepl( "AISCode" , names(known_dominant_injury))]) == TRUE && known_dominant_injury[v,"inj_dominant"] == 1) {
+      known_dominant_injury[v,"blunt_multisystem"] <- TRUE
+    } else {
+      known_dominant_injury[v,"blunt_multisystem"] <- FALSE
+    }
   }
   
-  # Create logical vectors to identify rows with blunt multisystem trauma and without brain injury
-  blunt_multisystem <- apply(known_dominant_injury, 1, has_blunt_multisystem)
-  no_brain_injury <- apply(known_dominant_injury, 1, function(row) {
-    code <- row[grep("AISCode", names(row))]
-    !has_brain_injury(code)
-  })
   
-  # Combine the two logical vectors using the & (and) operator
-  blunt_multisystem_no_brain <- known_dominant_injury[blunt_multisystem & no_brain_injury, ]
-=======
->>>>>>> fea5ed9768f012228561f96b2649867d87ebed77
+  # We now want to create a columns which holds true if patients with multisystem trauma have a brain injury and false if not
+  # C
+  
+  blunt_multisystem_cohort <- filter(known_dominant_injury, blunt_multisystem == "TRUE")
+  
+# create empty colum, serious_TBI  
+ blunt_multisystem_cohort$Serious_TBI <- NA
+  
+
+ # HÄR ÄR NÅGOT INTE BRA FÅR 50 VARNINGAR :)))) 
+  for (i in 1:nrow(known_dominant_injury)) {
+    v = 0+i
+    if (has_a_serious_head_injury(blunt_multisystem_cohort[v,grepl( "AISCode" , names(blunt_multisystem_cohort))]) == TRUE && blunt_multisystem_cohort[v,"inj_dominant"] == 1) {
+      blunt_multisystem_cohort[v,"Serious_TBI"] <- TRUE
+    } else {
+      blunt_multisystem_cohort[v,"Serious_TBI"] <- FALSE
+    }
+  }
+  
+ 
+  
+# Cohort for blunt multisystem trauma with brain injury 
+ Blunt_multi_with_brain <-filter(blunt_multisystem_cohort, Serious_TBI == "TRUE")
+ 
+ # Cohort for blunt multisystem trauma with brain injury 
+ Blunt_multi_without_brain <-filter(blunt_multisystem_cohort, Serious_TBI == "FALSE") 
+  
+
+
 
   
