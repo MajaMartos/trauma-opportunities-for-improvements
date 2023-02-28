@@ -1,4 +1,9 @@
 ---
+output:
+  pdf_document: default
+  html_document: default
+---
+---
 title: "Specific opportunities for improvements"
 author: "Maja Martos"
 subtitle: "Add a Subtitle if Needed"
@@ -8,7 +13,7 @@ editor_options:
   markdown:
     wrap: 72
 bibliography: bibliography.bib
----
+
 
 
 ```{r setup, include=FALSE}
@@ -24,55 +29,49 @@ source("main.R") ## This "imports" the main script file of your project and run 
 # Introduction
 
 
-Trauma, clinically defined as physical injury and the body´s associated response, cause 4.4 million deaths every year worldwide[@who21]<!--Jag snodde victorias who ref, vet inte om det är den du ville använde? Notera att referenslista skapas automatiskt --> [who2021, ref funkar inte]<!--Du behöver ha @ framför och tillse att exakt samma namn finns i din bibliography.bib fil vilket det inte gjorde-->. However, mortality and morbidity related to trauma have been significantly reduced in modern countries since the introduction of trauma systems [alharbi2021]. Trauma systems have a long tradition within the military but were not implemented in civil health care until the 1960s-1970s when the report “Accidental Death and Disability: The Neglected Disease of Modern Society” was published in the US in 1966 [choi2021]. Since then, trauma systems have been put into practice in most modern countries with the aim to coordinate and improve management of critically injured patients, from onset of injury to high-level care in designated trauma centres [nswTraumaSystem]. 
+Trauma, clinically defined as physical injury and the body´s associated response, cause 4.4 million deaths every year worldwide [@who2021]. However, mortality and morbidity related to trauma have been significantly reduced in modern countries since the introduction of trauma systems [@alharbi2021]. Trauma systems have a long tradition within the military but were not implemented in civil health care until the 1960s-1970s when the report “Accidental Death and Disability: The Neglected Disease of Modern Society” was published in the US in 1966 [@choi2021]. Since then, trauma systems have been put into practice in most modern countries with the aim to coordinate and improve management of critically injured patients, from onset of injury to high-level care in designated trauma centers [@nsw2023]. 
 
-The American College of Surgeons (ACS) committee on trauma provide guidelines for the ideal trauma system covering all components of the system: (I) trauma centres, (II) referral hospitals, (III) rehabilitation as well as a (IV) data collection and quality improvement. Quality improvement through continuous evaluation and identification of opportunities for improvement with subsequent corrective action plans constitute a cornerstone in the trauma system and should be systematically proceeded by all trauma centres (5,6). 
+The American College of Surgeons (ACS) committee on trauma provide guidelines for the ideal trauma system covering all components of the system: (I) trauma centres, (II) referral hospitals, (III) rehabilitation as well as a (IV) data collection and quality improvement. Quality improvement through continuous evaluation and identification of opportunities for improvement with subsequent corrective action plans constitute a cornerstone in the trauma system and should be systematically proceeded by all trauma centres [@facs2023][@lazzara2022.
 
-As injuries differ vastly by feature, risk and what constitute appropriate care, they should be separated when evaluated for comparability. For this purpose, the abbreviated injury scale (AIS) has been implemented as a standardised system to categories all types of injuries and their severity (7). The AIS is a 6 point scale scoring system that ranks the severity of injury for five anatomic regions (8). The ACS has further implemented the AIS system to divide trauma into different patient cohorts (9).
+As injuries differ vastly by feature, risk and what constitute appropriate care, they should be separated when evaluated for comparability. For this purpose, the abbreviated injury scale (AIS) has been implemented a standardized system to categories all types of injuries and their severity [@gennarelli2006]. The AIS is a 6 point scale scoring system that ranks the severity of injury for five anatomic regions [@tcf2023]}. The ACS has further implemented the AIS system to divide trauma patients into cohorts based on injury location and severity [@shafi2009]. 
 
-Opportunities for improvement (OFI), include all aspects of the trauma system and can be defined as deficiencies at any stage of care that could be corrected  if replaced with more optimized actions. (6) Both unanticipated (preventable) and anticipated (non-preventable) mortality can be presented with-or without OFIs. Unanticipated deaths can further be categorised as preventable or potentially preventable. (7) Two widespread systems to study unanticipated deaths prevail; autopsy and multidisciplinary reviews through mortality and morbidity (M&M) conferences. (8) 
+Opportunities for improvement (OFI) is an established concept within trauma care evaluation and can be defined as all deficiencies or aberrations from guidelines at any stage of care in a trauma system that could be avoided through optimized action [@bixby2016]. OFIs can thus be identified in all care processes regardless of whether patient outcome is in line with what could have been expected under the certain circumstances or not. In events where trauma leads to death, mortality can be sorted into either preventable or non-preventable, where preventable mortality is defined as loss of life that likely would have been avoided if one or more errors in the trauma system would have been corrected [@heim2016Today]. Today, two widespread systems to study preventable deaths prevail; autopsy and multidisciplinary reviews through mortality and morbidity (M&M) conferences [@Sanddal2011].  
 
-Opportunities for improvement (OFI), include all aspects of the trauma system and can be defined as deficiencies or aberrations from guidelines at any stage of care that could be avoided through optimised action (10) . When trauma leads to death, it can be sorted into either preventable or non-preventable. In both cases, OFIs can be detected regardless of whether the outcome could have been prevented. (11) Two widespread systems to study unanticipated deaths prevail; autopsy and multidisciplinary reviews through mortality and morbidity (M&M) conferences (12).
-<!--De två styckena överlappar ju ordentligt i formulering, antar att de slås ihop? --->
-While autopsy provides information on cause and mechanism of death, it is costly and not always feasible due to ethical, legal and religious considerations (13). Neither does it provide information regarding the process of care. In this respect, M&M reviews present a more comprehensive assessment of the course of care (6). However, when discussing preventability of death, problems arise with respect to the sensitivity of putting the burden of blame on fellow colleagues and ambiguity regarding whether mortality is due to inappropriate care or not. To assess OFIs related to death, therefore constitute a more robust and feasible method to improve care of trauma patients (12).
+Autopsy is a post-mortem examination performed of a specialized surgeon to determine cause of death. While autopsy provides an explanation to why the patient has passed,  it is costly and not always feasible due to ethical, legal and religious considerations [@santanello2008]. Neither does it provide information regarding the full process of care. In this regard, M&M reviews present a more comprehensive assessment of the trauma system [@lazzara2022]. M&M reviews are conducted through multidisciplinary conferences at treating hospitals as part of the trauma system. At conference, qualified doctors and nurses evaluate selected patient cases to identify preventability of death and other potential errors in the care of the patient. However, when discussing preventability of death, problems arise with respect to the sensitivity of putting the burden of blame on fellow colleagues and ambiguity regarding whether mortality in fact could have been prevented. To assess OFIs unrelated to death, therefore constitute a more robust and feasible method to improve care of trauma patients [@Sanddal2011].
 
-To date a variety of studies based on OFIs have been conducted with the aim to identify recurrent errors for specific patient cohorts or trauma facilities. Socioeconomic, cultural and geographic issues, trauma characteristics and healthcare vary between countries and rural/city areas.  In 2020, a study in northern Alberta was conducted with challenging geography, limited health care resources and a high proportion of agricultural trauma in mind. Lack of equipment and personnel were identified as key areas of improvement (14). Other cohorts focusing on e.g., haemorrhage, which is the leading cause of trauma related death, have identified specific OFIs for this patient group (15).
 
-Nordic countries differ from other countries with colder climate, fewer cases of serious trauma annually and long distances to trauma centres as few hospitals are equipped to treat trauma-1 patients (16) (17). Although increasing over the past few years, a systematic review covering trauma-related studies in Nordic countries the years 1995–2018, show that they fall behind when it comes to number of publications on the subject compared with other economically similar countries (16).
+To date a variety of studies based on OFIs have been conducted with the aim to identify recurrent errors for specific patient cohorts or trauma facilities. Socioeconomic, cultural and geographic issues, trauma characteristics and healthcare vary between countries and rural/city areas [@jiang2020][@jeppesen2020]. In Sweden surgical care is highly centralized and no uniform national organization for trauma care is at place. This makes evaluation of competence and performance at site crucial to maintain high quality and avoid unnecessary risks for the patient [@strommer2022]. Sweden further stand out from other western countries with cold climate, fewer cases of serious trauma annually and long distances to trauma centers as few hospitals are equipped to treat trauma-1 patients [@jeppesen2020][@steinvik2022]. 
 
-In Sweden surgical care is highly centralised and no uniform national organization for trauma care is at place. This makes evaluation of competence and performance at site crucial to maintain high quality and avoid unnecessary risks for the patient (18). Previous studies of Swedish trauma data have analysed OFIs as clustered variable for overlapping cohorts. In this study four non-overlapping cohorts were studied and specific categories of OFIs were found for each cohort. 
-<!--Bra, kan säkerligen slås ihop och minskas vid behov. Imponerande att du lyckats hitta och skriva så mycket kring OFI och trauma system!
-Jag skulle önska mer om de olika traumatiska cohorterna och om du kan hitta unika utmaningar/aspekter med dessa? Väldigt stor skillnad att ta hand om en med penetrerande skada i buken kontra isolerad hjärnskada osv?
+As mentioned earlier, the ACS have sorted trauma injures into patient cohorts according to the AIS system. To date, Swedish register studies on OFIs have mainly looked at three cohorts: blunt multisystem/single trauma, penetrating trauma and traumatic brain injury [@strommer2022][@ghorbani2014].  While hemorrhage has been identified as the main cause of death for patients exposed to penetrating trauma, patients experiencing blunt trauma more often die from brain injuries or organ dysfunction. [@ghorbani2014] Brain injuries together with burns are further the most common cause of non-preventable deaths [@roy2017] 
 
-Försöka avsluta med kunskapslucka, "Vi vet väldigt lite om vilka OFI som existerar i dessa cohorter" och koppla det till ditt aim. "Vilka ofi och till vilken grad korrelerar de med cohorterna"
--->
+In 2022, 62% of blunt multisystem trauma deaths reviewed by a multidisciplinary team at the Karolinska University Hospital passed away due to traumatic brain injury. [@ghorbani2014] This means that non-preventable brain injuries weighs on the blunt multisystem cohort, possibly masking OFIs and preventable deaths associated to other injuries of the multisystem trauma. In this regard, it would be preferable to separate blunt multisystem trauma with traumatic brain injury and blunt multisystem trauma without brain injury to disentangle relevant OFIs for correct injury types and avoid overlapping between cohorts.
 
-the patients mean age was `r mean.age`
+**Aim**
+Hitherto, studies of the trauma registry held by the Karolinska have used the OFI as a composite measure for all potential lapses leading to un-optimal care. Although this approach offers insight to whether opportunities for improvement exist, it is insufficient in providing health care workers with guidance to actions that may improve care of trauma patients. In addition, previois studies of Swedish trauma data have used overlapping cohorts, causing a potential problem with bias. This study hence aims at identifying specific OFIs for non-overlapping cohorts (blunt multisystem trauma with brain injury, blunt multisystem trauma without brain injury, penetrating trauma, isolated traumatic brain injury) for  more robust guidance in what actions could be taken to improve trauma care for specific patient cohorts
+
+
+
 
 # Methods
 
 
 **Study design** 
 
-A registry-based cohort study linking data from the Swedish trauma registry SweTrau and trauma care quality database at the KUH. The combined data were further assessed through multinominal logistic regression to identify specific opportunities for improvements (OFI), identified by the multidisciplinary review board at the KUH All data were managed and analysed in R software.
-<!--Vi använder karolinskas trauma register (KUHTR) och karolinskas kvalitetsdatabas. Det är inte samma som Swetrau. KUHTR rapporterar in i swetrau men innehåller i stort samma(dock lite mer info). Log reggen kommer användas för att undersöka associationer mellan de oberoende variablerna cohorterna (och ev också lite demografi likt ålder och kön) till den beroende variabelern, de olika ofi.   -->
-
-<!--Aim flyttas med fördel till slutet av introduktionen och kopplas till kunskapsluckan -->
-**Aim**
-
-Hitherto, studies of the trauma registry held by the KUH have used the OFI as a composite measure for all potential lapses leading to un-optimal care. Although this approach offers insight to whether opportunities for improvement exist, it is insufficient in providing health care workers with guidance to actions that may improve care of trauma patients. Hence, in this study, all specific parameters included in OFI were analysed individually to analyse their explanatory value of OFI for four categories of trauma, with the aim to identify the main areas of improvement. 
+We conducted a registry-based cohort study on a merged dataset linking data from the Swedish trauma registry SweTrau and trauma care quality database at the Karolinska University Hospital. The combined data were further assessed through multinominal logistic regression to assess how clinical cohorts associate with OFIs. 
 
 
 
 **Setting**
-<!--Se ovan, skillnaden mellan karolnskas och swetrau. Men i setting bör den kliniska kontexten beskrivas inkluderat hur MoM selektionen/förfarandet går till på KS. Du ska inte rapportera siffror hur många som inkommit/bedömts osv osv. Det är första delen av resultatet -->
-From 2010, The Swedish Trauma society holds a national registry over patients suffering serious trauma in Sweden. Patients included in the registry have either suffered traumatic events leading to either a trauma alarm or a new injury severity score (NISS) over 15. In 2021, a total of 10,528 patients were registered (an increase of 17% from 2020). Of these, 90% were assigned to blunt traumas such as falls, traffic accidents and blunt force traumas with objects and the rest to penetrating trauma such as gun shots and stabbing. (SweTrau2021)
+From 2010, The Swedish Trauma society holds a national registry over patients suffering serious trauma in Sweden. Patients included in the registry have suffered traumatic events that have either triggered a trauma alarm or generated injuries with a new injury severity score (NISS) above 14. 
 
-In Sweden the Karolinska University hospital covers the regions of Stockholm, Gotland, Södermanland and Västmanland, equivalent to 3 million residents. This is just on pair with the minimum number of patients needed to be recognized as a quality trauma centre internationally. The hospital is also the only facility in Sweden to qualify as a trauma-1 hospital by American standards (19). 
+In Sweden the Karolinska University hospital covers the regions of Stockholm, Gotland, Södermanland and Västmanland, equivalent to 3 million residents. This is just on pair with the minimum number of patients needed to be recognized as a quality trauma centre internationally. The hospital is also the only facility in Sweden to qualify as a trauma-1 hospital by American standards [@TraumaKarolinska2023].
 
-To detect non-optimal treatment, treating hospitals evaluate trauma patients at a M&M conference held by a multidisciplinary board appointed by the hospital. The board consists of a surgeon, an anaesthetist, a trauma nurse and in presence of specific injuries (e.g., intracranial, orthopaedical or thoracic/vascular), specialists from appropriate specialties. Competences involved in the direct care of the patient are free to attend the conference but should not take part in the review. (Dödsfallsanalys2021)
+To detect non-optimal treatment, treating The Karolinska University hospital evaluate trauma patients at a M&M conference held by a multidisciplinary board appointed by the hospital. The board consists of a surgeon, an anaesthetist, a trauma nurse and in presence of specific injuries (e.g., intracranial, orthopaedical or thoracic/vascular), specialists from appropriate specialties. Competences involved in the direct care of the patient are free to attend the conference but should not take part in the review. [@swetrau2021]
 
-Patients are selected to M&M-conference based on the audit filters listed below and are thereby selected for review algorithmically and independent of mortality to study OFIs. If one or more of the audit filters apply, the patient is manually assessed by a nurse who goes through the patient journal and makes a final judgement of whether the patient should be brought to conference.<!--Stegen är:The process is a multistage process with escalating levels of reviews. Mortality is directly escalated to the multidisciplinary conference which in addition to OFI also decides whether the death was preventable or possibly preventable, which is also classified as an OFI. To identify non-mortality poor outcomes the review process was subsequently improved and formalized during the study period.  Between the years 2014-2017, trauma patients were individually reviewed by a specialized trauma nurse to identify possible OFIs to be escalated to the multidisciplinary conference, but the process was not formalized. From 2017, the process was formalized; a brief individual first review by a specialized nurse was performed when data was registered in the trauma registry and the trauma quality database. Audit filters were applied to the trauma quality data base. All ”fall outs” from audit filters and trauma patients with a possible failure of care identified by the nurse during the first review, were reviewed again in a second review by two specialized nurses. If the second review identified a possible OFI, the trauma patient´s process of care was reviewed in the multidisciplinary morbidity conference to decide upon whether or not there was an OFI in trauma care.--> At conference, the multidisciplinary board determines the cause of death and reviews the case for suboptimal handling and treatment to identify opportunities for improvement (20).
+Patients are selected for review at a M&M conference in a multistage process with escalating levels of reviews. All cases of mortality are passed directly to conference, where the cause of death and whether it was preventable or possibly preventable is decided, The review is then followed by identification of OFIs, which serve as a foundation for enhancement of care. The review process for non-mortality poor-outcomes has been subsequently improved and formalised. In the years 2014-2017, trauma patients were somewhat randomly selected and individually reviewed by a specialised trauma nurse who made the call weather patients should be escalated to conference. In 2017, the procedure was therefore formalized with the introduction of audit filters.
+
+Audit filters, listed below, are specified conditions that all trauma patients are automatically evaluated by.All patients captured by one or more audit filters are then assessed by a nurse who identifies possible glitches in care. Selected patients by the first nurse are then reviewed again in a second round by two specialised nurses. If any OFIs are identified in the second round, the patient is brought to multidisciplinary conference for a final assessment of OFIs [@swetrau2021]. Results from the conference are stored in the Karolinska University hospital’s local quality care database. 
+
 
 Audit filters: 
 
@@ -105,11 +104,11 @@ We will study data of patients registered in both the Swedish trauma registry fr
 **Variables** 
 
 The primary outcome was opportunities for improvements (OFI) detected by the M&M teams at the Karolinska University hospital. The variable is categorical with the OFIs listed below as possible outcomes.  The exposure were different patient cohorts grouped by mechanism of injury, (1) blunt multisystem trauma with traumatic brain injury, (2) blunt multisystem trauma without traumatic brain injury, (3) penetrating trauma, (4) isolated severe traumatic brain injury. Each cohort studied was distinguished according to definitions provided by the ACS. 
-<!--Det är nedan lista som ger latex-error, troligen något tecken/sätt att referera lista som strular. Hittar inte direkt via min snabba sökning. -->
+
 
 <!-- 
 * Blunt multisystem trauma: Blunt trauma with injuries of Abbreviated Injury Score (AIS) ≥ 3 in at least two of the following AIS body regions: head, face, neck, thorax, abdomen, spine, or upper and lower extremities.
-* Blunt multisystem trauma without traumatic brain injury: Blunt trauma with injuries of AIS ≥ 3 limited to only one AIS body region, with all other body regions having a maximum AIS 
+* Blunt multisystem trauma without traumatic brain injury: Blunt trauma with injuries of AIS ≥ 3 limited to only one AIS body region, with all other body regions having a maximum AIS of 2. 
 * Penetrating trauma: At least one AIS ≥ 3 injury in any of the following AIS body regions: neck, thorax, and abdomen.
 * Isolated severe traumatic brain injury: Best GCS within the first 24 h ≤ 8 OR Best motor score ≤  within the first 24 h, and one of:
    * Abnormal CT brain (hematoma, contusion, swelling, herniation, compression of basal cisterns
@@ -124,34 +123,30 @@ Det är under fr1.14:
 · 999=Okänd) -->
 
 OFIs Identified at M&M conference:
-* Missed injury
+* Missed injury/ problem at triage 
 * Problem with communication
-* Inadeqaude competence at site
-* Problem at triage
-* Problem with management/ trauma criteria 
-* No neurosurgeon at site 
+* Inadequate competence at site / No neurosurgeon at site 
+* Problem with management (trauma criteria, logistics, problem with logistics and teqnique) 
 * Problem with Tertriry survey after stabilisation/resuscitation  
-* Problem with management/logistics 
 * Wrong level of care 
 * Inadequate resources 
-* Problem with logistic and technique 
 * Exemplary treatment
-
+ta
 The model was adjusted for gender, age and mortalit. All variables with exception for age were categorical.
 
 
 
 **Data soures/measurement**
 
-The Swedish trauma registry SweTrau includes all trauma patients with a NISS >15 or who have triggered an alarm with trauma team activation in Sweden from 2010 to date. The trauma care quality database at KUH includes data from trauma patients treated at the hospital from 2014-2021. In the years 2014-2017, patients all random set of patients with an Injury severity score (ISS) of 9 or higher were included. From 2017, all patients included in the dataset have been reviewed at a M&M conference held at the the Karolinska University hospital. 
+The Swedish trauma registry SweTrau includes all trauma patients with a NISS >15 or who have triggered an alarm with trauma team activation in Sweden from 2010 to date. The trauma care quality database at KUH includes data from trauma patients treated at the hospital from 2014-2021. In the years 2014-2017, patients all random set of patients with an Injury severity score (ISS) of 9 or higher were included. From 2017, all patients included in the dataset have been reviewed at a M&M conference held at the the Karolinska University hospital.  
 
-In this study, all patients within the Karolinska University hospital trauma quality registry reviewed at a M&M conference were included. For these patients, data from the Swedish trauma registry by SweTrau were collected to a merged dataset. The merged dataset was To prevent bias, the multivariable regression model was developed using a simulated scrambled dataset with random data. The algorithm for the model was developed step-by-step and then evaluated by a trained programmer and statistician before being applied on the real data. Variables such as ID-number and name were scrambled and anonymised throughout analysis of the real dataset as well.  then divided into four cohorts; (1) blunt multisystem trauma with traumatic brain injury, (2) blunt multisystem trauma without traumatic brain injury, (3) penetrating trauma, (4) isolated severe traumatic brain injury
+In this study, all patients within the Karolinska University hospital trauma quality registry reviewed at a M&M conference were included. For these patients, data from the Swedish trauma registry by SweTrau were collected to a merged dataset. The merged dataset was then divided into four cohorts; (1) blunt multisystem trauma with traumatic brain injury, (2) blunt multisystem trauma without traumatic brain injury, (3) penetrating trauma, (4) isolated severe traumatic brain injury. 
 
 
 
 **Bias** 
 
-To prevent bias, the multivariable regression model will be developed using a simulated scrambled dataset with random data. The algorithm for the model will be developed step-by-step and then evaluated by a trained programmer and statistician before being applied on theTo prevent bias, the multivariable regression model was developed using a simulated scrambled dataset with random data. The algorithm for the model was developed step-by-step and then evaluated by a trained programmer and statistician before being applied on the real data. Variables such as ID-number and name were scrambled and anonymised throughout analysis of the real dataset as well.   real data. Variables such as ID-number and name will be scrambled and anonymised throughout analysis of the real dataset as well.  
+To prevent bias, the multivariable regression model was developed using a simulated scrambled dataset with random data. The algorithm for the model was developed step-by-step and then evaluated by a trained programmer and statistician before being applied on the real data. Variables such as ID-number and name were scrambled and anonymised throughout analysis of the real dataset as well.  
 
 
 **Study size** 
@@ -159,6 +154,7 @@ To prevent bias, the multivariable regression model will be developed using a si
 ## Results
 
 <!--I just wanted to show how to get the flowchart, see the create_flowchart.R file for details and if you might want to change anything. Note that the numbers are off because of scrambled data -->
+
 ```{r ofi-flowchart, out.width="100%",fig.cap=" Flowchart describing the exclusions made and the process of trauma cases from arrival until OFI decision.", echo=FALSE, fig.align='center'}
 # Flowchart figure
  knitr::include_graphics("ofi-flowchart.pdf")

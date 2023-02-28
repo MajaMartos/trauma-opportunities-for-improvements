@@ -8,6 +8,7 @@ combined.dataset <- rofi::merge_data(data)
 
 ## Create OFI column
 combined.dataset$ofi <- rofi::create_ofi(combined.dataset)
+combined.dataset <- clean_all_predictors(combined.dataset)
 
 ## Separate and store cases without known outcome (OFI)
 missing.outcome <- is.na(combined.dataset$ofi)
@@ -29,5 +30,6 @@ create_flowchart(combined.dataset)
 # Numbers for text, consider moving to separate file #
 ######################################################
 
-mean.age<- round(mean(combined.dataset[,"pt_age_yrs"]), digits = 2)
+
+
 
