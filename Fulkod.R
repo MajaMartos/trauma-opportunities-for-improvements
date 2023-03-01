@@ -75,7 +75,7 @@ neck_chest_abdomen_region <- function(code) {
     code <- code[!is.na(code)]
     serious_injury <- is_serious(code)
     sum(neck_chest_abdomen_region(code[serious_injury]) == TRUE )
-  }
+  
  
 
 # Creatig cohort dataset where all rows lacking information regarding dominating injury, intubation and GCS are removed ( necessary at this stage?)
@@ -217,8 +217,12 @@ cohorts$cohort  <- ifelse(cohorts$penetrating == "TRUE", "penetrating",
                           
                          
                           
+#Creating column where possibly preventable death anf preventable deaths are merged 
+cohorts$preventable_death <- ifelse(cohorts$Fr1.14 == 2 | cohorts$Fr1.14 == 3, "preventable", "non-preventable")
 
 
+
+pt_demographics <- table1(~ ofi + pt_age_yrs + Gender + ed_gcs_sum  + ed_sbp_value + NISS + res_survival | cohort, data=cohorts, caption="\\textbf{Cohort demographics}", overall = FALSE)
 
 
   
