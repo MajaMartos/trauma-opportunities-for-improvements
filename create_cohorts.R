@@ -51,34 +51,37 @@ dataset$BM <- (dataset$inj_dominant == 1) & (dataset$num_severe_regions >= 2)
 ##############
 
 check_TBI_region <- function(ais_codes) {
-  has_region_345 <- any(substr(ais_codes, 1, 1) %in% c("1"))
-  return(has_region_345)
+  head_region <- any(substr(ais_codes, 1, 1) %in% c("1"))
+  return(head_region)
 }
 
-# Check if severe in central area
+# Check if severe head
 severe_head_injury <- function(dataset) {
   # Extract relevant AIS codes using grep()
-  codes <- unlist(as.vector(dataset[grep("^AIS", names(dataset))]))
+  codes <- unlist(as.vector(dataset[grep("^AIS", names(dataset))])) 
   # Extract severe injuries using get_severe_injuries()
   severe_injuries <- get_severe_injuries(codes)
-  # Count unique regions using count_unique_regions()
-  pt_region <- check_TBI_region(severe_injuries)
-  return(pt_region)
+  # check i severe region is in the head
+  severe_head_region <- check_TBI_region(severe_injuries)
+  return(severe_head_region)
 }
 
 # apply to each row
 dataset$severe_head_injury <- apply(dataset,  1, severe_head_injury)
 
+# A severe TBI needs a GCS of < 9 , create a column that is TRUE if the ed GCS is less then 9 OR
+# if the patient is intubated prehospitaly:  check the pre hosp GCS instead
 
-dataset$low_GCS <- with(dataset,
+dataset$low_GCS <- with(dataset, 
                                  (ed_gcs_sum <= 8 | (is.na(ed_gcs_sum) & intub == 3 & pre_gcs_sum <= 8)))
 
-dataset$TBI <- (dataset$severe_head_injury == TRUE) & (dataset$low_GCS == TRUE) # & (dataset$inj_dominant == 2)
+# If a low GCS and Severe head injury is present then its a severe TBI
+dataset$TBI <- (dataset$severe_head_injury == TRUE) & (dataset$low_GCS == TRUE) 
 
 ###############
 # Penetrating #
 ###############
-# Check if central area (3-5)
+# Check if central area (3-5: neck, thorax, abdomen)
 check_pen_regions <- function(ais_codes) {
   has_region_345 <- any(substr(ais_codes, 1, 1) %in% c("3", "4", "5"))
   return(has_region_345)
@@ -110,8 +113,6 @@ dataset$cohort[dataset$Severe_penetrating == TRUE & dataset$inj_dominant == 2] <
 dataset$cohort[dataset$TBI == TRUE & dataset$BM == TRUE & dataset$inj_dominant == 1] <- "blunt multisystem with TBI"
 dataset$cohort[dataset$TBI == FALSE & dataset$BM == TRUE & dataset$inj_dominant == 1] <- "blunt multisystem without TBI"
 dataset$cohort[dataset$TBI == TRUE & dataset$num_severe_regions < 2] <- "Isolated severe TBI"
-
-
 
 return(dataset)
 }
