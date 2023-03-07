@@ -221,8 +221,27 @@ cohorts$cohort  <- ifelse(cohorts$penetrating == "TRUE", "penetrating",
 cohorts$preventable_death <- ifelse(cohorts$Fr1.14 == 2 | cohorts$Fr1.14 == 3, "preventable", "non-preventable")
 
 
+cohorts$OFI_categories <- ifelse(cohorts$Problemomrade_.FMP %in% c("Handläggning", "Handläggning/logistik", 
+                                                                   "kompetensbrist", "Teritiär survey", 
+                                                                   "bristande rutin", "Neurokirurg"), 
+                                 "Medical procedures", "",
+                                 
+                                 ifelse(cohorts$Problemomrade_.FMP %in% c("Logistik/teknik", "Traumakriterier/styrning", 
+                                                                          "Dokumentation", "kommunikation"), 
+                                        "Logistics", ""),
+                                 
+                                 ifelse(cohorts$Problemomrade_.FMP %in% c("lång tid till DT", "lång tid till op", 
+                                                                          "Triage på akm"), 
+                                        "Delay to procedure", ""),
+                                 
+                                 ifelse(cohorts$Problemomrade_.FMP %in% c("Resurs", "vårdnivå"), 
+                                        "Lacking resources",""))
+
+
+
 
 pt_demographics <- table1(~ ofi + pt_age_yrs + Gender + ed_gcs_sum  + ed_sbp_value + NISS + res_survival | cohort, data=cohorts, caption="\\textbf{Cohort demographics}", overall = FALSE)
+
 
 
   
