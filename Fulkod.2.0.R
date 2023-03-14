@@ -16,6 +16,8 @@ library(skimr)
 library(tidyverse)
 library(boot)
 library(table1)
+library(ISLR)
+library(nnet)
 
 
 ## Separate and store cases without unknown outcome (OFI)
@@ -153,7 +155,7 @@ create_cohorts <- function(dataset) {
 new.dataset <- create_cohorts(combined.dataset)
 
 #Creating column where possibly preventable death anf preventable deaths are merged 
-cohorts$preventable_death <- ifelse(cohorts$Fr1.14 == 2 | cohorts$Fr1.14 == 3, "preventable", "non-preventable")
+new.dataset$preventable_death <- ifelse(new.dataset$Fr1.14 == 2 | new.dataset$Fr1.14 == 3, "preventable", "non-preventable")
 
 
 new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Handläggning", "Handläggning/logistik", 
@@ -168,4 +170,41 @@ new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Hand
                                                    "Delay to procedure", 
                                                    ifelse(new.dataset$Problemomrade_.FMP %in% c("Resurs", "vårdnivå"), 
                                                           "Lacking resources",
-                                                          ""))))
+                                                      
+                                                          ifelse(new.dataset$Problemomrade_.FMP %in% c("Föredömligt handlagd"), 
+                                                                 "Exemplary treatment",
+                                                          "")))))
+
+
+###
+#Create table1
+###
+
+
+
+#####
+# create regression model #
+###
+# Convert categorical variables to factors
+new.dataset$OFI_categories <- factor(new.dataset$OFI_categories)
+new.dataset$cohort <- factor(new.dataset$cohort)
+new.dataset$Gender <- factor(new.dataset$Gender)
+
+# Re-code the OFI_categories variable so that "Exemplary treatment" is the new reference category
+new.dataset$OFI_categories <- relevel(new.dataset$OFI_categories, ref = "Exemplary treatment")
+
+# Create multinomial logistic regression model'
+my_log <- multinom( OFI_categories ~ cohort + pt_age_yrs + Gender, data = new.dataset)
+
+# View the results
+summary(my_log)
+
+new.dataset %>% select(OFI_categories, cohort, pt_age_yrs, Gender) %>% skim()
+
+library(vcd)
+
+# create a contingency table between cohort and OFI_categories
+cont_table <- table(new.dataset$cohort, new.dataset$OFI_categories)
+
+# calculate the association statistics
+assocstats(cont_table)
