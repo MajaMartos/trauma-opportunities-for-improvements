@@ -180,6 +180,17 @@ new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Hand
 #Create table1
 ###
 
+# Get the subset of your dataset that includes only the columns needed for the table
+table_cols <- c("OFI_categories", "pt_age_yrs", "Gender", "ed_gcs_sum", "ed_sbp_value", "NISS", "res_survival", "cohort")
+table_dataset <- new.dataset[, table_cols]
+
+# Remove rows with missing values only for the columns included in the table
+table_dataset <- table_dataset[complete.cases(table_dataset), ]
+
+# Create the table with the cleaned dataset
+pt_demographics <- table1(~ OFI_categories + pt_age_yrs + Gender + ed_gcs_sum  + ed_sbp_value + NISS + res_survival | cohort, data=table_dataset, caption="\\textbf{Demographics}", overall = FALSE)
+
+
 
 
 #####
