@@ -78,7 +78,7 @@ create_cohorts <- function(dataset) {
   }
   
   # Apply function to every row of dataset and save output in new column
-  dataset$num_severe_regions <- apply(dataset,  1, count_severe_regions)
+  datset$num_severe_regions <- apply(dataset,  1, count_severe_regions)
   
   dataset$BM <- (dataset$inj_dominant == 1) & (dataset$num_severe_regions >= 2)
   
@@ -154,63 +154,134 @@ create_cohorts <- function(dataset) {
 }
 new.dataset <- create_cohorts(combined.dataset)
 
-#Creating column where possibly preventable death anf preventable deaths are merged 
+#Creating column where possibly preventable death and preventable deaths are merged 
 new.dataset$preventable_death <- ifelse(new.dataset$Fr1.14 == 2 | new.dataset$Fr1.14 == 3, "preventable", "non-preventable")
+
+#Creating coulmn for 30-day survival
+new.dataset$month_surv <- ifelse(new.dataset$res_survival == 2,  "alive", "dead")
 
 
 new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Handläggning", "Handläggning/logistik", 
-                                                                           "kompetensbrist", "Teritiär survey", 
-                                                                           "bristande rutin", "Neurokirurg"), 
-                                     "Medical procedures", 
-                                     ifelse(new.dataset$Problemomrade_.FMP %in% c("Logistik/teknik", "Traumakriterier/styrning", 
-                                                                                  "Dokumentation", "kommunikation"), 
-                                            "Logistics", 
-                                            ifelse(new.dataset$Problemomrade_.FMP %in% c("lång tid till DT", "lång tid till op", 
-                                                                                         "Triage på akm"), 
-                                                   "Delay to procedure", 
-                                                   ifelse(new.dataset$Problemomrade_.FMP %in% c("Resurs", "vårdnivå"), 
-                                                          "Lacking resources",
-                                                      
-                                                          ifelse(new.dataset$Problemomrade_.FMP %in% c("Föredömligt handlagd"), 
-                                                                 "Exemplary treatment",
-                                                          "")))))
+                                                                           "kompetensbrist", "Vårdnivå", 
+                                                                           "Triage på akm", "Triage på akutmottagningen"), 
+                                     "Clinical judgement error", 
+                                     
+                                     ifelse(new.dataset$Problemomrade_.FMP %in% c("Missad skada", "Lång tid till DT"), 
+                                            "Missed diagnosis", 
+                                            
+                                            ifelse(new.dataset$Problemomrade_.FMP %in% c("Lång tid till op"), 
+                                                   "Delay in treatment", 
+                                                   
+                                                   ifelse(new.dataset$Problemomrade_.FMP %in% c("Logistik/teknik"), 
+                                                          "Technical errors",
+                                                          
+                                                          ifelse(new.dataset$Problemomrade_.FMP %in% c("Traumakriterier/styrning", "Dokumetation", "Kommunikation", "Tertiär survey",
+                                                                                                       "Bristande rutin", "Neurokirurg","Resurs"), 
+                                                                 "Other",
+                                                                 
+                                                                 ifelse(new.dataset$preventable_death %in% c("Preventable"), 
+                                                                        "Preventability",
+              
+                                                          ifelse(new.dataset$ofi %in% c("No"), 
+                                                                 "No ofi",
+                                                          "")))))))
 
 
-###
-#Create table1
-###
+################
+#Create table1##
+################
+
 
 # Get the subset of your dataset that includes only the columns needed for the table
-table_cols <- c("OFI_categories", "pt_age_yrs", "Gender", "ed_gcs_sum", "ed_sbp_value", "NISS", "res_survival", "cohort")
+table_cols <- c("OFI_categories", "pt_age_yrs", "Gender", "num_severe_regions", "severe_head_injury", "low_GCS", 
+                "ed_gcs_sum", "intub", "pre_gcs_sum", "pt_regions", "inj_dominant", "severe_penetrating", "cohort", "OFI_categories", "preventable_death", "month_surv")
 table_dataset <- new.dataset[, table_cols]
 
 # Remove rows with missing values only for the columns included in the table
 table_dataset <- table_dataset[complete.cases(table_dataset), ]
-
+ + 
 # Create the table with the cleaned dataset
-pt_demographics <- table1(~ OFI_categories + pt_age_yrs + Gender + ed_gcs_sum  + ed_sbp_value + NISS + res_survival | cohort, data=table_dataset, caption="\\textbf{Demographics}", overall = FALSE)
+pt_demographics <- table1(~ cohort + pt_age_yrs + Gender + num_severe_regions  + severe_head_injury + low_GCS + ed_gcs_sum + intub +  pre_gcs_sum + pt_regions + inj_dominant + severe_penetrating + preventable_death + month_surv | OFI_categories , data=table_dataset, caption="\\textbf{Demographics}", overall = FALSE)
 
 
 
 
-#####
+###########################
 # create regression model #
-###
+###########################
 # Convert categorical variables to factors
 new.dataset$OFI_categories <- factor(new.dataset$OFI_categories)
 new.dataset$cohort <- factor(new.dataset$cohort)
 new.dataset$Gender <- factor(new.dataset$Gender)
+new.dataset$preventable_death <- factor(new.dataset$preventable_death)
+new.dataset$month_surv <- factor(new.dataset$month_surv)
+
 
 # Re-code the OFI_categories variable so that "Exemplary treatment" is the new reference category
-new.dataset$OFI_categories <- relevel(new.dataset$OFI_categories, ref = "Exemplary treatment")
+new.dataset$OFI_categories <- relevel(new.dataset$OFI_categories, ref = "No ofi")
 
-# Create multinomial logistic regression model'
-my_log <- multinom( OFI_categories ~ cohort + pt_age_yrs + Gender, data = new.dataset)
+# Creating the unadjusted logistic regression model for cohorts 
+my_log_unad <- multinom (OFI_categories ~ cohort, data = new.dataset)
 
-# View the results
-summary(my_log)
+# Logistic regression,  preventable death 
+my_log_preventable <- multinom (OFI_categories ~ preventable_death, data = new.dataset)
 
-new.dataset %>% select(OFI_categories, cohort, pt_age_yrs, Gender) %>% skim()
+# Logistic regression, age 
+my_log_age <- multinom (OFI_categories ~ pt_age_yrs, data = new.dataset)
+
+#Logistic regression, Gender 
+my_log_gender <- multinom (OFI_categories ~ Gender, data = new.dataset)
+
+#Logistic regression, month_surv
+my_log_surv <- multinom (OFI_categories ~ month_surv, data = new.dataset)
+
+
+# Logistic regression 
+my_log_prevent_res_surv <- multinom (preventable_death ~ month_surv, data = new.dataset)
+
+  
+# Create ajdusted multinomial logistic regression model
+my_log_adj <- multinom( OFI_categories ~ cohort + pt_age_yrs + Gender + month_surv + preventable_death, data = new.dataset)
+
+
+
+
+
+####################
+# View the results##
+####################
+
+# Summary od adjusted model 
+summary(my_log_adj)
+
+# Load the stargazer package for table creation
+library(stargazer)
+
+
+
+
+
+
+#################
+## Other tests ##
+#################
+
+# Load the dplyr package for data manipulation
+library(dplyr)
+
+# Create a summary table of preventable vs. non-preventable deaths
+table_preventable<- new.dataset %>%
+  group_by(preventable_death) %>%
+  summarize( "Deaths within 30 days"= sum(month_surv == "dead", na.rm = TRUE))
+
+# Print the summary table
+print(table_preventable)
+
+
+# Perform a chi-square test of preventable death vs. res_surv
+chisq.test(chisq.test())
+
+new.dataset %>% select(OFI_categories, cohort, pt_age_yrs, Gender, preventable_death) %>% skim()
 
 library(vcd)
 
@@ -219,3 +290,4 @@ cont_table <- table(new.dataset$cohort, new.dataset$OFI_categories)
 
 # calculate the association statistics
 assocstats(cont_table)
+
