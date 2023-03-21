@@ -191,17 +191,20 @@ new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Hand
 #Create table1##
 ################
 
+library(descr)
 
-# Get the subset of your dataset that includes only the columns needed for the table
-table_cols <- c("OFI_categories", "pt_age_yrs", "Gender", "num_severe_regions", "severe_head_injury", "low_GCS", 
-                "ed_gcs_sum", "intub", "pre_gcs_sum", "pt_regions", "inj_dominant", "severe_penetrating", "cohort", "OFI_categories", "preventable_death", "month_surv")
+library(labelled)
+
+# Get the subset of your combined dataset that includes only the columns needed for the table
+table_cols <- c("OFI_categories", "pt_age_yrs", "Gender", "severe_head_injury", "low_GCS", 
+                "ed_gcs_sum", "intub", "pre_gcs_sum", "pt_regions", "inj_dominant", "Severe_penetrating", "cohort", "OFI_categories", "preventable_death", "month_surv")
 table_dataset <- new.dataset[, table_cols]
 
 # Remove rows with missing values only for the columns included in the table
-table_dataset <- table_dataset[complete.cases(table_dataset), ]
- + 
+table_dataset <- table_dataset[complete.cases(table_dataset),]
+
 # Create the table with the cleaned dataset
-pt_demographics <- table1(~ cohort + pt_age_yrs + Gender + num_severe_regions  + severe_head_injury + low_GCS + ed_gcs_sum + intub +  pre_gcs_sum + pt_regions + inj_dominant + severe_penetrating + preventable_death + month_surv | OFI_categories , data=table_dataset, caption="\\textbf{Demographics}", overall = FALSE)
+pt_demographics <- table1(~ cohort + pt_age_yrs + Gender + severe_head_injury + low_GCS + ed_gcs_sum + intub +  pre_gcs_sum + pt_regions + inj_dominant + Severe_penetrating + preventable_death + month_surv | OFI_categories , data=table_dataset, caption="\\textbf{Demographics}", overall = FALSE)
 
 
 
