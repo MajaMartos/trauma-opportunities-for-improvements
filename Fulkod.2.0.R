@@ -227,15 +227,19 @@ pt_demographics <- table1(~ cohort + pt_age_yrs + Gender + severe_head_injury + 
 # create regression model #
 ###########################
 # Convert categorical variables to factors
+## JA, säkerställ att prev death ligger här inne och att alla övriga NA == other.
 new.dataset$OFI_categories <- factor(new.dataset$OFI_categories)
+## JA: Lägg till en Other column för de som är NA i cohorts.
 new.dataset$cohort <- factor(new.dataset$cohort)
+
 new.dataset$Gender <- factor(new.dataset$Gender)
 ##JA: Notera att du nu kör prev death som en oberoende variable men det ska vara en del av OFI_categories och alltså en del av din beroende variabel. 
 
 new.dataset$preventable_death <- factor(new.dataset$preventable_death)
+##JA: Om patienten lever så ska prev death vara 0.
 new.dataset$month_surv <- factor(new.dataset$month_surv)
 
-
+## JA: När du fyllt i ovan faktorer med värden istället för NA så kan du köra complete case.
  
 
 # Re-code the OFI_categories variable so that "Exemplary treatment" is the new reference category
