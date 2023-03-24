@@ -157,7 +157,7 @@ create_cohorts <- function(dataset) {
 source("create_cohorts.R")
 new.dataset <- create_cohorts(combined.dataset)
 
-## JA: Lägger till en other collumn i cohort för att inte ta bort de som ej delas in. Får se om vi behåller.
+## JA: Lägger till "other cohort" för att inte behöva exkludera. Får se om vi behåller.
 new.dataset$cohort <- as.character(new.dataset$cohort)
 new.dataset[is.na(new.dataset$cohort), "cohort"] <- "other cohort"
 
@@ -247,6 +247,7 @@ view(new.dataset[new.dataset$OFI_categories == "random",])
 # create regression model #
 ###########################
 # Convert categorical variables to factors
+########
 ## JA, säkerställ att prev death ligger här inne och att alla övriga NA == other.
 new.dataset$OFI_categories <- factor(new.dataset$OFI_categories)
 ## JA: Lägg till en Other column för de som är NA i cohorts.
@@ -267,6 +268,79 @@ new.dataset$OFI_categories <- relevel(new.dataset$OFI_categories, ref = "No ofi"
 
 # Creating the unadjusted logistic regression model for cohorts 
 my_log_unad <- multinom (OFI_categories ~ cohort, data = new.dataset)
+
+################################################
+## Räkna ut p-värden och OR för icke justerade #
+################################################
+
+# Z värden
+z_wout <- summary(my_log_unad)$coefficients/summary(my_log_unad)$standard.errors
+z_wout
+
+# p värden
+p_values <- as.data.frame((1 - pnorm(abs(z_wout), 0, 1)) * 2)
+p_values
+colnames(p_values) <- paste(colnames(p_values), "_p_value", sep = "")
+
+# funktion för att sätta bokstäver istället för siffror så det blir tydligare. Snodd från nätet.
+sign_levels_df_letter <- function(df) {
+  df <- ifelse(df >.80, "Z", ifelse(df >.50, "FFF",
+                                    ifelse( df >.30, "FF",
+                                            ifelse(df >.10 , "F", 
+                                                   ifelse(df <= 0.0001, "AAA",
+                                                          ifelse(df <= .0005,"AA+",
+                                                                 ifelse(df <= .001,"AA",
+                                                                        ifelse(df <= .005, "A+",
+                                                                               ifelse (df<= .01, "A",
+                                                                                       ifelse(df<= .05, "A-",
+                                                                                              ifelse(df <=.07, "B",
+                                                                                                     ifelse(df <=.10, "C", NA
+                                                                                                            
+                                                                                                     ))))))))))))
+  
+  
+  return(df)
+}
+
+
+p_values_text = sign_levels_df_letter(p_values)
+
+
+
+#install.packages("dplyr")
+library(dplyr)
+
+
+
+# Extract the coefficients
+coef_values <- coef(my_log_unad)
+
+# Exponentiate the coefficients to get the odds ratios
+or <- as.data.frame(exp(coef_values))
+
+# Print the odds ratios
+## Combine OR and p-value
+table <- cbind(or, p_values)
+
+## Byt ordning så att OR följs av P-värde.
+
+table <- table %>% select(
+  "(Intercept)",
+  "(Intercept)_p_value",
+  "cohortblunt multisystem without TBI",
+  "cohortblunt multisystem without TBI_p_value",
+  "cohortIsolated severe TBI",
+  "cohortIsolated severe TBI_p_value",
+  "cohortother cohort",
+  "cohortother cohort_p_value",
+  "cohortsevere penetrating",
+  "cohortsevere penetrating_p_value"
+) # add this parenthesis
+
+view(table)
+
+
+#####
 
 # Logistic regression,  preventable death 
 my_log_preventable <- multinom (OFI_categories ~ preventable_death, data = new.dataset)
