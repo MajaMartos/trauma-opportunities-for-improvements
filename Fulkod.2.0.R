@@ -157,18 +157,34 @@ create_cohorts <- function(dataset) {
 source("create_cohorts.R")
 new.dataset <- create_cohorts(combined.dataset)
 
+## JA: Lägger till en other collumn i cohort för att inte ta bort de som ej delas in. Får se om vi behåller.
+new.dataset$cohort <- as.character(new.dataset$cohort)
+new.dataset[is.na(new.dataset$cohort), "cohort"] <- "other cohort"
+
+#table(new.dataset$cohort)
 #Creating column where possibly preventable death and preventable deaths are merged 
 
 # JA: Skulle kalla alla "possible preventable" istället för preventable.
 # de få fall som är riktigt preventable är känsliga ärenden och vi bör verkligen förtydliga att vi inte har så många riktiga preventable
+# Har även lagt till "survival" om patienterna överlevt, för annars har de NA i preventable 
+
+# OBS: Det är något galet med summan "non-preventable" så jag måste titta igenom igen.
 new.dataset$preventable_death <- ifelse(new.dataset$Fr1.14 == 2 | new.dataset$Fr1.14 == 3, "preventable", "non-preventable")
+
+new.dataset$preventable_death <- ifelse(is.na(new.dataset$preventable_death) == TRUE & new.dataset$res_survival == 2, "survived", new.dataset$preventable_death)
+
+table(new.dataset$preventable_death)
 
 #Creating coulmn for 30-day survival
 new.dataset$month_surv <- ifelse(new.dataset$res_survival == 2,  "alive", "dead")
 
+
+
+## JA: Fixade preventable genom att stava "preventable" istället för "Preventable". Det var också 10 andra patienter som hade varianter av nedan som stavades annorlunda. Nu är det korrekt ;) 
+
 ### Detta verkar fungera bra, men obs: I riktiga analysen så ska preventable death in som ett fel i kolumnen OFI_categories och inte vara fristående. 
 new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Handläggning", "Handläggning/logistik", 
-                                                                           "kompetensbrist", "Vårdnivå", 
+                                                                           "kompetensbrist","kompetens brist", "Vårdnivå", 
                                                                            "Triage på akm", "Triage på akutmottagningen"), 
                                      "Clinical judgement error", 
                                      
@@ -181,18 +197,21 @@ new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Hand
                                                    ifelse(new.dataset$Problemomrade_.FMP %in% c("Logistik/teknik"), 
                                                           "Technical errors",
                                                           
-                                                          ifelse(new.dataset$Problemomrade_.FMP %in% c("Traumakriterier/styrning", "Dokumetation", "Kommunikation", "Tertiär survey",
-                                                                                                       "Bristande rutin", "Neurokirurg","Resurs"), 
+                                                          ifelse(new.dataset$Problemomrade_.FMP %in% c("Traumakriterier/styrning", "Dokumentation","Dokumetation", "Kommunikation", "Tertiär survey",
+                                                                                                       "Bristande rutin","bristande rutin", "Neurokirurg","Resurs"), 
                                                                  "Other",
                                                                  
-                                                                 ifelse(new.dataset$preventable_death %in% c("Preventable"), 
+                                                                 ifelse(new.dataset$preventable_death %in% c("preventable"), 
                                                                         "Preventability",
               
                                                           ifelse(new.dataset$ofi %in% c("No"), 
                                                                  "No ofi",
-                                                          "")))))))
+                                                          "random")))))))
 
 table(new.dataset$OFI_categories)
+
+
+
 ################
 #Create table1##
 ################
@@ -203,9 +222,10 @@ library(labelled)
 
 # Get the subset of your combined dataset that includes only the columns needed for the table
 
-## JA: I slutgiltiga varianten bör vi nog slå ihop/ev ta bort några av dessa. Men är fine nu tycker jag.
+## JA: I slutgiltiga varianten bör vi justera detta, slå ihop ev ta bort något. Men fungerar nu.
+## Har dock tagit bort pt_region (vilket bara sammanfattade antal alv skador centralt)
 table_cols <- c("OFI_categories", "pt_age_yrs", "Gender", "severe_head_injury", "low_GCS", 
-                "ed_gcs_sum", "intub", "pre_gcs_sum", "pt_regions", "inj_dominant", "Severe_penetrating", "cohort", "OFI_categories", "preventable_death", "month_surv")
+                "ed_gcs_sum", "intub", "pre_gcs_sum", "inj_dominant", "Severe_penetrating", "cohort", "OFI_categories", "preventable_death", "month_surv")
 table_dataset <- new.dataset[, table_cols]
 
 # Remove rows with missing values only for the columns included in the table
@@ -220,7 +240,7 @@ table_dataset <- new.dataset
 # Create the table with the cleaned dataset
 pt_demographics <- table1(~ cohort + pt_age_yrs + Gender + severe_head_injury + low_GCS + ed_gcs_sum + intub +  pre_gcs_sum + pt_regions + inj_dominant + Severe_penetrating + preventable_death + month_surv | OFI_categories , data=table_dataset, caption="\\textbf{Demographics}", overall = FALSE)
 
-
+view(new.dataset[new.dataset$OFI_categories == "random",])
 
 
 ###########################
@@ -239,7 +259,7 @@ new.dataset$preventable_death <- factor(new.dataset$preventable_death)
 ##JA: Om patienten lever så ska prev death vara 0.
 new.dataset$month_surv <- factor(new.dataset$month_surv)
 
-## JA: När du fyllt i ovan faktorer med värden istället för NA så kan du köra complete case.
+## JA: När du fyllt i ovan faktorer med värden istället för NA så kan du köra complete case bara på age, gender, low_GCS (inte övriga GCS).
  
 
 # Re-code the OFI_categories variable so that "Exemplary treatment" is the new reference category
