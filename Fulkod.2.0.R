@@ -7,7 +7,6 @@ combined.dataset <- rofi::merge_data(data)
 
 ## Create OFI column
 combined.dataset$ofi <- rofi::create_ofi(combined.dataset)
-combined.dataset <- clean_all_predictors(combined.dataset)
 
 #packages 
 library(dplyr)
@@ -27,6 +26,8 @@ combined.dataset <- combined.dataset[!missing.outcome,]
 ## remove patients < 15 years
 combined.dataset <- combined.dataset[combined.dataset$pt_age_yrs > 14,]
 
+## JA: Tillse att du laddar in funktioner innan du använder dem, så source() Bör vara tidigt. Mitt förslag är att lägga alla högst upp tillsammans med när du laddar paket. 
+
 ## Fix formating and remove wrong values like 999
 source("clean_all_predictors.R")
 combined.dataset <- clean_all_predictors(combined.dataset)
@@ -38,7 +39,7 @@ combined.dataset <- clean_audit_filters(combined.dataset)
 # Clean data 
 source("clean_all_predictors.R")
 
-
+source("clean_audit_filters.R")
 ## clean Audit filters
 combined.dataset <- clean_audit_filters(combined.dataset)
 
@@ -47,7 +48,7 @@ source("clean_all_predictors.R")
 
 
 
-
+### Skippa denna funktion och kör istället bara source("create_cohorts.R") Är något galet med den och tar onödig plats.
 
 create_cohorts <- function(dataset) {
   
@@ -152,17 +153,38 @@ create_cohorts <- function(dataset) {
   
   return(dataset)
 }
+
+source("create_cohorts.R")
 new.dataset <- create_cohorts(combined.dataset)
 
+## JA: Lägger till "other cohort" för att inte behöva exkludera. Får se om vi behåller.
+new.dataset$cohort <- as.character(new.dataset$cohort)
+new.dataset[is.na(new.dataset$cohort), "cohort"] <- "other cohort"
+
+#table(new.dataset$cohort)
 #Creating column where possibly preventable death and preventable deaths are merged 
+
+# JA: Skulle kalla alla "possible preventable" istället för preventable.
+# de få fall som är riktigt preventable är känsliga ärenden och vi bör verkligen förtydliga att vi inte har så många riktiga preventable
+# Har även lagt till "survival" om patienterna överlevt, för annars har de NA i preventable 
+
+# OBS: Det är något galet med summan "non-preventable" så jag måste titta igenom igen.
 new.dataset$preventable_death <- ifelse(new.dataset$Fr1.14 == 2 | new.dataset$Fr1.14 == 3, "preventable", "non-preventable")
+
+new.dataset$preventable_death <- ifelse(is.na(new.dataset$preventable_death) == TRUE & new.dataset$res_survival == 2, "survived", new.dataset$preventable_death)
+
+table(new.dataset$preventable_death)
 
 #Creating coulmn for 30-day survival
 new.dataset$month_surv <- ifelse(new.dataset$res_survival == 2,  "alive", "dead")
 
 
+
+## JA: Fixade preventable genom att stava "preventable" istället för "Preventable". Det var också 10 andra patienter som hade varianter av nedan som stavades annorlunda. Nu är det korrekt ;) 
+
+### Detta verkar fungera bra, men obs: I riktiga analysen så ska preventable death in som ett fel i kolumnen OFI_categories och inte vara fristående. 
 new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Handläggning", "Handläggning/logistik", 
-                                                                           "kompetensbrist", "Vårdnivå", 
+                                                                           "kompetensbrist","kompetens brist", "Vårdnivå", 
                                                                            "Triage på akm", "Triage på akutmottagningen"), 
                                      "Clinical judgement error", 
                                      
@@ -175,56 +197,150 @@ new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Hand
                                                    ifelse(new.dataset$Problemomrade_.FMP %in% c("Logistik/teknik"), 
                                                           "Technical errors",
                                                           
-                                                          ifelse(new.dataset$Problemomrade_.FMP %in% c("Traumakriterier/styrning", "Dokumetation", "Kommunikation", "Tertiär survey",
-                                                                                                       "Bristande rutin", "Neurokirurg","Resurs"), 
+                                                          ifelse(new.dataset$Problemomrade_.FMP %in% c("Traumakriterier/styrning", "Dokumentation","Dokumetation", "Kommunikation", "Tertiär survey",
+                                                                                                       "Bristande rutin","bristande rutin", "Neurokirurg","Resurs"), 
                                                                  "Other",
                                                                  
-                                                                 ifelse(new.dataset$preventable_death %in% c("Preventable"), 
+                                                                 ifelse(new.dataset$preventable_death %in% c("preventable"), 
                                                                         "Preventability",
               
                                                           ifelse(new.dataset$ofi %in% c("No"), 
                                                                  "No ofi",
-                                                          "")))))))
+                                                          "random")))))))
+
+table(new.dataset$OFI_categories)
+
 
 
 ################
 #Create table1##
 ################
-
+#install.packages("descr")
 library(descr)
 
 library(labelled)
 
 # Get the subset of your combined dataset that includes only the columns needed for the table
+
+## JA: I slutgiltiga varianten bör vi justera detta, slå ihop ev ta bort något. Men fungerar nu.
+## Har dock tagit bort pt_region (vilket bara sammanfattade antal alv skador centralt)
 table_cols <- c("OFI_categories", "pt_age_yrs", "Gender", "severe_head_injury", "low_GCS", 
-                "ed_gcs_sum", "intub", "pre_gcs_sum", "pt_regions", "inj_dominant", "Severe_penetrating", "cohort", "OFI_categories", "preventable_death", "month_surv")
+                "ed_gcs_sum", "intub", "pre_gcs_sum", "inj_dominant", "Severe_penetrating", "cohort", "OFI_categories", "preventable_death", "month_surv")
 table_dataset <- new.dataset[, table_cols]
 
 # Remove rows with missing values only for the columns included in the table
-table_dataset <- table_dataset[complete.cases(table_dataset),]
+
+## JA: Innan du tar complete.cases() så måste man ha fyllt vissa NA med någon variabel. EXV så har alla som inte dör NA i preventable death columnen, de exkluderas nu.
+## Förslag är att skippa detta nu så blir det tydligare med riktiga datan.
+# table_dataset <- table_dataset[complete.cases(table_dataset),] 
+table_dataset <- new.dataset
+
+# JA: Detta genererar en relativt fin tabell. Fundera på rubriken.
 
 # Create the table with the cleaned dataset
 pt_demographics <- table1(~ cohort + pt_age_yrs + Gender + severe_head_injury + low_GCS + ed_gcs_sum + intub +  pre_gcs_sum + pt_regions + inj_dominant + Severe_penetrating + preventable_death + month_surv | OFI_categories , data=table_dataset, caption="\\textbf{Demographics}", overall = FALSE)
 
-
+view(new.dataset[new.dataset$OFI_categories == "random",])
 
 
 ###########################
 # create regression model #
 ###########################
 # Convert categorical variables to factors
+########
+## JA, säkerställ att prev death ligger här inne och att alla övriga NA == other.
 new.dataset$OFI_categories <- factor(new.dataset$OFI_categories)
+## JA: Lägg till en Other column för de som är NA i cohorts.
 new.dataset$cohort <- factor(new.dataset$cohort)
+
 new.dataset$Gender <- factor(new.dataset$Gender)
+##JA: Notera att du nu kör prev death som en oberoende variable men det ska vara en del av OFI_categories och alltså en del av din beroende variabel. 
+
 new.dataset$preventable_death <- factor(new.dataset$preventable_death)
+##JA: Om patienten lever så ska prev death vara 0.
 new.dataset$month_surv <- factor(new.dataset$month_surv)
 
+## JA: När du fyllt i ovan faktorer med värden istället för NA så kan du köra complete case bara på age, gender, low_GCS (inte övriga GCS).
+ 
 
 # Re-code the OFI_categories variable so that "Exemplary treatment" is the new reference category
 new.dataset$OFI_categories <- relevel(new.dataset$OFI_categories, ref = "No ofi")
 
 # Creating the unadjusted logistic regression model for cohorts 
 my_log_unad <- multinom (OFI_categories ~ cohort, data = new.dataset)
+
+################################################
+## Räkna ut p-värden och OR för icke justerade #
+################################################
+
+# Z värden
+z_wout <- summary(my_log_unad)$coefficients/summary(my_log_unad)$standard.errors
+z_wout
+
+# p värden
+p_values <- as.data.frame((1 - pnorm(abs(z_wout), 0, 1)) * 2)
+p_values
+colnames(p_values) <- paste(colnames(p_values), "_p_value", sep = "")
+
+# funktion för att sätta bokstäver istället för siffror så det blir tydligare. Snodd från nätet.
+sign_levels_df_letter <- function(df) {
+  df <- ifelse(df >.80, "Z", ifelse(df >.50, "FFF",
+                                    ifelse( df >.30, "FF",
+                                            ifelse(df >.10 , "F", 
+                                                   ifelse(df <= 0.0001, "AAA",
+                                                          ifelse(df <= .0005,"AA+",
+                                                                 ifelse(df <= .001,"AA",
+                                                                        ifelse(df <= .005, "A+",
+                                                                               ifelse (df<= .01, "A",
+                                                                                       ifelse(df<= .05, "A-",
+                                                                                              ifelse(df <=.07, "B",
+                                                                                                     ifelse(df <=.10, "C", NA
+                                                                                                            
+                                                                                                     ))))))))))))
+  
+  
+  return(df)
+}
+
+
+p_values_text = sign_levels_df_letter(p_values)
+
+
+
+#install.packages("dplyr")
+library(dplyr)
+
+
+
+# Extract the coefficients
+coef_values <- coef(my_log_unad)
+
+# Exponentiate the coefficients to get the odds ratios
+or <- as.data.frame(exp(coef_values))
+
+# Print the odds ratios
+## Combine OR and p-value
+table <- cbind(or, p_values)
+
+## Byt ordning så att OR följs av P-värde.
+
+table <- table %>% select(
+  "(Intercept)",
+  "(Intercept)_p_value",
+  "cohortblunt multisystem without TBI",
+  "cohortblunt multisystem without TBI_p_value",
+  "cohortIsolated severe TBI",
+  "cohortIsolated severe TBI_p_value",
+  "cohortother cohort",
+  "cohortother cohort_p_value",
+  "cohortsevere penetrating",
+  "cohortsevere penetrating_p_value"
+) # add this parenthesis
+
+view(table)
+
+
+#####
 
 # Logistic regression,  preventable death 
 my_log_preventable <- multinom (OFI_categories ~ preventable_death, data = new.dataset)
@@ -255,13 +371,25 @@ my_log_adj <- multinom( OFI_categories ~ cohort + pt_age_yrs + Gender + month_su
 ####################
 
 # Summary od adjusted model 
-summary(my_log_adj)
+model <- summary(my_log_adj)
 
 # Load the stargazer package for table creation
 library(stargazer)
 
+coef_model <- coef(model)
+
+# Compute odds ratios 
+odds_ratios <- exp(coef_model)
+
+## and p-values
+z_model <- model$coefficients/model$standard.errors
+  
+  # 2-tailed z test
+  p_values <- (1 - pnorm(abs(z_model), 0, 1)) * 2
 
 
+# Combine odds ratios and p-values into a data frame
+results_df <- data.frame(odds_ratios, p_values)
 
 
 
