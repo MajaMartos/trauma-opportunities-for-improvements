@@ -26,8 +26,7 @@ source("main.R") ## This "imports" the main script file of your project and run 
 ```
  
 
-# Introduction
-
+**Introduction**
 
 Trauma, clinically defined as physical injury and the body´s associated response, cause 4.4 million deaths every year worldwide [@who2021]. However, mortality and morbidity related to trauma have been significantly reduced in modern countries since the introduction of trauma systems [@alharbi2021]. Trauma systems have a long tradition within the military but were not implemented in civil health care until the 1960s-1970s when the report “Accidental Death and Disability: The Neglected Disease of Modern Society” was published in the US in 1966 [@choi2021]. Since then, trauma systems have been put into practice in most modern countries with the aim to coordinate and improve management of critically injured patients, from onset of injury to high-level care in designated trauma centers [@nsw2023]. 
 
@@ -106,6 +105,7 @@ We will study data of patients registered in both the Swedish trauma registry fr
 The primary outcome was opportunities for improvements (OFI) detected by the M&M teams at the Karolinska University hospital. The variable is categorical with the OFIs listed below as possible outcomes.  The exposure were different patient cohorts grouped by mechanism of injury, (1) blunt multisystem trauma with traumatic brain injury, (2) blunt multisystem trauma without traumatic brain injury, (3) penetrating trauma, (4) isolated severe traumatic brain injury. Each cohort studied was distinguished according to definitions provided by the ACS. 
 
 
+
 <!-- 
 * Blunt multisystem trauma: Blunt trauma with injuries of Abbreviated Injury Score (AIS) ≥ 3 in at least two of the following AIS body regions: head, face, neck, thorax, abdomen, spine, or upper and lower extremities.
 * Blunt multisystem trauma without traumatic brain injury: Blunt trauma with injuries of AIS ≥ 3 limited to only one AIS body region, with all other body regions having a maximum AIS of 2. 
@@ -142,6 +142,11 @@ The Swedish trauma registry SweTrau includes all trauma patients with a NISS >15
 
 In this study, all patients within the Karolinska University hospital trauma quality registry reviewed at a M&M conference were included. For these patients, data from the Swedish trauma registry by SweTrau were collected to a merged dataset. The merged dataset was then divided into four cohorts; (1) blunt multisystem trauma with traumatic brain injury, (2) blunt multisystem trauma without traumatic brain injury, (3) penetrating trauma, (4) isolated severe traumatic brain injury. 
 
+```{r ofi-flowchart, out.width="100%",fig.cap=" Flowchart describing the exclusions made and the process of trauma cases from arrival until OFI decision.", echo=FALSE, fig.align='center'}
+# Flowchart figure
+ knitr::include_graphics("ofi-flowchart.pdf")
+```
+
 
 
 **Bias** 
@@ -153,12 +158,9 @@ To prevent bias, the multivariable regression model was developed using a simula
 
 ## Results
 
-<!--I just wanted to show how to get the flowchart, see the create_flowchart.R file for details and if you might want to change anything. Note that the numbers are off because of scrambled data -->
+... patients were included in the study. All patients included belonged to one of the patient cohorts presented in table1, from the trauma quality registry of the Karolinska University Hospital. Patients Demographics, patient cohorts and the areas of opportunitites for improvement are shown in table1. 
 
-```{r ofi-flowchart, out.width="100%",fig.cap=" Flowchart describing the exclusions made and the process of trauma cases from arrival until OFI decision.", echo=FALSE, fig.align='center'}
-# Flowchart figure
- knitr::include_graphics("ofi-flowchart.pdf")
-```
+
 
 ## References
 
