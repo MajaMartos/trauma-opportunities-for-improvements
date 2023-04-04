@@ -25,14 +25,14 @@ library(knitr)
 ## Fix formating and remove wrong values like 999
 source("clean_all_predictors.R")
 combined.dataset <- clean_all_predictors(combined.dataset)
-
+source("clean_audit_filters.R")
 ## clean Audit filters
 combined.dataset <- clean_audit_filters(combined.dataset)
 
 # Clean data 
 source("clean_all_predictors.R")
 
-source("clean_audit_filters.R")
+
 ## clean Audit filters
 combined.dataset <- clean_audit_filters(combined.dataset)
 
@@ -97,7 +97,7 @@ new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Hand
                                                                         "Possibly preventable", 
                                                                         "Other"
                                                       )))))))
-table(new.dataset$OFI_categories)
+#table(new.dataset$OFI_categories)
 
 #################
 #Create table 1##
@@ -120,7 +120,6 @@ table_dataset <- new.dataset
 # Create the table with the cleaned dataset
 pt_demographics <- table1(~ cohort + pt_age_yrs + Gender + severe_head_injury + low_GCS + ed_gcs_sum + intub +  pre_gcs_sum + pt_regions + inj_dominant + Severe_penetrating + preventable_death + month_surv | OFI_categories , data=table_dataset, caption="\\textbf{Demographics}", overall = FALSE)
 
-view(new.dataset[new.dataset$OFI_categories == "random",])
 
 #########################################
 #Create Table 2 -  exclusion/ inclusion #
@@ -146,7 +145,7 @@ loss_table <- table(
 )
 
 # Print loss table
-print(loss_table)
+#print(loss_table)
 
 
 ###################################
@@ -155,20 +154,20 @@ print(loss_table)
 
 
 # Group the data by OFI category and OFI name, and count the occurrences
-ofi_summary <- new.dataset %>%
-  group_by(OFI_categories, ofi) %>%
-  summarise(count = sum(!is.na(ofi))) %>%
-  ungroup()
+#ofi_summary <- new.dataset %>%
+#  group_by(OFI_categories, ofi) %>%
+#  summarise(count = sum(!is.na(ofi))) %>%
+#  ungroup()
 
 # Pivot the data to create a wide format summary table
-ofi_table <- ofi_summary %>%
-  pivot_wider(names_from = ofi, values_from = count, values_fill = 0)
+#ofi_table <- ofi_summary %>%
+#  pivot_wider(names_from = ofi, values_from = count, values_fill = 0)
 
 # Rename the columns
-colnames(ofi_table)[1] <- "OFI categories"
+#colnames(ofi_table)[1] <- "OFI categories"
 
 # Print the summary table
-knitr::kable(ofi_table)
+#knitr::kable(ofi_table)
 
 
 
@@ -200,11 +199,11 @@ my_log_unad <- multinom (OFI_categories ~ cohort, data = new.dataset)
 
 # Z värden
 z_wout <- summary(my_log_unad)$coefficients/summary(my_log_unad)$standard.errors
-z_wout
+#z_wout
 
 # p värden
 p_values <- as.data.frame((1 - pnorm(abs(z_wout), 0, 1)) * 2)
-p_values
+#p_values
 colnames(p_values) <- paste(colnames(p_values), "_p_value", sep = "")
 
 # funktion för att sätta bokstäver istället för siffror så det blir tydligare. Snodd från nätet.
@@ -262,7 +261,7 @@ table <- table %>% select(
   "cohortsevere penetrating_p_value"
 ) # add this parenthesis
 
-view(table)
+#view(table)
 
 
 #####
@@ -289,30 +288,7 @@ my_log_adj <- multinom( OFI_categories ~ cohort + pt_age_yrs + Gender + month_su
 
 
 
-####################
-# View the results##
-####################
 
-# Summary od adjusted model 
-model <- summary(my_log_adj)
-
-# Load the stargazer package for table creation
-library(stargazer)
-
-coef_model <- coef(model)
-
-# Compute odds ratios 
-odds_ratios <- exp(coef_model)
-
-## and p-values
-z_model <- model$coefficients/model$standard.errors
-  
-  # 2-tailed z test
-  p_values <- (1 - pnorm(abs(z_model), 0, 1)) * 2
-
-
-# Combine odds ratios and p-values into a data frame
-results_df <- data.frame(odds_ratios, p_values)
 
 
 
