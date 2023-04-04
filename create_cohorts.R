@@ -74,6 +74,8 @@ dataset$severe_head_injury <- apply(dataset,  1, severe_head_injury)
 
 dataset$low_GCS <- with(dataset, 
                                  (ed_gcs_sum <= 8 | (is.na(ed_gcs_sum) & intub == 3 & pre_gcs_sum <= 8)))
+dataset$low_GCS <- ifelse(is.na(dataset$low_GCS), "other", dataset$low_GCS)
+
 
 # If a low GCS and Severe head injury is present then its a severe TBI
 dataset$TBI <- (dataset$severe_head_injury == TRUE) & (dataset$low_GCS == TRUE) 

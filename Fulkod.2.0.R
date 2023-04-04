@@ -45,7 +45,7 @@ missing.outcome <- is.na(combined.dataset$ofi)
 combined.dataset <- combined.dataset[!missing.outcome,]
 
 ## remove patients < 15 years
-combined.dataset <- combined.dataset[combined.dataset$pt_age_yrs > 14,]
+#combined.dataset <- combined.dataset[combined.dataset$pt_age_yrs > 14,]
 
 
 ## Create cohorts 
@@ -59,7 +59,8 @@ new.dataset[is.na(new.dataset$cohort), "cohort"] <- "other cohort"
 table(new.dataset$cohort)
 
 #Creating column where possibly preventable death and preventable deaths are merged 
-new.dataset$preventable_death <- ifelse(new.dataset$Fr1.14 == 2 | new.dataset$Fr1.14 == 3, " possibly preventable", "non-preventable")
+new.dataset$preventable_death <- ifelse(new.dataset$Fr1.14 == 2 | new.dataset$Fr1.14 == 3, "possibly preventable", "non-preventable")
+new.dataset$preventable_death[is.na(new.dataset$preventable_death)] <- "other"
 new.dataset$preventable_death <- ifelse(is.na(new.dataset$preventable_death) == TRUE & new.dataset$res_survival == 2, "survived", new.dataset$preventable_death)
 table(new.dataset$preventable_death)
 
@@ -86,80 +87,21 @@ new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Hand
                                                           ifelse(new.dataset$Problemomrade_.FMP %in% c("Traumakriterier/styrning", "Dokumentation","Dokumetation", "Kommunikation", "Tertiär survey",
                                                                                                        "Bristande rutin","bristande rutin", "Neurokirurg","Resurs"), 
                                                                  "Other",
+                                              
                                                                  
-                                    
+  
               
                                                           ifelse(new.dataset$ofi %in% c("No"), 
                                                                  "No ofi", 
                                                                  ifelse(new.dataset$month_surv %in% c("dead") & new.dataset$preventable_death %in% c("possibly preventable"), 
                                                                         "Possibly preventable", 
-                                                                        "random"
+                                                                        "Other"
                                                       )))))))
-
 table(new.dataset$OFI_categories)
 
-
-########################################
-####HUVUDVÄRK###########################
-########################################
-
-# Create a table with the counts of each category of OFI
-ofi_table <- table(new.dataset$OFI_categories)
-
-# Format the table with kable()
-ofi_table_formatted <- kable(ofi_table, col.names = c("OFI categories", "Contains"), align = "c")
-
-# Print the formatted table
-ofi_table_formatted
-
-# Group the OFI names by their respective categories
-ofi_groups <- aggregate(new.dataset$ofi, by = list(new.dataset$OFI_categories), FUN = paste, collapse = ", ")
-
-# Rename the column names
-colnames(ofi_groups) <- c("OFI categories", "OFI names")
-
-# Format the table with kable()
-ofi_table_formatted <- kable(ofi_groups, col.names = c("OFI categories", "OFI names"), align = "c")
-
-# Print the formatted table
-ofi_table_formatted
-
-
-# Create a data frame with the OFI categories and corresponding OFIs
-ofi_df <- data.frame(
-  Category = c(
-    "Clinical judgement error",
-    "Missed diagnosis",
-    "Delay in treatment",
-    "Technical errors",
-    "Other",
-    "No ofi",
-    "Possibly preventable",
-    "Random"
-  ),
-  OFIs = c(
-    paste(new.dataset$ofi[new.dataset$Problemomrade_.FMP %in% c("Handläggning", "Handläggning/logistik", 
-                                                                "kompetensbrist","kompetens brist", "Vårdnivå", 
-                                                                "Triage på akm", "Triage på akutmottagningen")], collapse = ", "),
-    paste(new.dataset$ofi[new.dataset$Problemomrade_.FMP %in% c("Missad skada", "Lång tid till DT")], collapse = ", "),
-    paste(new.dataset$ofi[new.dataset$Problemomrade_.FMP %in% c("Lång tid till op")], collapse = ", "),
-    paste(new.dataset$ofi[new.dataset$Problemomrade_.FMP %in% c("Logistik/teknik")], collapse = ", "),
-    paste(new.dataset$ofi[new.dataset$Problemomrade_.FMP %in% c("Traumakriterier/styrning", "Dokumentation","Dokumetation", "Kommunikation", "Tertiär survey",
-                                                                "Bristande rutin","bristande rutin", "Neurokirurg","Resurs")], collapse = ", "),
-    paste(new.dataset$ofi[new.dataset$ofi == "No"], collapse = ", "),
-    paste(new.dataset$ofi[new.dataset$month_surv == "dead" & new.dataset$preventable_death == "possibly preventable"], collapse = ", "),
-    paste(new.dataset$ofi[new.dataset$Problemomrade_.FMP == "random"], collapse = ", ")
-  )
-)
-
-# Print the table
-knitr::kable(ofi_df)
-
-
-
-################
-#Create table1##
-################
+#################
+#Create table 1##
+#################
 
 # Get the subset of your combined dataset that includes only the columns needed for the table
 table_cols <- c("OFI_categories", "pt_age_yrs", "Gender", "severe_head_injury", "low_GCS", 
@@ -167,10 +109,10 @@ table_cols <- c("OFI_categories", "pt_age_yrs", "Gender", "severe_head_injury", 
 table_dataset <- new.dataset[, table_cols]
 
 # Remove rows with missing values only for the columns included in the table
-
 ## JA: Innan du tar complete.cases() så måste man ha fyllt vissa NA med någon variabel. EXV så har alla som inte dör NA i preventable death columnen, de exkluderas nu.
 ## Förslag är att skippa detta nu så blir det tydligare med riktiga datan.
-# table_dataset <- table_dataset[complete.cases(table_dataset),] 
+#table_dataset <- table_dataset[complete.cases(table_dataset),] 
+
 table_dataset <- new.dataset
 
 # JA: Detta genererar en relativt fin tabell. Fundera på rubriken.
@@ -180,27 +122,72 @@ pt_demographics <- table1(~ cohort + pt_age_yrs + Gender + severe_head_injury + 
 
 view(new.dataset[new.dataset$OFI_categories == "random",])
 
+#########################################
+#Create Table 2 -  exclusion/ inclusion #
+#########################################
+
+
+# Inclusuin
+exclusion_criteria <- (new.dataset$pt_age_yrs <= 15 & (new.dataset$NISS <= 15 | new.dataset$ISS <= 9))
+inclusion_criteria <- new.dataset$cohort %in% c("blunt multisystem with TBI", "blunt multisystem without TBI", "severe penetrating", "Isolated severe TBI")
+
+selected_patients <- new.dataset[!exclusion_criteria & inclusion_criteria,]
+
+
+# Create a table showing how many patients are lost at each step
+n_all_patients <- nrow(new.dataset)
+n_excluded_patients <- sum(exclusion_criteria)
+n_included_patients <- sum(inclusion_criteria)
+n_final_patients <- nrow(selected_patients)
+
+loss_table <- table(
+  c("All patients", "Exclusion criteria applied", "Inclusion criteria applied", "Final cohort selected"),
+  c(n_all_patients, n_excluded_patients, n_included_patients, n_final_patients)
+)
+
+# Print loss table
+print(loss_table)
+
+
+###################################
+#Create Table 3 -  OFI categories #
+###################################
+
+
+# Group the data by OFI category and OFI name, and count the occurrences
+ofi_summary <- new.dataset %>%
+  group_by(OFI_categories, ofi) %>%
+  summarise(count = sum(!is.na(ofi))) %>%
+  ungroup()
+
+# Pivot the data to create a wide format summary table
+ofi_table <- ofi_summary %>%
+  pivot_wider(names_from = ofi, values_from = count, values_fill = 0)
+
+# Rename the columns
+colnames(ofi_table)[1] <- "OFI categories"
+
+# Print the summary table
+knitr::kable(ofi_table)
+
+
 
 ###########################
 # create regression model #
 ###########################
+
 # Convert categorical variables to factors
-########
-## JA, säkerställ att prev death ligger här inne och att alla övriga NA == other.
+# MM: har gjort om alla NA  till other för preventable death, ofis, low_GCS 
+
 new.dataset$OFI_categories <- factor(new.dataset$OFI_categories)
-## JA: Lägg till en Other column för de som är NA i cohorts.
 new.dataset$cohort <- factor(new.dataset$cohort)
-
 new.dataset$Gender <- factor(new.dataset$Gender)
-##JA: Notera att du nu kör prev death som en oberoende variable men det ska vara en del av OFI_categories och alltså en del av din beroende variabel. 
-
-new.dataset$preventable_death <- factor(new.dataset$preventable_death)
-##JA: Om patienten lever så ska prev death vara 0.
 new.dataset$month_surv <- factor(new.dataset$month_surv)
+new.dataset$low_GCS <- factor(new.dataset$low_GCS)
 
 ## JA: När du fyllt i ovan faktorer med värden istället för NA så kan du köra complete case bara på age, gender, low_GCS (inte övriga GCS).
+# MM Har fyltlt i NA med others, men då finns inget syfte med complete cases? Har missförstått något 
  
-
 # Re-code the OFI_categories variable so that "Exemplary treatment" is the new reference category
 new.dataset$OFI_categories <- relevel(new.dataset$OFI_categories, ref = "No ofi")
 
@@ -331,90 +318,7 @@ results_df <- data.frame(odds_ratios, p_values)
 
 
 
-#################
-## Other tests ##
-#################
-
-# Load the dplyr package for data manipulation
-library(dplyr)
-
-# Create a summary table of preventable vs. non-preventable deaths
-table_preventable<- new.dataset %>%
-  group_by(preventable_death) %>%
-  summarize( "Deaths within 30 days"= sum(month_surv == "dead", na.rm = TRUE))
-
-# Print the summary table
-print(table_preventable)
-
-
-# Perform a chi-square test of preventable death vs. res_surv
-chisq.test(chisq.test())
-
-new.dataset %>% select(OFI_categories, cohort, pt_age_yrs, Gender, preventable_death) %>% skim()
-
-library(vcd)
-
-# create a contingency table between cohort and OFI_categories
-cont_table <- table(new.dataset$cohort, new.dataset$OFI_categories)
-
-# calculate the association statistics
-assocstats(cont_table)
-
-
-## Create table over inclusion criteria patient cohorts 
-
-cohort <- c("Blunt multisystem", "severe penetrating", "Severe TBI", "Shock", "Geriatric")
-Category <- c("Dominant injury type", "Dominant injury type", "ED GCS", "ED SBP", "Age")
-Missing <- c((nrow(fewer_variables)-nrow(known_dominant_injury)),(nrow(fewer_variables)-nrow(known_dominant_injury)), (nrow(fewer_variables)-nrow(known_gcs_or_intub_type)), (nrow(fewer_variables)-nrow(known_blood_pressure)), (nrow(fewer_variables)-nrow(known_age)))
-Missing_as_percent <- c( round(((nrow(fewer_variables)-nrow(known_dominant_injury))/nrow(fewer_variables)*100), digits = 2), round(((nrow(fewer_variables)-nrow(known_dominant_injury))/nrow(fewer_variables)*100), digits = 2), round(((nrow(fewer_variables)-nrow(known_gcs_or_intub_type))/nrow(fewer_variables)*100), digits = 2), round(((nrow(fewer_variables)-nrow(known_blood_pressure))/nrow(fewer_variables)*100), digits = 2), round(((nrow(fewer_variables)-nrow(known_age))/nrow(fewer_variables)*100), digits = 2))
-
-Exclusion_table <- new.dataset(Cohort, Category, Missing, Missing_as_percent)
-Exclusion_table
 
 
 
-#### MM: Fatter inte om det funkar eller inte. Förut fick jag possible preventable överallt när jag la det som en ofi###
 
-# Creating column with categories of OFIs based on different areas of improvement 
-OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Handläggning", "Handläggning/logistik", 
-                                                               "kompetensbrist","kompetens brist", "Vårdnivå", 
-                                                               "Triage på akm", "Triage på akutmottagningen"), 
-                         "Clinical judgement error", 
-                         
-                         ifelse(new.dataset$Problemomrade_.FMP %in% c("Missad skada", "Lång tid till DT"), 
-                                "Missed diagnosis", 
-                                
-                                ifelse(new.dataset$Problemomrade_.FMP %in% c("Lång tid till op"), 
-                                       "Delay in treatment", 
-                                       
-                                       ifelse(new.dataset$Problemomrade_.FMP %in% c("Logistik/teknik"), 
-                                              "Technical errors",
-                                              
-                                              ifelse(new.dataset$Problemomrade_.FMP %in% c("Traumakriterier/styrning", "Dokumentation","Dokumetation", "Kommunikation", "Tertiär survey",
-                                                                                           "Bristande rutin","bristande rutin", "Neurokirurg","Resurs"), 
-                                                     "Other",
-                                                     
-                                                     ifelse(new.dataset$ofi %in% c("No"), 
-                                                            "No ofi", 
-                                                            ifelse(new.dataset$month_surv %in% c("dead") & 
-                                                                     new.dataset$preventable_death %in% c("possibly preventable") & 
-                                                                     !grepl("Clinical judgement error|Missed diagnosis|Delay in treatment|Technical errors|Other", OFI_categories),
-                                                                   "Possibly preventable", 
-                                                                   "random"
-                                                            )
-                                                     )
-                                              )
-                                       )
-                                )
-                         ))
-                         
-                         # If there are no other OFIs and the patient is dead with preventable_death being "possibly preventable", 
-                         # set the OFI category as "Possibly preventable"
-                         OFI_categories[is.na(OFI_categories) & new.dataset$month_surv == "dead" & 
-                                          new.dataset$preventable_death == "possibly preventable"] <- "Possibly preventable"
-                         
-                         # Create new column for OFI categories
-                         new.dataset$OFI_categories <- factor(OFI_categories)
-                         
-                         # Count the number of occurrences of each OFI category
-                         table(new.dataset$OFI_categories)
