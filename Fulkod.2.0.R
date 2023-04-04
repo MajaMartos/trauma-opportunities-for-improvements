@@ -289,8 +289,6 @@ my_log_adj <- multinom( OFI_categories ~ cohort + pt_age_yrs + Gender + month_su
 
 
 
-
-
 ####################
 # View the results##
 ####################
