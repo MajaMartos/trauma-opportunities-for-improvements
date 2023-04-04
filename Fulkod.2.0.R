@@ -45,7 +45,7 @@ missing.outcome <- is.na(combined.dataset$ofi)
 combined.dataset <- combined.dataset[!missing.outcome,]
 
 ## remove patients < 15 years
-combined.dataset <- combined.dataset[combined.dataset$pt_age_yrs > 14,]
+#combined.dataset <- combined.dataset[combined.dataset$pt_age_yrs > 14,]
 
 
 ## Create cohorts 
@@ -98,65 +98,6 @@ new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Hand
 
 table(new.dataset$OFI_categories)
 
-
-########################################
-####HUVUDVÄRK###########################
-########################################
-
-# Create a table with the counts of each category of OFI
-ofi_table <- table(new.dataset$OFI_categories)
-
-# Format the table with kable()
-ofi_table_formatted <- kable(ofi_table, col.names = c("OFI categories", "Contains"), align = "c")
-
-# Print the formatted table
-ofi_table_formatted
-
-# Group the OFI names by their respective categories
-ofi_groups <- aggregate(new.dataset$ofi, by = list(new.dataset$OFI_categories), FUN = paste, collapse = ", ")
-
-# Rename the column names
-colnames(ofi_groups) <- c("OFI categories", "OFI names")
-
-# Format the table with kable()
-ofi_table_formatted <- kable(ofi_groups, col.names = c("OFI categories", "OFI names"), align = "c")
-
-# Print the formatted table
-ofi_table_formatted
-
-
-# Create a data frame with the OFI categories and corresponding OFIs
-ofi_df <- data.frame(
-  Category = c(
-    "Clinical judgement error",
-    "Missed diagnosis",
-    "Delay in treatment",
-    "Technical errors",
-    "Other",
-    "No ofi",
-    "Possibly preventable",
-    "Random"
-  ),
-  OFIs = c(
-    paste(new.dataset$ofi[new.dataset$Problemomrade_.FMP %in% c("Handläggning", "Handläggning/logistik", 
-                                                                "kompetensbrist","kompetens brist", "Vårdnivå", 
-                                                                "Triage på akm", "Triage på akutmottagningen")], collapse = ", "),
-    paste(new.dataset$ofi[new.dataset$Problemomrade_.FMP %in% c("Missad skada", "Lång tid till DT")], collapse = ", "),
-    paste(new.dataset$ofi[new.dataset$Problemomrade_.FMP %in% c("Lång tid till op")], collapse = ", "),
-    paste(new.dataset$ofi[new.dataset$Problemomrade_.FMP %in% c("Logistik/teknik")], collapse = ", "),
-    paste(new.dataset$ofi[new.dataset$Problemomrade_.FMP %in% c("Traumakriterier/styrning", "Dokumentation","Dokumetation", "Kommunikation", "Tertiär survey",
-                                                                "Bristande rutin","bristande rutin", "Neurokirurg","Resurs")], collapse = ", "),
-    paste(new.dataset$ofi[new.dataset$ofi == "No"], collapse = ", "),
-    paste(new.dataset$ofi[new.dataset$month_surv == "dead" & new.dataset$preventable_death == "possibly preventable"], collapse = ", "),
-    paste(new.dataset$ofi[new.dataset$Problemomrade_.FMP == "random"], collapse = ", ")
-  )
-)
-
-# Print the table
-knitr::kable(ofi_df)
-
-
-
 ################
 #Create table1##
 ################
@@ -179,6 +120,53 @@ table_dataset <- new.dataset
 pt_demographics <- table1(~ cohort + pt_age_yrs + Gender + severe_head_injury + low_GCS + ed_gcs_sum + intub +  pre_gcs_sum + pt_regions + inj_dominant + Severe_penetrating + preventable_death + month_surv | OFI_categories , data=table_dataset, caption="\\textbf{Demographics}", overall = FALSE)
 
 view(new.dataset[new.dataset$OFI_categories == "random",])
+
+#########################################
+#Create Table 2 -  exclusion/ inclusion #
+#########################################
+
+exclusion_criteria <- (new.dataset$pt_age_yrs <= 15 & (new.dataset$NISS <= 15 | new.dataset$ISS <= 9))
+inclusion_criteria <- new.dataset$cohort %in% c("blunt multisystem with TBI", "blunt multisystem without TBI", "severe penetrating", "Isolated severe TBI")
+
+selected_patients <- new.dataset[!exclusion_criteria & inclusion_criteria,]
+
+
+# Create a table showing how many patients are lost at each step
+n_all_patients <- nrow(new.dataset)
+n_excluded_patients <- sum(exclusion_criteria)
+n_included_patients <- sum(inclusion_criteria)
+n_final_patients <- nrow(selected_patients)
+
+loss_table <- table(
+  c("All patients", "Exclusion criteria applied", "Inclusion criteria applied", "Final cohort selected"),
+  c(n_all_patients, n_excluded_patients, n_included_patients, n_final_patients)
+)
+
+# Print loss table
+print(loss_table)
+
+
+###################################
+#Create Table 3 -  OFI categories #
+###################################
+
+
+# Group the data by OFI category and OFI name, and count the occurrences
+ofi_summary <- new.dataset %>%
+  group_by(OFI_categories, ofi) %>%
+  summarise(count = sum(!is.na(ofi))) %>%
+  ungroup()
+
+# Pivot the data to create a wide format summary table
+ofi_table <- ofi_summary %>%
+  pivot_wider(names_from = ofi, values_from = count, values_fill = 0)
+
+# Rename the columns
+colnames(ofi_table)[1] <- "OFI categories"
+
+# Print the summary table
+knitr::kable(ofi_table)
+
 
 
 ###########################
