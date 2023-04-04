@@ -99,17 +99,6 @@ new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Hand
                                                       )))))))
 #table(new.dataset$OFI_categories)
 
-<<<<<<< HEAD
-#################
-#Create table 1##
-#################
-=======
-table(new.dataset$OFI_categories)
-
-################
-#Create table1##
-################
->>>>>>> a949823adec844e4ba774f3ce87d0128fc966fab
 
 # Get the subset of your combined dataset that includes only the columns needed for the table
 table_cols <- c("OFI_categories", "pt_age_yrs", "Gender", "severe_head_injury", "low_GCS", 
@@ -200,7 +189,7 @@ loss_table <- table(
 )
 
 # Print loss table
-print(loss_table)
+#print(loss_table)
 
 
 ###################################
@@ -221,8 +210,7 @@ ofi_table <- ofi_summary %>%
 # Rename the columns
 colnames(ofi_table)[1] <- "OFI categories"
 
-# Print the summary table
-knitr::kable(ofi_table)
+
 
 
 
