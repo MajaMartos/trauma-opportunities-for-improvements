@@ -21,52 +21,27 @@ my_log_unad <- multinom (OFI_categories ~ cohort, data = new.dataset)
 
 #install.packages("gtsummary")
 library(gtsummary)
+
+# Create table for unadjusted regression
 table.unadjust <-tbl_regression(my_log_unad, 
-                                exponentiate = TRUE) %>% as_gt()
+                                exponentiate = TRUE) %>%as_gt()
 
 
-################################################
-## Räkna ut p-värden och OR för icke justerade #
-################################################
+######################################################################
+## Räkna ut p-värden och OR för icke justerade för att kunna hänvisa #
+######################################################################
 
 # Z värden
 z_wout <- summary(my_log_unad)$coefficients/summary(my_log_unad)$standard.errors
-#z_wout
 
 # p värden
 p_values <- as.data.frame((1 - pnorm(abs(z_wout), 0, 1)) * 2)
-#p_values
+
+# Namn på p-värdes kolumnen
 colnames(p_values) <- paste(colnames(p_values), "_p_value", sep = "")
-
-# funktion för att sätta bokstäver istället för siffror så det blir tydligare. Snodd från nätet.
-sign_levels_df_letter <- function(df) {
-  df <- ifelse(df >.80, "Z", ifelse(df >.50, "FFF",
-                                    ifelse( df >.30, "FF",
-                                            ifelse(df >.10 , "F", 
-                                                   ifelse(df <= 0.0001, "AAA",
-                                                          ifelse(df <= .0005,"AA+",
-                                                                 ifelse(df <= .001,"AA",
-                                                                        ifelse(df <= .005, "A+",
-                                                                               ifelse (df<= .01, "A",
-                                                                                       ifelse(df<= .05, "A-",
-                                                                                              ifelse(df <=.07, "B",
-                                                                                                     ifelse(df <=.10, "C", NA
-                                                                                                            
-                                                                                                     ))))))))))))
-  
-  
-  return(df)
-}
-
-
-p_values_text = sign_levels_df_letter(p_values)
-
-
 
 #install.packages("dplyr")
 library(dplyr)
-
-
 
 # Extract the coefficients
 coef_values <- coef(my_log_unad)
@@ -75,6 +50,7 @@ coef_values <- coef(my_log_unad)
 or <- as.data.frame(exp(coef_values))
 
 # Print the odds ratios
+
 ## Combine OR and p-value
 table <- cbind(or, p_values)
 
@@ -93,7 +69,23 @@ main.result <- table %>% select(
   "cohortsevere penetrating_p_value"
 ) # add this parenthesis
 
-#view(main.result)
+# Byt namn så att det är lättare att läsa
+colnames(main.result) <- c(
+  "Reference",
+  "Reference p-value",
+  "BM without TBI",
+  "BM without TBI p-value",
+  "Isolated TBI",
+  "Isolated TBI p-value",
+  "Other cohort",
+  "Other cohort p-value",
+  "Severe penetrating",
+  "Severe penetrating p-value"
+) 
+
+# Avrunda till 3
+main.result <- round(main.result, digits = 3)
+
 
 
 ###################
@@ -107,6 +99,10 @@ main.result <- table %>% select(
 # Create ajdusted multinomial logistic regression model
 my_log_adj <- multinom( OFI_categories ~ cohort + pt_age_yrs + Gender + ISS, data = new.dataset)
 
+# Create table for Adjusted regression
+table.adjust <-tbl_regression(my_log_adj, 
+                                exponentiate = TRUE) %>%
+  as_gt()
 
 #################################################
 # Övriga modeller som vi gör om du får tid över #

@@ -156,6 +156,8 @@ To prevent bias, the multivariable regression model was developed using a simula
 
 Of […] patients in the Swetrau trauma registry 2017-2022, […] were excluded from the study either in accordance with the exclusion criteria presented under methods or due to missing values. All the remaining […] patients who were included in the study, were also presented in the trauma care quality database at the Karolinska University Hospital. All patients in the study were sorted into one of the patient cohorts presented in Table \@ref(tab:Tableone). […] of the patients in the study were men. The median age was […]. Table 2 show the excluded patients and percentages of missing values. 
 
+\newpage
+
 ```{r Tableone, echo=FALSE, fig.cap="Selected sample characteristics", fig.align='center' }
 
 ## JA: Du behöver ett till paket, för att få det extra snyggt.
@@ -173,17 +175,23 @@ Table 3 present all […] OFIs identified by the Karolinska University multidisc
 
 A multivariable multinominal logistic regression model with OFIs as the dependent variable was conducted dependent on cohorts, with and without adjustment for associated variables. The coefficients from the model, as well as odds ratios and p-values are presented in table 4. The intercept was set to no OFI. […] OFI were statistically significant for […] patient cohort. […] were significant after adjustment for other factors. P-values […]
 
-```{r resulttable, echo=FALSE, fig.cap=" Model performance", fig.align='center', warning=FALSE}
-# Model performance table
-#Resulttable <- main.result %>%
-#  kable(caption = "Results from unadjusted regression", align="c") %>%
-#  kable_styling(latex_options="scale_down")
-# %>% 
- # kableExtra::footnote(general = "\\\\textit{Definition of  abbreviations:} ML = Machine learning; OFI = Opportunity for Improvement; RF=random forest; SVM = Support vector machine; LR = logistic regression; DT = decision tree; k-NN = k-nearest neighbors; AUC = area under the receiver operating characteristic curve; ICI = integrated calibration index; FNR = false negative rate; FPR = false positive rate.", general_title = "", threeparttable = TRUE, escape = FALSE)
-Resulttable <- table.unadjust 
-Resulttable
+<!-- Detta är ett exempel på hur man kan hänvisa till ett objekt (main.result) skapat i regression.R. Du kan spara enstaka siffror i nya objekt om du vill istället för att ha allt i en datafram. Detta är för allt i dataframe: --> The highest Odds ratio for the unadjustet model was found for clinical judgement errors and blunt multisystem without TBI `r main.result["Judgement error", "BM without TBI"]` (p-value: `r main.result["Judgement error", "BM without TBI p-value"]`)
+
+\newpage
+
+```{r Result.unadj, echo=FALSE, fig.cap=" Unadjusted", fig.align='center', warning=FALSE}
+## Unadjusted table
+Result.unadj <- table.unadjust 
+Result.unadj
 ```
 
+\newpage
+
+```{r Result.adj, echo=FALSE, fig.cap=" Adjusted", fig.align='center', warning=FALSE}
+## Unadjusted table
+Result.adj <- table.adjust 
+Result.adj
+```
 
 … patients sustained blunt trauma with brain injury, and … without. The average age was ... (should we do some sort of exclusion of older people? Age / death / preventability). Patients who did not fit into any of the cohorts were excluded from the study
 
