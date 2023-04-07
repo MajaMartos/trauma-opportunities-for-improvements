@@ -1,11 +1,20 @@
 ---
-title: "Report"
-author: "Maja"
-date: '2023-03-26'
-output:
-  pdf_document: default
-  html_document: default
-  word_document: default
+title: Trauma cohorts and correlation to different opportunities for improvement
+subtitle: A Registry based Study
+bibliography: bibliography.bib
+csl: bmcemerg.csl
+## You can set toc to false to remove the table of contents
+output: 
+  bookdown::pdf_document2:
+    toc: false
+geometry: margin=2.5cm
+header-includes:
+   - \usepackage{caption}\captionsetup{font=small,labelfont=bf,labelsep=period}
+   - \usepackage{setspace}
+   - \setlength{\parskip}{1em}
+   - \usepackage[left]{lineno}
+   - \linenumbers
+always_allow_html: true
 ---
 
 
@@ -15,11 +24,13 @@ source("clean_all_predictors.R") ## This cleans the data from inaccurate values
 source("clean_audit_filters.R") ## cleans the "VK" columns, aka our audit filters.
 source("format_table1.R") ## change "labels" for columns -> better outputs in tables
 source("create_flowchart.R") ## Function to create flowchart, check create_flowchart.R for details and customization.
-source("Fulkod.2.0.R") ## This "imports" the main script file of your project and run any code in it
+source("tables.R") # Datafix + table 1. 
+source("regression.R") # Dina modeller + resultaten därifrån
+#source("Fulkod.2.0.R") ## This "imports" the main script file of your project and run any code in it
 ```
 
 
-#Introduction
+## Introduction
 
 *Trauma*
 
@@ -62,7 +73,7 @@ In addition, previous studies of the trauma registry have used OFI as a composit
 This study hence aims at identifying specific OFIs for non-overlapping cohorts (blunt multisystem trauma with brain injury, blunt multisystem trauma without brain injury, penetrating trauma, isolated traumatic brain injury) for more robust guidance in what specific actions could be taken to improve trauma care for different patient cohorts.  
 
 
-#Material and Methods
+## Material and Methods
 
 **Study design**
 
@@ -108,7 +119,7 @@ We studied data of patients registered in both the Swedish trauma registry from 
   4.	isolated severe traumatic brain injury
 
 *Variables*
-
+<!-- 
 The primary outcome was opportunities for improvements (OFI) detected by the M&M teams at the Karolinska University hospital. The variable is categorical with the OFIs listed below as possible outcomes. The exposure were different patient cohorts grouped by mechanism of injury, (1) blunt multisystem trauma with traumatic brain injury, (2) blunt multisystem trauma without traumatic brain injury, (3) penetrating trauma, (4) isolated severe traumatic brain injury. Each cohort studied was distinguished according to definitions provided by the ACS. 
 1.	Blunt multisystem trauma: Blunt trauma with injuries of Abbreviated Injury Score (AIS) ≥ 3 in at least two of the following AIS body regions: head, face, neck, thorax, abdomen, spine, or upper and lower extremities.
 2.	Blunt multisystem trauma without traumatic brain injury: Blunt trauma with injuries of Abbreviated Injury Score (AIS) ≥ 3 in at least two of the following AIS body regions:  face, neck, thorax, abdomen, spine, or upper and lower extremities, but not head. 
@@ -116,7 +127,7 @@ The primary outcome was opportunities for improvements (OFI) detected by the M&M
 4.	Isolated severe traumatic brain injury: Best GCS within the first 24 h ≤ 8 OR Best motor score ≤ 3 within the first 24 h, and one of:
   a.	Abnormal CT brain (hematoma, contusion, swelling, herniation, compression of basal cisterns
   b.	Normal CT brain AND (Age > 40 y OR SBP <90 mmHg on ED arrival) OR posturing (GCS motor = 2, 3)
-
+-->
 OFIs Identified at M&M conference:
 *	Missed injury/ problem at triage 
 *	Problem with communication
@@ -143,24 +154,49 @@ To prevent bias, the multivariable regression model was developed using a simula
 
 **Results**
 
-Of […] patients in the Swetrau trauma registry 2017-2022, […] were excluded from the study either in accordance with the exclusion criteria presented under methods or due to missing values. All the remaining […] patients who were included in the study, were also presented in the trauma care quality database at the Karolinska University Hospital. All patients in the study were sorted into one of the patient cohorts presented in table1. […] of the patients in the study were men. The median age was […]. Table 2 show the excluded patients and percentages of missing values. 
+Of […] patients in the Swetrau trauma registry 2017-2022, […] were excluded from the study either in accordance with the exclusion criteria presented under methods or due to missing values. All the remaining […] patients who were included in the study, were also presented in the trauma care quality database at the Karolinska University Hospital. All patients in the study were sorted into one of the patient cohorts presented in Table \@ref(tab:Tableone). […] of the patients in the study were men. The median age was […]. Table 2 show the excluded patients and percentages of missing values. 
 
 ```{r setup2, include=FALSE}
 #library(knitr)
+\newpage
 
-# Source the script
-#source("Fulkod.2.0.R")
+```
+```{r Tableone, echo=FALSE, fig.cap="Selected sample characteristics", fig.align='center' }
+
+## JA: Du behöver ett till paket, för att få det extra snyggt.
+#install.packages("kableExtra")
 
 # Format the table output
-pt_demographics_formatted <- kable(pt_demographics, caption = "\\textbf{Demographics}")
 
+Tableone <- t1kable(pt_demographics, "latex", longtable = T, booktabs = T) %>%
+    kable_styling(latex_options = c("repeat_header", "condensed"), repeat_header_text = "(cont.)", font_size = 5)
+#Tableone <- kable(pt_demographics, caption = "\\textbf{Demographics}")
+Tableone
 ```
 
 Table 3 present all […] OFIs identified by the Karolinska University multidisciplinary team at M&M conferences for patients who were alive 30 days after trauma. Possibly preventable death was included as a separate category for passed patients whose death had been assessed as preventable or possibly preventable at the mortality conference. […] OFIs were identified in […] per cent of the patients cases. The most common OFI for each patient cohort […]
 
 A multivariable multinominal logistic regression model with OFIs as the dependent variable was conducted dependent on cohorts, with and without adjustment for associated variables. The coefficients from the model, as well as odds ratios and p-values are presented in table 4. The intercept was set to no OFI. […] OFI were statistically significant for […] patient cohort. […] were significant after adjustment for other factors. P-values […]
 
+<!-- Detta är ett exempel på hur man kan hänvisa till ett objekt (main.result) skapat i regression.R. Du kan spara enstaka siffror i nya objekt om du vill istället för att ha allt i en datafram. Detta är för allt i dataframe: --> The highest Odds ratio for the unadjustet model was found for clinical judgement errors and blunt multisystem without TBI `r main.result["Judgement error", "BM without TBI"]` (p-value: `r main.result["Judgement error", "BM without TBI p-value"]`)
+
+\newpage
+
+```{r Result.unadj, echo=FALSE, fig.cap=" Unadjusted", fig.align='center', warning=FALSE}
+## Unadjusted table
+Result.unadj <- table.unadjust 
+Result.unadj
+```
+
+\newpage
+
+```{r Result.adj, echo=FALSE, fig.cap=" Adjusted", fig.align='center', warning=FALSE}
+## Unadjusted table
+Result.adj <- table.adjust 
+Result.adj
+```
 
 … patients sustained blunt trauma with brain injury, and … without. The average age was ... (should we do some sort of exclusion of older people? Age / death / preventability). Patients who did not fit into any of the cohorts were excluded from the study
 
 
+-->
