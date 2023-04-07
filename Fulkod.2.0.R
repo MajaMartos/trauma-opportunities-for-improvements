@@ -99,14 +99,11 @@ new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Hand
                                                       )))))))
 #table(new.dataset$OFI_categories)
 
-<<<<<<< HEAD
-=======
-
 
 ################
 #Create table1##
 ################
->>>>>>> cf04008c1873920b0abc76652b4f2df84ca07681
+
 
 # Get the subset of your combined dataset that includes only the columns needed for the table
 table_cols <- c("OFI_categories", "pt_age_yrs", "Gender", "severe_head_injury", "low_GCS", 
@@ -134,7 +131,6 @@ pt_demographics <- table1(~ cohort + pt_age_yrs + Gender + severe_head_injury + 
 ofi_summary <- new.dataset %>% 
   group_by(OFI_categories, Problemomrade_.FMP) %>% 
   summarize(count = n()) %>% 
-<<<<<<< HEAD
   pivot_wider(names_from = OFI_categories, values_from = count, values_fill = 0) %>%
   pivot_longer(cols = -Problemomrade_.FMP, names_to = "Category of OFI", values_to = "count") %>%
   rename(`OFI` = Problemomrade_.FMP)
@@ -150,11 +146,10 @@ ofi_summary <- new.dataset %>%
       #align = c("l", "l", "r"), 
       #row.names = FALSE)
 
-=======
+
 pivot_wider(names_from = OFI_categories, values_from = Problemomrade_.FMP, values_fill = 0) %>%
   rename(`Category of OFI` = OFI_categories, `Ofi` = Problemomrade_.FMP)
 
-<<<<<<< HEAD
 # Group the data by OFI category and OFI name, and count the occurrences
 #ofi_summary <- new.dataset %>%
 #  group_by(OFI_categories, ofi) %>%
@@ -216,12 +211,11 @@ ofi_table <- ofi_summary %>%
 colnames(ofi_table)[1] <- "OFI categories"
 
 
-=======
+
 
 # Print the table
 ofi_summary
->>>>>>> cf04008c1873920b0abc76652b4f2df84ca07681
->>>>>>> 71eb8c02071c7610aabd06881ac0b7ee2c1f6495
+
 
 
 
