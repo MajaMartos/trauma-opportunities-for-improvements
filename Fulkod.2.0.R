@@ -99,11 +99,14 @@ new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Hand
                                                       )))))))
 #table(new.dataset$OFI_categories)
 
+<<<<<<< HEAD
+=======
 
 
 ################
 #Create table1##
 ################
+>>>>>>> cf04008c1873920b0abc76652b4f2df84ca07681
 
 # Get the subset of your combined dataset that includes only the columns needed for the table
 table_cols <- c("OFI_categories", "pt_age_yrs", "Gender", "severe_head_injury", "low_GCS", 
@@ -134,9 +137,73 @@ ofi_summary <- new.dataset %>%
 pivot_wider(names_from = OFI_categories, values_from = Problemomrade_.FMP, values_fill = 0) %>%
   rename(`Category of OFI` = OFI_categories, `Ofi` = Problemomrade_.FMP)
 
+<<<<<<< HEAD
+# Group the data by OFI category and OFI name, and count the occurrences
+#ofi_summary <- new.dataset %>%
+#  group_by(OFI_categories, ofi) %>%
+#  summarise(count = sum(!is.na(ofi))) %>%
+#  ungroup()
+
+# Pivot the data to create a wide format summary table
+#ofi_table <- ofi_summary %>%
+#  pivot_wider(names_from = ofi, values_from = count, values_fill = 0)
+
+# Rename the columns
+#colnames(ofi_table)[1] <- "OFI categories"
+
+# Print the summary table
+#knitr::kable(ofi_table)
+
+
+#########################################
+#Create Table 2 -  exclusion/ inclusion #
+#########################################
+
+exclusion_criteria <- (new.dataset$pt_age_yrs <= 15 & (new.dataset$NISS <= 15 | new.dataset$ISS <= 9))
+inclusion_criteria <- new.dataset$cohort %in% c("blunt multisystem with TBI", "blunt multisystem without TBI", "severe penetrating", "Isolated severe TBI")
+
+selected_patients <- new.dataset[!exclusion_criteria & inclusion_criteria,]
+
+
+# Create a table showing how many patients are lost at each step
+n_all_patients <- nrow(new.dataset)
+n_excluded_patients <- sum(exclusion_criteria)
+n_included_patients <- sum(inclusion_criteria)
+n_final_patients <- nrow(selected_patients)
+
+loss_table <- table(
+  c("All patients", "Exclusion criteria applied", "Inclusion criteria applied", "Final cohort selected"),
+  c(n_all_patients, n_excluded_patients, n_included_patients, n_final_patients)
+)
+
+# Print loss table
+#print(loss_table)
+
+
+###################################
+#Create Table 3 -  OFI categories #
+###################################
+
+
+# Group the data by OFI category and OFI name, and count the occurrences
+ofi_summary <- new.dataset %>%
+  group_by(OFI_categories, ofi) %>%
+  summarise(count = sum(!is.na(ofi))) %>%
+  ungroup()
+
+# Pivot the data to create a wide format summary table
+ofi_table <- ofi_summary %>%
+  pivot_wider(names_from = ofi, values_from = count, values_fill = 0)
+
+# Rename the columns
+colnames(ofi_table)[1] <- "OFI categories"
+
+
+=======
 
 # Print the table
 ofi_summary
+>>>>>>> cf04008c1873920b0abc76652b4f2df84ca07681
 
 
 
