@@ -46,46 +46,6 @@
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{248,248,248}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\BuiltInTok}[1]{#1}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
-\newcommand{\ExtensionTok}[1]{#1}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\ImportTok}[1]{#1}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{#1}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
-\newcommand{\RegionMarkerTok}[1]{#1}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -214,26 +174,24 @@ long distances to trauma centers, as few hospitals are equipped to treat
 trauma-1 patients {[}@jeppesen2020, @steinvik2022{]}.
 
 As mentioned earlier, the ACS have sorted trauma injuries into patient
-cohorts according to the AIS system. To date, Swedish register studies
+cohorts according to the AIS system. To date, Swedish registry studies
 on OFIs have mainly looked at three cohorts: blunt multisystem/single
 trauma, penetrating trauma and traumatic brain injury {[}@ghorbani2014,
-@strommer2022{]}. As previously discussed, the most common cause of
-death among patients suffering from blunt trauma is injury to the brain.
-However, when reviewing this cohort without respect to the main area of
-injury, an overlap occurs between the traumatic brain injury and blunt
-multisystem trauma cohorts. In this study, the blunt multisystem cohort
-is therefore analyzed both with and without traumatic brain injury to
-avoid bias and to establish better understanding for preventability of
-death as well as opportunities for improvement in care of patients
-suffering blunt multisystem trauma where brain injury is not the main
-area of damaged.
+@strommer2022{]}. Since the most common cause of death among patients
+suffering from blunt trauma is injury to the brain, an overlap between
+cohorts occur when studying patients suffering multisystem trauma
+without distinction between the brain and other areas of injury. In this
+study, the blunt multisystem cohort is therefore analyzed both with and
+without traumatic brain injury to avoid bias and to establish a clearer
+understanding for preventability of death.
 
-In addition, previous studies of the trauma registry held by the
-Karolinska have used the OFI as a composite measure for all potential
-lapses leading to un-optimal care. Although this approach offers insight
-to whether opportunities for improvement exist, it is insufficient in
-providing health care workers with guidance to concrete actions that may
-improve care of trauma patients.
+In addition, previous studies of the trauma registry have used OFI as a
+composite measure for all potential lapses leading to un-optimal care.
+Although this approach offers insight to whether opportunities for
+improvement exist, it is insufficient in providing health care workers
+with guidance to concrete actions that may improve care of trauma
+patients. Hence, we have reviewed the correlation between specific OFIs
+and patients cohorts.
 
 \textbf{Aim}
 
@@ -243,17 +201,21 @@ trauma without brain injury, penetrating trauma, isolated traumatic
 brain injury) for more robust guidance in what specific actions could be
 taken to improve trauma care for different patient cohorts.
 
-Material and Methods:\\
-Study design We conducted a registry-based cohort study on a merged
-dataset linking data from the Swedish trauma registry SweTrau the trauma
-care quality database at the Karolinska University Hospital. The
-combined data were further assessed a through multinominal multivariable
-logistic regression model to assess how clinical cohorts associate with
-OFIs.
+\#Material and Methods
 
-Setting From 2010, The Swedish Trauma society holds a national registry
-over patients suffering serious trauma in Sweden. Patients included in
-the registry have suffered traumatic events that have either triggered a
+\textbf{Study design}
+
+We conducted a registry-based cohort study on a merged dataset linking
+data from the Swedish trauma registry SweTrau the trauma care quality
+database at the Karolinska University Hospital. The combined data were
+further assessed a through multinominal multivariable logistic
+regression model to assess how clinical cohorts associate with OFIs.
+
+\textbf{Setting}
+
+From 2010, The Swedish Trauma society holds a national registry over
+patients suffering serious trauma in Sweden. Patients included in the
+registry have suffered traumatic events that have either triggered a
 trauma alarm or generated injuries with a new injury severity score
 (NISS) above 14.
 
@@ -262,7 +224,8 @@ Stockholm, Gotland, Södermanland and Västmanland, equivalent to 3
 million residents, which is just on pair with the minimum number of
 patients needed to be recognized as a quality trauma centre
 internationally. The hospital is also the only facility in Sweden to
-qualify as a trauma-1 hospital by American standards (21).
+qualify as a trauma-1 hospital by American standards
+{[}@Fernelius2022{]}.
 
 To detect non-optimal treatment, the Karolinska University hospital
 evaluate trauma patients at a M\&M conference held by a
@@ -271,7 +234,7 @@ a surgeon, an anaesthetist, a trauma nurse and in presence of specific
 injuries (e.g., intracranial, orthopaedical or thoracic/vascular),
 specialists from appropriate specialties. Competences involved in the
 direct care of the patient are free to attend the conference but should
-not take part in the review (14).
+not take part in the review {[}@Swetrau2020{]}.
 
 Patients are selected for conference in a multistage process with
 escalating levels of reviews. All cases of mortality are passed directly
@@ -285,15 +248,24 @@ specialised trauma nurse who made the call weather patients should be
 escalated to conference. In 2017, the procedure was therefore formalized
 with the introduction of audit filters.
 
+\begin{figure}
+
+{\centering \includegraphics[width=1\linewidth]{ofi-flowchart} 
+
+}
+
+\caption{ Flowchart describing the exclusions made and the process of trauma cases from arrival until OFI decision.}\label{fig:ofi-flowchart}
+\end{figure}
+
 Audit filters, listed below, are specified conditions that all trauma
 patients are automatically evaluated by. All patients captured by one or
 more audit filters are then assessed by a nurse who identifies possible
 glitches in care. Patients selected by the first nurse are then reviewed
 again in a second round by two specialised nurses. If any OFIs are
 identified in the second round, the patient is brought to a M\&M
-conference for a final assessment of OFIs. (14). Results from the
-conference are stored in the Karolinska University hospital's local
-quality care database.
+conference for a final assessment of OFIs {[}@Swetrau2020{]}. Results
+from the conference are stored in the Karolinska University hospital's
+local quality care database.
 
 Audit filters: * Systolic blood pressure \textless{} 90 * Glasgow coma
 scale \textless{} 9 and not intubated. * Injury severity score
@@ -367,33 +339,50 @@ four cohorts; (1) blunt multisystem trauma with traumatic brain injury,
 (2) blunt multisystem trauma without traumatic brain injury, (3)
 penetrating trauma, (4) isolated severe traumatic brain injury.
 
-Bias To prevent bias, the multivariable regression model was developed
-using a simulated scrambled dataset with random data. The algorithm for
-the model was developed step-by-step and then evaluated by a trained
+\textbf{Bias}
+
+To prevent bias, the multivariable regression model was developed using
+a simulated scrambled dataset with random data. The algorithm for the
+model was developed step-by-step and then evaluated by a trained
 programmer and statistician before being applied on the real data.
 Variables such as ID-number and name were scrambled and anonymised
 throughout analysis of the real dataset.
 
-Ethical considerations
+\emph{Ethical considerations}
 
-Study size
+\emph{Study size}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{include\_graphics}\NormalTok{(}\StringTok{"create\_flowchart.R"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
+\textbf{Results}
 
-\includegraphics{create_flowchart.R}
+Of {[}\ldots{]} patients in the Swetrau trauma registry 2017-2022,
+{[}\ldots{]} were excluded from the study either in accordance with the
+exclusion criteria presented under methods or due to missing values. All
+the remaining {[}\ldots{]} patients who were included in the study, were
+also presented in the trauma care quality database at the Karolinska
+University Hospital. All patients in the study were sorted into one of
+the patient cohorts presented in table1. {[}\ldots{]} of the patients in
+the study were men. The median age was {[}\ldots{]}. Table 2 show the
+excluded patients and percentages of missing values.
 
-\hypertarget{including-plots}{%
-\subsection{Including Plots}\label{including-plots}}
+Table 3 present all {[}\ldots{]} OFIs identified by the Karolinska
+University multidisciplinary team at M\&M conferences for patients who
+were alive 30 days after trauma. Possibly preventable death was included
+as a separate category for passed patients whose death had been assessed
+as preventable or possibly preventable at the mortality conference.
+{[}\ldots{]} OFIs were identified in {[}\ldots{]} per cent of the
+patients cases. The most common OFI for each patient cohort {[}\ldots{]}
 
-You can also embed plots, for example:
+A multivariable multinominal logistic regression model with OFIs as the
+dependent variable was conducted dependent on cohorts, with and without
+adjustment for associated variables. The coefficients from the model, as
+well as odds ratios and p-values are presented in table 4. The intercept
+was set to no OFI. {[}\ldots{]} OFI were statistically significant for
+{[}\ldots{]} patient cohort. {[}\ldots{]} were significant after
+adjustment for other factors. P-values {[}\ldots{]}
 
-\includegraphics{Report_files/figure-latex/pressure-1.pdf}
-
-Note that the \texttt{echo\ =\ FALSE} parameter was added to the code
-chunk to prevent printing of the R code that generated the plot.
+\ldots{} patients sustained blunt trauma with brain injury, and \ldots{}
+without. The average age was \ldots{} (should we do some sort of
+exclusion of older people? Age / death / preventability). Patients who
+did not fit into any of the cohorts were excluded from the study
 
 \end{document}

@@ -127,16 +127,25 @@ pt_demographics <- table1(~ cohort + pt_age_yrs + Gender + severe_head_injury + 
 #Create Table 2 -  OFI categories #
 ###################################
 
-# Create a new data frame with the categories and the count of patients
+
 ofi_summary <- new.dataset %>% 
   group_by(OFI_categories, Problemomrade_.FMP) %>% 
   summarize(count = n()) %>% 
-pivot_wider(names_from = OFI_categories, values_from = Problemomrade_.FMP, values_fill = 0) %>%
-  rename(`Category of OFI` = OFI_categories, `Ofi` = Problemomrade_.FMP)
-
+  pivot_wider(names_from = OFI_categories, values_from = count, values_fill = 0) %>%
+  pivot_longer(cols = -Problemomrade_.FMP, names_to = "Category of OFI", values_to = "count") %>%
+  rename(`OFI` = Problemomrade_.FMP)
 
 # Print the table
-ofi_summary
+#ofi_summary
+
+#library(knitr)
+
+#kable(ofi_summary, 
+      #caption = "Summary of OFIs by Categories", 
+      #col.names = c("Category of OFI", "OFI", "Number of patients"), 
+      #align = c("l", "l", "r"), 
+      #row.names = FALSE)
+
 
 
 
