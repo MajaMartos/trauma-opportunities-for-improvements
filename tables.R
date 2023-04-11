@@ -125,10 +125,11 @@ table_dataset <- new.dataset[complete.cases(new.dataset[, selected_cols]), ]
 # Create a new variable with shortened cohort names
 table_dataset <- table_dataset %>% 
   mutate(cohort_short = recode(cohort,
-                               "blunt multisystem trauma without TBI" = "Blunt without TBI",
-                               "blunt multisystem trauma with TBI" = "Blunt with TBI",
-                               "Isolated severe TBI" = "Isolated TBI",
-                               "Severe penetrating" = "Penetrating", 
+                               "blunt multisystem without TBI" = "Blunt without TBI",
+                               "blunt multisystem with TBI" = "Blunt with TBI",
+                               "Isolated severe TBI" = "TBI",
+                               "severe penetrating " = "Penetrating",
+                               "other cohort" = "Other cohort",
       
                                .default = cohort))
 
@@ -136,9 +137,9 @@ table_dataset <- table_dataset %>%
 
 # Create the table with table_dataset
 
-colnames(table_dataset)[which(names(table_dataset) == "severe_head_injury")] <- "Head injury"
+colnames(table_dataset)[which(names(table_dataset) == "severe_head_injury")] <- "Head_injury"
 colnames(table_dataset)[which(names(table_dataset) == "pt_age_yrs")] <- "Age"
-colnames(table_dataset)[which(names(table_dataset) == "ed_gcs_sum")] <- "ED GCS"
+colnames(table_dataset)[which(names(table_dataset) == "ed_gcs_sum")] <- "ed_gcs"
 colnames(table_dataset)[which(names(table_dataset) == "cohort_short")] <- "Cohort"
 colnames(table_dataset)[which(names(table_dataset) == "intub")] <- "Intubated"
 colnames(table_dataset)[which(names(table_dataset) == "NISS")] <- "NISS"
@@ -147,7 +148,7 @@ colnames(table_dataset)[which(names(table_dataset) == "OFI_categories")] <- "OFI
 
 
 #Print table 
-pt_demographics <- table1(~ cohort + pt_age_yrs + Gender + severe_head_injury + ed_gcs_sum + intub + NISS  | OFI_categories , data=table_dataset, caption="\\textbf{Demographics}", overall = FALSE)
+pt_demographics <- table1(~ Cohort + Age + Gender + Head_injury + ed_gcs + Intubated + NISS | OFI , data=table_dataset, caption="\\textbf{Demographics}", overall = FALSE)
 
 
 #install.packages("kableExtra")
