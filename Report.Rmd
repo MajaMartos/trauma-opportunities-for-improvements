@@ -148,6 +148,14 @@ In this study, all patients within the Karolinska University hospital trauma qua
 
 To prevent bias, the multivariable regression model was developed using a simulated scrambled dataset with random data. The algorithm for the model was developed step-by-step and then evaluated by a trained programmer and statistician before being applied on the real data. Variables such as ID-number and name were scrambled and anonymised throughout analysis of the real dataset.  
 
+
+*Statistics*
+All data was processed and analysed in statistical programming software R. Data from SweTrau and the Karolinska University trauma quality registry were extracted and merged based on patient id. A multinomial multivariable regression model was then constructed with six categories of OFIs as the dependent variable, explained by four patient cohorts as independent variables. Both an unadjusted model and an adjusted model based on age, gender and NISS-score were created.
+
+The models estimated the probability of each category of OFI for each patient cohort, with the patient cohort “Blunt multisystem trauma without traumatic brain injury” set as reference. The coefficients should hence be interpreted as the log odds for each category of OFI each patient cohort compared with patients suffering blunt multisystem trauma without brain injury. To obtain the odds ratio, the coefficients were exponentiated. 
+
+Z-values were calculated to obtain the significance of the coefficients in predicting the dependent variable, with the null-hypothesis that there are no association between the evaluated category of OFI and the patient cohort. A p-value of 0.005 (z-value > 1,96) was considered statistically significant to reject the null-hypothesis. 
+
 *Ethical considerations* 
 	
 *Study size*
