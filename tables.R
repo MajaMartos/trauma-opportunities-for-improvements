@@ -3,8 +3,9 @@ library(rofi)
 data <- rofi::import_data()
 names <- c("swetrau","fmp","atgarder","problem","kvalgranskning2014.2017")
 names(data) <- names
-combined.dataset <- rofi::merge_data(data)
+dataset <- rofi::merge_data(data)
 
+combined.dataset <- dataset
 ## Create OFI column
 combined.dataset$ofi <- rofi::create_ofi(combined.dataset)
 
@@ -175,7 +176,33 @@ pt_demographics <- table1(~ cohort + res_survival + pt_age_yrs + Gender + severe
 #kable(pt_demographics, format = "latex", booktabs = TRUE) %>% kable_styling(latex_options = c("striped", "hold_position"), font_size = 12)
 
 
+#################
+# Missing table #
+#################
+selected_cols <- c("res_survival", "pt_age_yrs", "pt_Gender", "ofi", "ed_gcs_sum", "intub", "NISS")
 
+na_counts <- format_table1(combined.dataset)
+na_counts <- colSums(is.na(combined.dataset[selected_cols]))
 
+na_table <- data.frame(
+  Column = names(na_counts),
+  Amount = na_counts
+)
+
+library(dplyr)
+
+na_table <- na_table %>%
+  mutate(
+    Total = nrow(combined.dataset),
+    Percentage = Amount / Total * 100
+  ) %>%
+  select(Amount, Percentage)
+
+na_table_sorted <- na_table %>%
+  arrange(desc(Percentage))
+
+na_table_sorted <- round(na_table_sorted, digits = 2)
+
+rownames(na_table_sorted) <- c("Alive","Age","Gender","OFI","ED GCS", "Intubated", "NISS")
 
 
