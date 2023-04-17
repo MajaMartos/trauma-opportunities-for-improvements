@@ -112,18 +112,48 @@ new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Hand
 
 # Remove rows with missing values only for the columns included in the table
 ## JA: Ok, förslag är att ta complete case på age, gender, och antingen ISS eller NISS samt om kolumnen OFI är NA
-#table_dataset <- table_dataset[complete.cases(table_dataset),] 
 
-table_dataset <- new.dataset
+## MM:
 
-# JA: Detta genererar en relativt fin tabell. Fundera på rubriken.
-library("kableExtra")
+# Select the columns to include in the table
+selected_cols <- c( "pt_age_yrs", "Gender", "OFI_categories", "ed_gcs_sum", "intub", "NISS", "severe_head_injury", "intub")
+
+#Subset the dataset to only include complete cases for the selected columns
+table_dataset <- new.dataset[complete.cases(new.dataset[, selected_cols]), ]
+
+
+# Create a new variable with shortened cohort names
+table_dataset <- table_dataset %>% 
+  mutate(cohort_short = recode(cohort,
+                               "blunt multisystem without TBI" = "Blunt without TBI",
+                               "blunt multisystem with TBI" = "Blunt with TBI",
+                               "Isolated severe TBI" = "TBI",
+                               "severe penetrating " = "Penetrating",
+                               "other cohort" = "Other cohort",
+      
+                               .default = cohort))
+
+
+
+# Create the table with table_dataset
+
+colnames(table_dataset)[which(names(table_dataset) == "severe_head_injury")] <- "Head_injury"
+colnames(table_dataset)[which(names(table_dataset) == "pt_age_yrs")] <- "Age"
+colnames(table_dataset)[which(names(table_dataset) == "ed_gcs_sum")] <- "ed_gcs"
+colnames(table_dataset)[which(names(table_dataset) == "cohort_short")] <- "Cohort"
+colnames(table_dataset)[which(names(table_dataset) == "intub")] <- "Intubated"
+colnames(table_dataset)[which(names(table_dataset) == "NISS")] <- "NISS"
+colnames(table_dataset)[which(names(table_dataset) == "Gender")] <- "Gender"
+colnames(table_dataset)[which(names(table_dataset) == "OFI_categories")] <- "OFI"
+
+
+#Print table 
+pt_demographics <- table1(~ Cohort + Age + Gender + Head_injury + ed_gcs + Intubated + NISS | OFI , data=table_dataset, caption="\\textbf{Demographics}", overall = FALSE)
+
+
 #install.packages("kableExtra")
-# Create the table with the cleaned dataset
-pt_demographics <- table1(~ cohort + pt_age_yrs + Gender + severe_head_injury + low_GCS + ed_gcs_sum + intub +  pre_gcs_sum + pt_regions + inj_dominant + Severe_penetrating + preventable_death + month_surv | OFI_categories , data=table_dataset, caption="\\textbf{Demographics}", overall = FALSE)
-
-
-
+#library("kableExtra")
+#kable(pt_demographics, format = "latex", booktabs = TRUE) %>% kable_styling(latex_options = c("striped", "hold_position"), font_size = 12)
 
 
 

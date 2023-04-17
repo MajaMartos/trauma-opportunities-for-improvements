@@ -129,14 +129,29 @@ pt_demographics <- table1(~ cohort + pt_age_yrs + Gender + severe_head_injury + 
 #Create Table 2 -  OFI categories #
 ###################################
 
-# Create a new data frame with the categories and the count of patients
+
 ofi_summary <- new.dataset %>% 
   group_by(OFI_categories, Problemomrade_.FMP) %>% 
   summarize(count = n()) %>% 
+  pivot_wider(names_from = OFI_categories, values_from = count, values_fill = 0) %>%
+  pivot_longer(cols = -Problemomrade_.FMP, names_to = "Category of OFI", values_to = "count") %>%
+  rename(`OFI` = Problemomrade_.FMP)
+
+# Print the table
+#ofi_summary
+
+#library(knitr)
+
+#kable(ofi_summary, 
+      #caption = "Summary of OFIs by Categories", 
+      #col.names = c("Category of OFI", "OFI", "Number of patients"), 
+      #align = c("l", "l", "r"), 
+      #row.names = FALSE)
+
+
 pivot_wider(names_from = OFI_categories, values_from = Problemomrade_.FMP, values_fill = 0) %>%
   rename(`Category of OFI` = OFI_categories, `Ofi` = Problemomrade_.FMP)
 
-<<<<<<< HEAD
 # Group the data by OFI category and OFI name, and count the occurrences
 #ofi_summary <- new.dataset %>%
 #  group_by(OFI_categories, ofi) %>%
@@ -198,11 +213,11 @@ ofi_table <- ofi_summary %>%
 colnames(ofi_table)[1] <- "OFI categories"
 
 
-=======
+
 
 # Print the table
 ofi_summary
->>>>>>> cf04008c1873920b0abc76652b4f2df84ca07681
+
 
 
 
@@ -223,7 +238,7 @@ new.dataset$low_GCS <- factor(new.dataset$low_GCS)
 # MM Har fyltlt i NA med others, men då finns inget syfte med complete cases? Har missförstått något 
  
 # Re-code the OFI_categories variable so that "Exemplary treatment" is the new reference category
-new.dataset$OFI_categories <- relevel(new.dataset$OFI_categories, ref = "No ofi")
+new.dataset$cohort <- relevel(new.dataset$cohort, ref = "blunt multisystem without TBI")
 
 # Creating the unadjusted logistic regression model for cohorts 
 my_log_unad <- multinom (OFI_categories ~ cohort, data = new.dataset)
