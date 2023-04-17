@@ -1,6 +1,6 @@
 #Merge data 
 library(rofi)
-data <- rofi::import_data(test = TRUE)
+data <- rofi::import_data()
 names <- c("swetrau","fmp","atgarder","problem","kvalgranskning2014.2017")
 names(data) <- names
 combined.dataset <- rofi::merge_data(data)
@@ -56,17 +56,19 @@ new.dataset <- create_cohorts(combined.dataset)
 ## Creating "other cohort" for patients who does not fit into other cohort
 new.dataset$cohort <- as.character(new.dataset$cohort)
 new.dataset[is.na(new.dataset$cohort), "cohort"] <- "other cohort"
-table(new.dataset$cohort)
+#table(new.dataset$cohort)
 
 #Creating column where possibly preventable death and preventable deaths are merged 
 new.dataset$preventable_death <- ifelse(new.dataset$Fr1.14 == 2 | new.dataset$Fr1.14 == 3, "possibly preventable", "non-preventable")
-new.dataset$preventable_death[is.na(new.dataset$preventable_death)] <- "other"
+#new.dataset$preventable_death[is.na(new.dataset$preventable_death)] <- "other"
 new.dataset$preventable_death <- ifelse(is.na(new.dataset$preventable_death) == TRUE & new.dataset$res_survival == 2, "survived", new.dataset$preventable_death)
-table(new.dataset$preventable_death)
+new.dataset$preventable_death <- ifelse(is.na(new.dataset$preventable_death) == TRUE & new.dataset$res_survival == 1, "Not reviewed", new.dataset$preventable_death)
+#table(new.dataset$preventable_death)
 
 #Creating coulmn for 30-day survival
 new.dataset$month_surv <- ifelse(new.dataset$res_survival == 2,  "alive", "dead")
-new.dataset$month_surv <- ifelse(is.na(new.dataset$month_surv) == TRUE, "other", new.dataset$month_surv)
+
+#new.dataset$month_surv <- ifelse(is.na(new.dataset$month_surv) == TRUE, "other", new.dataset$month_surv)
 
 
 # Creating column witg categories of OFIs based on different areas of improvement 
@@ -99,14 +101,11 @@ new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Hand
                                                       )))))))
 #table(new.dataset$OFI_categories)
 
-<<<<<<< HEAD
-=======
-
 
 ################
 #Create table1##
 ################
->>>>>>> cf04008c1873920b0abc76652b4f2df84ca07681
+
 
 # Get the subset of your combined dataset that includes only the columns needed for the table
 table_cols <- c("OFI_categories", "pt_age_yrs", "Gender", "severe_head_injury", "low_GCS", 
