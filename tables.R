@@ -39,7 +39,6 @@ combined.dataset <- clean_audit_filters(combined.dataset)
 # Clean data 
 source("clean_all_predictors.R")
 
-
 ## Separate and store cases without unknown outcome (OFI)
 missing.outcome <- is.na(combined.dataset$ofi)
 combined.dataset <- combined.dataset[!missing.outcome,]
@@ -116,11 +115,14 @@ new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Hand
 ## MM:
 
 # Select the columns to include in the table
-selected_cols <- c( "pt_age_yrs", "Gender", "OFI_categories", "ed_gcs_sum", "intub", "NISS", "severe_head_injury", "intub")
+selected_cols <- c("res_survival", "pt_age_yrs", "Gender", "OFI_categories", "ed_gcs_sum", "intub", "NISS", "severe_head_injury", "intub")
 
 #Subset the dataset to only include complete cases for the selected columns
 table_dataset <- new.dataset[complete.cases(new.dataset[, selected_cols]), ]
 
+
+source("format_table1.R") ## change "labels" for columns -> better outputs in tables
+table_dataset <- format_table1(table_dataset)
 
 # Create a new variable with shortened cohort names
 table_dataset <- table_dataset %>% 
@@ -137,18 +139,35 @@ table_dataset <- table_dataset %>%
 
 # Create the table with table_dataset
 
-colnames(table_dataset)[which(names(table_dataset) == "severe_head_injury")] <- "Head_injury"
-colnames(table_dataset)[which(names(table_dataset) == "pt_age_yrs")] <- "Age"
-colnames(table_dataset)[which(names(table_dataset) == "ed_gcs_sum")] <- "ed_gcs"
-colnames(table_dataset)[which(names(table_dataset) == "cohort_short")] <- "Cohort"
-colnames(table_dataset)[which(names(table_dataset) == "intub")] <- "Intubated"
-colnames(table_dataset)[which(names(table_dataset) == "NISS")] <- "NISS"
-colnames(table_dataset)[which(names(table_dataset) == "Gender")] <- "Gender"
-colnames(table_dataset)[which(names(table_dataset) == "OFI_categories")] <- "OFI"
 
 
+#colnames(table_dataset)[which(names(table_dataset) == "severe_head_injury")] <- "Head_injury"
+#colnames(table_dataset)[which(names(table_dataset) == "pt_age_yrs")] <- "Age"
+#colnames(table_dataset)[which(names(table_dataset) == "ed_gcs_sum")] <- "ed_gcs"
+#colnames(table_dataset)[which(names(table_dataset) == "cohort_short")] <- "Cohort"
+#colnames(table_dataset)[which(names(table_dataset) == "intub")] <- "Intubated"
+#colnames(table_dataset)[which(names(table_dataset) == "NISS")] <- "NISS"
+#colnames(table_dataset)[which(names(table_dataset) == "Gender")] <- "Gender"
+#colnames(table_dataset)[which(names(table_dataset) == "OFI_categories")] <- "OFI"
+library("labelled")
+
+table_dataset$severe_head_injury <- factor(
+  table_dataset$severe_head_injury,
+  levels = c(FALSE, TRUE), 
+  labels = c("Not severe",
+             "Severe")) 
+
+var_label(table_dataset$severe_head_injury) <- "Severe TBI"
+
+table_dataset$Gender <- factor(
+  table_dataset$Gender,
+  levels = c("K", "M"), 
+  labels = c("Female",
+             "Male")) 
+
+library(kableExtra)
 #Print table 
-pt_demographics <- table1(~ Cohort + Age + Gender + Head_injury + ed_gcs + Intubated + NISS | OFI , data=table_dataset, caption="\\textbf{Demographics}", overall = FALSE)
+pt_demographics <- table1(~ cohort + res_survival + pt_age_yrs + Gender + severe_head_injury + ed_gcs_sum + intub + NISS | OFI_categories , data=table_dataset, caption="\\textbf{Demographics}", overall = "Overall")
 
 
 #install.packages("kableExtra")
