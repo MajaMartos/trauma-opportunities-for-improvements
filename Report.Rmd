@@ -161,6 +161,15 @@ Z-values were calculated to obtain the significance of the coefficients in predi
 
 **Results**
 
+
+
+
+```{r Tablemissing, echo=FALSE, fig.cap="Selected sample characteristics", fig.align='center' }
+
+kable(na_table_sorted, format = "markdown", caption = "Missing data")
+```
+
+
 Of […] patients in the Swetrau trauma registry 2017-2022, […] were excluded from the study either in accordance with the exclusion criteria presented under methods or due to missing values. All the remaining […] patients who were included in the study, were also presented in the trauma care quality database at the Karolinska University Hospital. All patients in the study were sorted into one of the patient cohorts presented in Table \@ref(tab:Tableone). […] of the patients in the study were men. The median age was […]. Table 2 show the excluded patients and percentages of missing values. 
 
 

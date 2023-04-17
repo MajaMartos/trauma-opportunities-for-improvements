@@ -8,14 +8,17 @@
 # knitr::include_graphics("ofi-flowchart.pdf")
 # ```
 
-
+#create_flowchart(dataset)
+#data <- dataset
 create_flowchart <- function(data) {
   combined.datasets <- data
   
   ## SIC(!) Temp fix
   combined.datasets[combined.datasets$tra_id == "92386","tra_DodsfallsanalysGenomford"] <- 1
   ## Create OFI column
+  combined.datasets$ofi <- rofi::create_ofi(combined.datasets)
   
+  # Clean
   dataset.clean.af <- clean_audit_filters(combined.datasets)
   
   ## Separate and store cases without known outcome
@@ -24,7 +27,7 @@ create_flowchart <- function(data) {
   dataset.clean.af <- dataset.clean.af[!missing.outcome, ]
   
   ## sep and store cases with age < 15
-  age15 <- dataset.clean.af[dataset.clean.af$pt_age_yrs <= 14, ]
+  age15 <- data[data$pt_age_yrs <= 14, ]
   n.under.15 <- nrow(age15)
   
   dataset.comp.age <- dataset.clean.af[dataset.clean.af$pt_age_yrs > 14, ]
