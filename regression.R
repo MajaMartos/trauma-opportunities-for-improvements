@@ -64,8 +64,6 @@ main.result <- table %>% select(
   "cohortblunt multisystem without TBI_p_value",
   "cohortIsolated severe TBI",
   "cohortIsolated severe TBI_p_value",
-  "cohortother cohort",
-  "cohortother cohort_p_value",
   "cohortsevere penetrating",
   "cohortsevere penetrating_p_value"
 ) # add this parenthesis
@@ -78,8 +76,6 @@ colnames(main.result) <- c(
   "BM without TBI p-value",
   "Isolated TBI",
   "Isolated TBI p-value",
-  "Other cohort",
-  "Other cohort p-value",
   "Severe penetrating",
   "Severe penetrating p-value"
 ) 
@@ -98,7 +94,7 @@ main.result <- round(main.result, digits = 3)
 # Ytterligare justering kan vi göra i mån om tid/önskan men det blir stora tabeller osv.
 
 # Create ajdusted multinomial logistic regression model
-my_log_adj <- multinom( OFI_categories ~ cohort + pt_age_yrs + Gender + ISS, data = new.dataset)
+my_log_adj <- multinom( OFI_categories ~ cohort + pt_age_yrs + Gender + NISS, data = new.dataset)
 
 # Create table for Adjusted regression
 table.adjust <-tbl_regression(my_log_adj, 
