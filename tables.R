@@ -71,7 +71,7 @@ new.dataset$month_surv <- ifelse(new.dataset$res_survival == 2,  "alive", "dead"
 #new.dataset$month_surv <- ifelse(is.na(new.dataset$month_surv) == TRUE, "other", new.dataset$month_surv)
 
 
-# Creating column witg categories of OFIs based on different areas of improvement 
+# Creating column with categories of OFIs based on different areas of improvement 
 new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Handläggning", "Handläggning/logistik", 
                                                                            "kompetensbrist","kompetens brist", "Vårdnivå", 
                                                                            "Triage på akm", "Triage på akutmottagningen"), 
@@ -175,6 +175,11 @@ pt_demographics <- table1(~ cohort + res_survival + pt_age_yrs + Gender + severe
 #library("kableExtra")
 #kable(pt_demographics, format = "latex", booktabs = TRUE) %>% kable_styling(latex_options = c("striped", "hold_position"), font_size = 12)
 
+#######################
+# Demographics cohorts #
+#######################
+
+cohort_demographics <- table1(~ res_survival + pt_age_yrs + Gender + severe_head_injury + ed_gcs_sum + intub + NISS | cohort , data=table_dataset, caption="\\textbf{Demographic cohorts}", overall = "Overall")
 
 #################
 # Missing table #
