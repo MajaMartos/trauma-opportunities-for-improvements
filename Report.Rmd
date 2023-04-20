@@ -188,6 +188,20 @@ Tableone <- t1kable(pt_demographics, "latex", longtable = T, booktabs = T) %>%
 Tableone
 ```
 
+
+```{r Tabletwo, echo=FALSE, fig.cap="Selected sample characteristics", fig.align='center' }
+
+## JA: Du behöver ett till paket, för att få det extra snyggt.
+#install.packages("kableExtra")
+
+# Format the table output
+
+Tabletwo <- t1kable(cohort_demographics, "latex", longtable = T, booktabs = T) %>%
+    kable_styling(latex_options = c("repeat_header", "condensed"), repeat_header_text = "(cont.)", font_size = 8)%>%
+  kableExtra::landscape()
+#Tabletwo <- kable(cohort_demographics, caption = "\\textbf{Demographic cohorts}")
+Tabletwo
+```
 Table 3 present all […] OFIs identified by the Karolinska University multidisciplinary team at M&M conferences for patients who were alive 30 days after trauma. Possibly preventable death was included as a separate category for passed patients whose death had been assessed as preventable or possibly preventable at the mortality conference. […] OFIs were identified in […] per cent of the patients cases. The most common OFI for each patient cohort […]
 
 A multivariable multinominal logistic regression model with OFIs as the dependent variable was conducted dependent on cohorts, with and without adjustment for associated variables. The coefficients from the model, as well as odds ratios and p-values are presented in table 4. The intercept was set to no OFI. […] OFI were statistically significant for […] patient cohort. […] were significant after adjustment for other factors. P-values […]

@@ -18,7 +18,9 @@ table.dataset$cohort <- relevel(table.dataset$cohort, ref = "other cohort")
 table.dataset$OFI_categories <- relevel(table.dataset$OFI_categories, ref = "No ofi")
 
 # Creating the unadjusted logistic regression model for cohorts 
-my_log_unad <- multinom (OFI_categories ~ cohort, data = table.dataset)
+
+my_log_unad <- multinom(OFI_categories ~ cohort, data = new.dataset)
+
 
 #install.packages("gtsummary")
 library(gtsummary)

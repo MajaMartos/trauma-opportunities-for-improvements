@@ -75,7 +75,7 @@ new.dataset$month_surv <- ifelse(new.dataset$res_survival == 2,  "alive", "dead"
 #new.dataset$month_surv <- ifelse(is.na(new.dataset$month_surv) == TRUE, "other", new.dataset$month_surv)
 
 
-# Creating column witg categories of OFIs based on different areas of improvement 
+# Creating column with categories of OFIs based on different areas of improvement 
 new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Handläggning", "Handläggning/logistik", 
                                                                            "kompetensbrist","kompetens brist", "Vårdnivå", 
                                                                            "Triage på akm", "Triage på akutmottagningen"), 
@@ -128,7 +128,7 @@ table_dataset[table_dataset$low_GCS == "other","low_GCS"] <- NA ## Was other
 selected_cols <- c("res_survival", "pt_age_yrs", "Gender", "OFI_categories", "NISS", "low_GCS", "intub")
 
 #Subset the dataset to only include complete cases for the selected columns
-table.dataset <- table_dataset[complete.cases(new.dataset[, selected_cols]), ]
+table.dataset <- table_dataset[complete.cases(table_dataset[, selected_cols]), ]
 
 
 source("format_table1.R") ## change "labels" for columns -> better outputs in tables
@@ -144,11 +144,6 @@ table.dataset <- table.dataset %>%
                                "other cohort" = "Other cohort",
       
                                .default = cohort))
-
-
-
-# Create the table with table.dataset
-
 
 
 #colnames(table.dataset)[which(names(table.dataset) == "severe_head_injury")] <- "Head_injury"
@@ -175,6 +170,11 @@ table.dataset$Gender <- factor(
   labels = c("Female",
              "Male")) 
 
+table_dataset$cohort <- factor(
+  table_dataset$cohort,
+  levels = c("blunt multisystem without TBI", "blunt multisystem with TBI","Isolated severe TBI","severe penetrating","other cohort"), 
+  labels = c("Blunt without TBI", "Blunt with TBI","TBI", "Penetrating","Other cohort" )) 
+
 library(kableExtra)
 #Print table 
 pt_demographics <- table1(~ cohort + res_survival + pt_age_yrs + Gender + severe_head_injury + ed_gcs_sum + intub + NISS | OFI_categories , data=table.dataset, caption="\\textbf{Demographics}", overall = "Overall")
@@ -184,6 +184,11 @@ pt_demographics <- table1(~ cohort + res_survival + pt_age_yrs + Gender + severe
 #library("kableExtra")
 #kable(pt_demographics, format = "latex", booktabs = TRUE) %>% kable_styling(latex_options = c("striped", "hold_position"), font_size = 12)
 
+#######################
+# Demographics cohorts #
+#######################
+
+cohort_demographics <- table1(~ res_survival + pt_age_yrs + Gender + severe_head_injury + ed_gcs_sum + intub + NISS | cohort , data=table.dataset, caption="\\textbf{Demographic cohorts}", overall = "Overall")
 
 #################
 # Missing table #
