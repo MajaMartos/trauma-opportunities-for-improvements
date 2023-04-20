@@ -212,9 +212,9 @@ na_table <- na_table %>%
   ) %>%
   select(Amount, Percentage)
 
-na_table_sorted <- na_table %>%
-  arrange(desc(Percentage))
-
+#na_table_sorted <- na_table %>%
+#  arrange(desc(Percentage))
+na_table_sorted <- na_table
 na_table_sorted <- round(na_table_sorted, digits = 2)
 
 rownames(na_table_sorted) <- c("Alive","Age","Gender","OFI", "NISS", "Low GCS","Intubated")
