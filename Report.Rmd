@@ -197,7 +197,7 @@ Tableone
 # Format the table output
 
 Tabletwo <- t1kable(cohort_demographics, "latex", longtable = T, booktabs = T) %>%
-    kable_styling(latex_options = c("repeat_header", "condensed"), repeat_header_text = "(cont.)", font_size = 8)%>%
+    kable_styling(latex_options = c("repeat_header", "condensed"), repeat_header_text = "(cont.)", font_size = 10)%>%
   kableExtra::landscape()
 #Tabletwo <- kable(cohort_demographics, caption = "\\textbf{Demographic cohorts}")
 Tabletwo
