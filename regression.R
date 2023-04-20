@@ -4,18 +4,16 @@
 ###########################
 
 # Convert categorical variables to factors
-# MM: har gjort om alla NA  till other för preventable death, ofis, low_GCS 
-
-new.dataset$OFI_categories <- factor(new.dataset$OFI_categories)
-new.dataset$cohort <- factor(new.dataset$cohort)
-new.dataset$Gender <- factor(new.dataset$Gender)
-new.dataset$month_surv <- factor(new.dataset$month_surv)
-new.dataset$low_GCS <- factor(new.dataset$low_GCS)
+table.dataset$OFI_categories <- factor(table.dataset$OFI_categories)
+table.dataset$cohort <- factor(table.dataset$cohort)
+table.dataset$Gender <- factor(table.dataset$Gender)
+table.dataset$month_surv <- factor(table.dataset$month_surv)
+table.dataset$low_GCS <- factor(table.dataset$low_GCS)
 
 
 # Re-code the OFI_categories variable so that "Exemplary treatment" is the new reference category
-new.dataset$cohort <- relevel(new.dataset$cohort, ref = "other cohort")
-new.dataset$OFI_categories <- relevel(new.dataset$OFI_categories, ref = "No ofi")
+table.dataset$cohort <- relevel(table.dataset$cohort, ref = "other cohort")
+table.dataset$OFI_categories <- relevel(table.dataset$OFI_categories, ref = "No ofi")
 
 # Creating the unadjusted logistic regression model for cohorts 
 my_log_unad <- multinom(OFI_categories ~ cohort, data = new.dataset)
@@ -88,34 +86,30 @@ main.result <- round(main.result, digits = 3)
 ###################
 # Justerad modell #
 ###################
-#JA: snackade med martin, förslag för att minska lite:
-# Två resultat, en helt ojusterad (ovan), och en helt justerad enl minimum:
-# Förslag då att justera för ålder, kön och skadegrad (kan ev va NISS om du vill)
-# Ytterligare justering kan vi göra i mån om tid/önskan men det blir stora tabeller osv.
 
 # Create ajdusted multinomial logistic regression model
-my_log_adj <- multinom( OFI_categories ~ cohort + pt_age_yrs + Gender + NISS, data = new.dataset)
+my_log_adj <- multinom( OFI_categories ~ cohort + pt_age_yrs + Gender + NISS, data = table.dataset)
 
 # Create table for Adjusted regression
 table.adjust <-tbl_regression(my_log_adj, 
-                                exponentiate = TRUE) %>%
+                              exponentiate = TRUE) %>%
   as_gt()
 
 #################################################
 # Övriga modeller som vi gör om du får tid över #
 #################################################
 # Logistic regression,  preventable death 
-#my_log_preventable <- multinom (OFI_categories ~ preventable_death, data = new.dataset)
+#my_log_preventable <- multinom (OFI_categories ~ preventable_death, data = table.dataset)
 
 # Logistic regression, age 
-#my_log_age <- multinom (OFI_categories ~ pt_age_yrs, data = new.dataset)
+#my_log_age <- multinom (OFI_categories ~ pt_age_yrs, data = table.dataset)
 
 #Logistic regression, Gender 
-#my_log_gender <- multinom (OFI_categories ~ Gender, data = new.dataset)
+#my_log_gender <- multinom (OFI_categories ~ Gender, data = table.dataset)
 
 #Logistic regression, month_surv
-#my_log_surv <- multinom (OFI_categories ~ month_surv, data = new.dataset)
+#my_log_surv <- multinom (OFI_categories ~ month_surv, data = table.dataset)
 
 # Logistic regression 
-#my_log_prevent_res_surv <- multinom (preventable_death ~ month_surv, data = new.dataset)
+#my_log_prevent_res_surv <- multinom (preventable_death ~ month_surv, data = table.dataset)
 

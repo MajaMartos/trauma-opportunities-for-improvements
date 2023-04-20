@@ -6,6 +6,10 @@ names(data) <- names
 dataset <- rofi::merge_data(data)
 
 combined.dataset <- dataset
+
+## SIC! Temp fix, error in registration
+combined.dataset[combined.dataset$tra_id == "92386","tra_DodsfallsanalysGenomford"] <- 1
+
 ## Create OFI column
 combined.dataset$ofi <- rofi::create_ofi(combined.dataset)
 
@@ -45,7 +49,7 @@ missing.outcome <- is.na(combined.dataset$ofi)
 combined.dataset <- combined.dataset[!missing.outcome,]
 
 ## remove patients < 15 years
-#combined.dataset <- combined.dataset[combined.dataset$pt_age_yrs > 14,]
+combined.dataset <- combined.dataset[combined.dataset$pt_age_yrs > 14,]
 
 
 ## Create cohorts 
@@ -96,7 +100,7 @@ new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Hand
                                                                                "Preventable?", 
                                                                                "Other"
                                                                         )))))))
-#table(new.dataset$OFI_categories)
+table(new.dataset$OFI_categories)
 
 
 ################
@@ -108,25 +112,22 @@ new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Hand
 # JA: Man måste inte ta ett dataset med bara de relevanta kolumnerna när man gör table 1 via det paketet.
 #table_cols <- c("OFI_categories", "pt_age_yrs", "Gender", "severe_head_injury", "low_GCS", 
 #                "ed_gcs_sum", "intub", "pre_gcs_sum", "inj_dominant", "Severe_penetrating", "cohort", "OFI_categories", "preventable_death", "month_surv")
-#table_dataset <- new.dataset[, table_cols]
+#table.dataset<- new.dataset[, table_cols]
 
-# Remove rows with missing values only for the columns included in the table
-## JA: Ok, förslag är att ta complete case på age, gender, och antingen ISS eller NISS samt om kolumnen OFI är NA
 
-## MM:
-
-# Select the columns to include in the table
-selected_cols <- c("res_survival", "pt_age_yrs", "Gender", "OFI_categories", "ed_gcs_sum", "intub", "NISS", "severe_head_injury", "intub")
+# New cols (Svårt med GCS!)
+table_dataset <- new.dataset
+table_dataset[table_dataset$low_GCS == "other","low_GCS"] <- NA ## Was other
+selected_cols <- c("res_survival", "pt_age_yrs", "Gender", "OFI_categories", "NISS", "low_GCS", "intub")
 
 #Subset the dataset to only include complete cases for the selected columns
-table_dataset <- new.dataset[complete.cases(new.dataset[, selected_cols]), ]
-
+table.dataset <- table_dataset[complete.cases(table_dataset[, selected_cols]), ]
 
 source("format_table1.R") ## change "labels" for columns -> better outputs in tables
-table_dataset <- format_table1(table_dataset)
+table.dataset <- format_table1(table.dataset)
 
 # Create a new variable with shortened cohort names
-table_dataset <- table_dataset %>% 
+table.dataset <- table.dataset %>% 
   mutate(cohort_short = recode(cohort,
                                "blunt multisystem without TBI" = "Blunt without TBI",
                                "blunt multisystem with TBI" = "Blunt with TBI",
@@ -139,26 +140,18 @@ table_dataset <- table_dataset %>%
 
 
 
-#colnames(table_dataset)[which(names(table_dataset) == "severe_head_injury")] <- "Head_injury"
-#colnames(table_dataset)[which(names(table_dataset) == "pt_age_yrs")] <- "Age"
-#colnames(table_dataset)[which(names(table_dataset) == "ed_gcs_sum")] <- "ed_gcs"
-#colnames(table_dataset)[which(names(table_dataset) == "cohort_short")] <- "Cohort"
-#colnames(table_dataset)[which(names(table_dataset) == "intub")] <- "Intubated"
-#colnames(table_dataset)[which(names(table_dataset) == "NISS")] <- "NISS"
-#colnames(table_dataset)[which(names(table_dataset) == "Gender")] <- "Gender"
-#colnames(table_dataset)[which(names(table_dataset) == "OFI_categories")] <- "OFI"
 library("labelled")
 
-table_dataset$severe_head_injury <- factor(
-  table_dataset$severe_head_injury,
+table.dataset$severe_head_injury <- factor(
+  table.dataset$severe_head_injury,
   levels = c(FALSE, TRUE), 
   labels = c("Not severe",
              "Severe")) 
 
-var_label(table_dataset$severe_head_injury) <- "Severe TBI"
+var_label(table.dataset$severe_head_injury) <- "Severe TBI"
 
-table_dataset$Gender <- factor(
-  table_dataset$Gender,
+table.dataset$Gender <- factor(
+  table.dataset$Gender,
   levels = c("K", "M"), 
   labels = c("Female",
              "Male")) 
@@ -170,8 +163,7 @@ table_dataset$cohort <- factor(
 
 library(kableExtra)
 #Print table 
-pt_demographics <- table1(~ cohort + res_survival + pt_age_yrs + Gender + severe_head_injury + ed_gcs_sum + intub + NISS | OFI_categories , data=table_dataset, caption="\\textbf{Demographics}", overall = "Overall")
-
+pt_demographics <- table1(~ cohort + res_survival + pt_age_yrs + Gender + severe_head_injury + ed_gcs_sum + intub + NISS | OFI_categories , data=table.dataset, caption="\\textbf{Demographics}", overall = "Overall")
 
 #install.packages("kableExtra")
 #library("kableExtra")
@@ -181,15 +173,15 @@ pt_demographics <- table1(~ cohort + res_survival + pt_age_yrs + Gender + severe
 # Demographics cohorts #
 #######################
 
-cohort_demographics <- table1(~ res_survival + pt_age_yrs + Gender + severe_head_injury + ed_gcs_sum + intub + NISS | cohort , data=table_dataset, caption="\\textbf{Demographic cohorts}", overall = "Overall")
+cohort_demographics <- table1(~ res_survival + pt_age_yrs + Gender + severe_head_injury + ed_gcs_sum + intub + NISS | cohort , data=table.dataset, caption="\\textbf{Demographic cohorts}", overall = "Overall")
 
 #################
 # Missing table #
 #################
-selected_cols <- c("res_survival", "pt_age_yrs", "pt_Gender", "ofi", "ed_gcs_sum", "intub", "NISS")
+selected_cols <- c("res_survival", "pt_age_yrs", "Gender", "OFI_categories", "NISS", "low_GCS", "intub")
 
-na_counts <- format_table1(combined.dataset)
-na_counts <- colSums(is.na(combined.dataset[selected_cols]))
+na_counts <- format_table1(table_dataset)
+na_counts <- colSums(is.na(table_dataset[selected_cols]))
 
 na_table <- data.frame(
   Column = names(na_counts),
@@ -200,16 +192,16 @@ library(dplyr)
 
 na_table <- na_table %>%
   mutate(
-    Total = nrow(combined.dataset),
+    Total = nrow(table_dataset),
     Percentage = Amount / Total * 100
   ) %>%
   select(Amount, Percentage)
 
-na_table_sorted <- na_table %>%
-  arrange(desc(Percentage))
-
+#na_table_sorted <- na_table %>%
+#  arrange(desc(Percentage))
+na_table_sorted <- na_table
 na_table_sorted <- round(na_table_sorted, digits = 2)
 
-rownames(na_table_sorted) <- c("Alive","Age","Gender","OFI","ED GCS", "Intubated", "NISS")
+rownames(na_table_sorted) <- c("Alive","Age","Gender","OFI", "NISS", "Low GCS","Intubated")
 
 
