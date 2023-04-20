@@ -15,7 +15,7 @@ new.dataset$low_GCS <- factor(new.dataset$low_GCS)
 
 # Re-code the OFI_categories variable so that "Exemplary treatment" is the new reference category
 new.dataset$cohort <- relevel(new.dataset$cohort, ref = "other cohort")
-new.dataset$OFI_categories <- relevel(new.dataset$OFI_categories, ref = "Judgement error")
+new.dataset$OFI_categories <- relevel(new.dataset$OFI_categories, ref = "No ofi")
 
 # Creating the unadjusted logistic regression model for cohorts 
 my_log_unad <- multinom(OFI_categories ~ cohort, data = new.dataset)

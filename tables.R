@@ -138,9 +138,6 @@ table_dataset <- table_dataset %>%
 
 
 
-# Create the table with table_dataset
-
-
 
 #colnames(table_dataset)[which(names(table_dataset) == "severe_head_injury")] <- "Head_injury"
 #colnames(table_dataset)[which(names(table_dataset) == "pt_age_yrs")] <- "Age"
@@ -165,6 +162,11 @@ table_dataset$Gender <- factor(
   levels = c("K", "M"), 
   labels = c("Female",
              "Male")) 
+
+table_dataset$cohort <- factor(
+  table_dataset$cohort,
+  levels = c("blunt multisystem without TBI", "blunt multisystem with TBI","Isolated severe TBI","severe penetrating","other cohort"), 
+  labels = c("Blunt without TBI", "Blunt with TBI","TBI", "Penetrating","Other cohort" )) 
 
 library(kableExtra)
 #Print table 
