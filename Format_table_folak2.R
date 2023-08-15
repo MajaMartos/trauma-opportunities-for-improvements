@@ -14,8 +14,8 @@ format_table1 <- function(data) {
     labels = c("Female", "Male"))
   
   #  "hosp_dischg_dest"
-  dpc$hosp_dischg_dest <- factor(
-    dpc$hosp_dischg_dest,
+  data$hosp_dischg_dest <- factor(
+    data$hosp_dischg_dest,
     levels = c(1, 2, 3, 4, 5, 6, 7), 
     labels = c("Home",
                "Rehab",
@@ -26,8 +26,8 @@ format_table1 <- function(data) {
                "psychiatric care"))
   
   # "host_vent_days_NotDone"
-  dpc$host_vent_days_NotDone <- factor(
-    dpc$host_vent_days_NotDone,
+  data$host_vent_days_NotDone <- factor(
+    data$host_vent_days_NotDone,
     levels = c(0, 1),
     labels = c("On ventilator", "Not on ventilator"))
   
@@ -41,15 +41,15 @@ format_table1 <- function(data) {
   #    labels = c("Done", "Not done"))
   
   # "ed_inr_NotDone"   
-  dpc$ed_inr_NotDone <- factor(
-    dpc$ed_inr_NotDone,
+  data$ed_inr_NotDone <- factor(
+    data$ed_inr_NotDone,
     levels = c(0, 1),
     labels = c("Done", "Not done"))
   
   
   #"pt_asa_preinjury"       
-  dpc$pt_asa_preinjury <- factor(
-    dpc$pt_asa_preinjury,
+  data$pt_asa_preinjury <- factor(
+    data$pt_asa_preinjury,
     levels = c(1, 2, 3, 4), 
     labels = c("A healthy patient",
                "Mild systemic disease",
@@ -57,20 +57,20 @@ format_table1 <- function(data) {
                "Life threatening disease"))
   
   #"pre_card_arrest" 
-  dpc$pre_card_arrest <- factor(
-    dpc$pre_card_arrest,
+  data$pre_card_arrest <- factor(
+    data$pre_card_arrest,
     levels = c(1, 2),
     labels = c("Yes", "No"))
   
   #"inj_dominant"
-  dpc$inj_dominant <- factor(
-    dpc$inj_dominant,
+  data$inj_dominant <- factor(
+    data$inj_dominant,
     levels = c(1, 2),
     labels = c("Blunt", "Penetrating"))
   
   # "inj_mechanism"  
-  dpc$inj_mechanism <- factor(
-    dpc$inj_mechanism,
+  data$inj_mechanism <- factor(
+    data$inj_mechanism,
     levels = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12), 
     labels = c("Motor vehicle accident",
                "Motorcycle accident",
@@ -86,20 +86,20 @@ format_table1 <- function(data) {
                "Other injury"))
   
   # "inj_intention" 
-  dpc$inj_intention <- factor(
-    dpc$inj_intention,
+  data$inj_intention <- factor(
+    data$inj_intention,
     levels = c(1, 2, 3),
     labels = c("Accident", "Self-inflicted", "Abuse"))
   
   #"intub"  
-  dpc$intub <- factor(
+  data$intub <- factor(
     dpc$intub,
     levels = c(1, 2, 3),
     labels = c("Inhospital", "Not intubated", "Prehospital"))
   
   #"host_care_level" 
-  dpc$host_care_level <- factor(
-    dpc$host_care_level,
+  data$host_care_level <- factor(
+    data$host_care_level,
     levels = c(1, 2, 3, 4, 5), 
     labels = c("Emergency department",
                "General ward",
@@ -108,20 +108,20 @@ format_table1 <- function(data) {
                "Intensive care unit"))
   
   #"pt_Gender"              
-  dpc$pt_Gender <- factor(
-    dpc$pt_Gender,
+  data$pt_Gender <- factor(
+    data$pt_Gender,
     levels = c(2, 1),
     labels = c("Female", "Male"))
   
   # "res_survival"
-  dpc$res_survival <- factor(
-    dpc$res_survival,
+  data$res_survival <- factor(
+    data$res_survival,
     levels = c(1, 2),     
     labels = c("Yes", "No"))
   
   # "ofi" 
-  dpc$ofi <- factor(
-    dpc$ofi,
+  data$ofi <- factor(
+    data$ofi,
     levels = c("Yes", "No"),
     labels = c("OFI", "No OFI"))
   
@@ -158,7 +158,7 @@ format_table1 <- function(data) {
   
   
   ## Change column names
-  var_label(dpc) <- list(
+  var_label(data) <- list(
     ofi = "Opportunity for improvement",
     ed_gcs_sum = "ED GCS",
     ed_sbp_value = "ED Systolic Blood Pressure",
@@ -208,7 +208,7 @@ format_table1 <- function(data) {
   resuscitation.procedures = "Resuscitation procedure")
   
   
-  formated.data <- dpc
+  formated.data <- data
   return(formated.data)
   
 }

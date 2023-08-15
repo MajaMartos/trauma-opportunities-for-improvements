@@ -61,7 +61,6 @@ new.dataset[is.na(new.dataset$cohort), "cohort"] <- "other cohort"
 
 
 
-
 # Creating column with categories of OFIs based on different areas of improvement 
 new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Handläggning", "Handläggning/logistik", 
                                                                            "kompetensbrist","kompetens brist", "Vårdnivå", 
@@ -93,21 +92,29 @@ new.dataset$OFI_categories <- ifelse(new.dataset$Problemomrade_.FMP %in% c("Hand
 
 
 
-
-#merge all cohorts that are not blunt multisystem without TBI for table 1
-new.dataset <- new.dataset %>%
-  mutate(cohort = ifelse(cohort != "blunt multisystem without TBI", "other cohort", cohort))
+# create binom outcome variable  
+new.dataset$Judgement_error <- new.dataset %>%
+  mutate(OFI_categories = ifelse(OFI_categories != "Clinical judgement error", "No clinical judgement error", cohort))
 
   
-##  Formate columns for table1
+##  Format columns for table1
 source("Format_table_folak2.R")
   
 ## Create table1 
 source("table1_folak2.R")
 
 
+
+# Regression model 
+
+# create binom outcome variable  
+new.dataset$Judgement_error <- new.dataset %>%
+  mutate(OFI_categories = ifelse(OFI_categories != "Clinical judgement error", "No clinical judgement error", cohort))
+
 ## create dataset with only BM without TBI
 bm_without_tbi <- subset(new.dataset, cohort == "blunt multisystem without TB")
+
+
 
 
 
